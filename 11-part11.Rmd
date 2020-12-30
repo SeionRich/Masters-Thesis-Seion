@@ -16,6 +16,10 @@ prop.wt.kmeans <- t(scale(species.kmeans))
 
 ```{r 11.2}
 # Fitting models
+# # K-means = 2
+kmeans.3 <- kmeans(prop.wt.kmeans,
+  centers = 2,
+  nstart = 25)
 # # K-means = 3
 kmeans.3 <- kmeans(prop.wt.kmeans,
   centers = 3,
@@ -50,6 +54,11 @@ kmeans.5; kmeans.8
 
 ```{r 11.3}
 # Plotting 
+# K-means = 2
+fviz_cluster(kmeans.2,
+  data = prop.wt.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 2")
 # K-means = 3
 fviz_cluster(kmeans.3,
   data = prop.wt.kmeans,
@@ -104,6 +113,11 @@ fit.hc <- hclust(dist.mtx) # different methods/search algorithms...no wrong or r
 
 # Plot model (dendrogram) and selecting clusters
 
+# k = 2
+plot(fit.hc);rect.hclust(fit.hc,
+  k = 2,
+  border = "pink")
+
 # k = 3
 plot(fit.hc);rect.hclust(fit.hc,
   k = 3,
@@ -141,7 +155,6 @@ ggplot(fit.hc$height %>%
 ```
 
 
-
 ## CPUE - Scaled Data
 
 ```{r 11.6}
@@ -156,6 +169,10 @@ cpue.kmeans <- t(scale(species.kmeans))
 
 ```{r 11.7}
 # Fitting models
+# K-means = 2
+kmeans.3 <- kmeans(cpue.kmeans,
+  centers = 2,
+  nstart = 25)
 # K-means = 3
 kmeans.3 <- kmeans(cpue.kmeans,
   centers = 3,
@@ -195,6 +212,13 @@ kmeans.3; kmeans.8
 
 ```{r 11.8}
 # Plotting 
+
+# K-means = 2
+fviz_cluster(kmeans.2,
+  data = cpue.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 2")
+
 # K-means = 3
 fviz_cluster(kmeans.3,
   data = cpue.kmeans,
@@ -254,6 +278,10 @@ fit.hc.2 <- hclust(dist.mtx) # different methods/search algorithms...no wrong or
 
 # Plot model (dendrogram) and selecting clusters
 
+# k = 2
+plot(fit.hc.2);rect.hclust(fit.hc.2,
+  k = 2,
+  border = "pink")
 
 # k = 3
 plot(fit.hc.2);rect.hclust(fit.hc.2,
