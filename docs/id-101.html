@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>11 Principal Component Analysis (PCA) | Evaluating Discards using Observer Data Guyana`s Shrimp Fishery</title>
+  <meta name="description" content="11 Principal Component Analysis (PCA) | Evaluating Discards using Observer Data Guyana`s Shrimp Fishery" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="11 Principal Component Analysis (PCA) | Evaluating Discards using Observer Data Guyana`s Shrimp Fishery" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="11 Principal Component Analysis (PCA) | Evaluating Discards using Observer Data Guyana`s Shrimp Fishery" />
+  
+  
+  
+
+<meta name="author" content="Seion Richardson" />
+
+
+<meta name="date" content="2020-12-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="id-91.html"/>
+<link rel="next" href="id-111.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MAS102M - Seion Richardson</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Data</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#fishing-area"><i class="fa fa-check"></i><b>1.1</b> Fishing Area</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#creating-a-few-additonal-variables"><i class="fa fa-check"></i><b>1.2</b> Creating a few additonal variables</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#dividing-the-data-up-by-catch-groups"><i class="fa fa-check"></i><b>1.3</b> Dividing the data up by catch groups</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#data-by-bottom-trawl-tows-sampled---appendix"><i class="fa fa-check"></i><b>1.3.1</b> Data by bottom trawl tows sampled - Appendix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html"><i class="fa fa-check"></i><b>2</b> Distribution of factor variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#company"><i class="fa fa-check"></i><b>2.1</b> Company</a></li>
+<li class="chapter" data-level="2.2" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#fishing-depths"><i class="fa fa-check"></i><b>2.2</b> Fishing Depths</a></li>
+<li class="chapter" data-level="2.3" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#time-of-day"><i class="fa fa-check"></i><b>2.3</b> Time of day</a></li>
+<li class="chapter" data-level="2.4" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#months"><i class="fa fa-check"></i><b>2.4</b> Months</a></li>
+<li class="chapter" data-level="2.5" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#fishing-zones"><i class="fa fa-check"></i><b>2.5</b> Fishing Zones</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html"><i class="fa fa-check"></i><b>3</b> Catch per unit effort</a><ul>
+<li class="chapter" data-level="3.1" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#all-species"><i class="fa fa-check"></i><b>3.1</b> All species</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#bottom-trawl-tows"><i class="fa fa-check"></i><b>3.1.1</b> Bottom trawl tows</a></li>
+<li class="chapter" data-level="3.1.2" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#fishing-depths-1"><i class="fa fa-check"></i><b>3.1.2</b> Fishing Depths</a></li>
+<li class="chapter" data-level="3.1.3" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#time-of-day-1"><i class="fa fa-check"></i><b>3.1.3</b> Time of day</a></li>
+<li class="chapter" data-level="3.1.4" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#company-1"><i class="fa fa-check"></i><b>3.1.4</b> Company</a></li>
+<li class="chapter" data-level="3.1.5" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#months-1"><i class="fa fa-check"></i><b>3.1.5</b> Months</a></li>
+<li class="chapter" data-level="3.1.6" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#checking-if-code-worked-using-months"><i class="fa fa-check"></i><b>3.1.6</b> Checking if code worked using Months…</a></li>
+<li class="chapter" data-level="3.1.7" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#fishing-zones-1"><i class="fa fa-check"></i><b>3.1.7</b> Fishing Zones</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#species-cpue"><i class="fa fa-check"></i><b>3.2</b> Species CPUE</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#species-by-bottom-trawl-tows"><i class="fa fa-check"></i><b>3.2.1</b> Species by bottom trawl tows</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#histogram-of-top-10-species-cpue"><i class="fa fa-check"></i><b>3.3</b> Histogram of Top 10 species CPUE</a></li>
+<li class="chapter" data-level="3.4" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#weight-proportions-for-the-top-10-discard-species-across-fishing-tows"><i class="fa fa-check"></i><b>3.4</b> Weight proportions for the Top 10 Discard Species across fishing tows</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#tables"><i class="fa fa-check"></i><b>3.4.1</b> Tables</a></li>
+<li class="chapter" data-level="3.4.2" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#plots"><i class="fa fa-check"></i><b>3.4.2</b> Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#species-length-table"><i class="fa fa-check"></i><b>3.5</b> Species Length Table</a></li>
+<li class="chapter" data-level="3.6" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#visualising-lenght-measurements"><i class="fa fa-check"></i><b>3.6</b> Visualising Lenght Measurements</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="cpue-by-species.html"><a href="cpue-by-species.html"><i class="fa fa-check"></i><b>4</b> Cpue by species</a></li>
+<li class="chapter" data-level="5" data-path="seabob-models.html"><a href="seabob-models.html"><i class="fa fa-check"></i><b>5</b> Seabob Models</a><ul>
+<li class="chapter" data-level="5.1" data-path="seabob-models.html"><a href="seabob-models.html#cpue-across-all-fishing-tows"><i class="fa fa-check"></i><b>5.1</b> CPUE across all fishing tows</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="seabob-models.html"><a href="seabob-models.html#subsetting-and-plotting-data"><i class="fa fa-check"></i><b>5.1.1</b> Subsetting and plotting data</a></li>
+<li class="chapter" data-level="5.1.2" data-path="seabob-models.html"><a href="seabob-models.html#predictor-1"><i class="fa fa-check"></i><b>5.1.2</b> Predictor = 1</a></li>
+<li class="chapter" data-level="5.1.3" data-path="seabob-models.html"><a href="seabob-models.html#predictors-2"><i class="fa fa-check"></i><b>5.1.3</b> Predictors = 2</a></li>
+<li class="chapter" data-level="5.1.4" data-path="seabob-models.html"><a href="seabob-models.html#predictors-3"><i class="fa fa-check"></i><b>5.1.4</b> Predictors = 3</a></li>
+<li class="chapter" data-level="5.1.5" data-path="seabob-models.html"><a href="seabob-models.html#predictors-4"><i class="fa fa-check"></i><b>5.1.5</b> Predictors = 4</a></li>
+<li class="chapter" data-level="5.1.6" data-path="seabob-models.html"><a href="seabob-models.html#predictors-5"><i class="fa fa-check"></i><b>5.1.6</b> Predictors = 5</a></li>
+<li class="chapter" data-level="5.1.7" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-1"><i class="fa fa-check"></i><b>5.1.7</b> Interaction terms = 1</a></li>
+<li class="chapter" data-level="5.1.8" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-2"><i class="fa fa-check"></i><b>5.1.8</b> Interaction terms = 2</a></li>
+<li class="chapter" data-level="5.1.9" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-3"><i class="fa fa-check"></i><b>5.1.9</b> Interaction terms = 3</a></li>
+<li class="chapter" data-level="5.1.10" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-4"><i class="fa fa-check"></i><b>5.1.10</b> Interaction terms = 4</a></li>
+<li class="chapter" data-level="5.1.11" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-5"><i class="fa fa-check"></i><b>5.1.11</b> Interaction terms = 5</a></li>
+<li class="chapter" data-level="5.1.12" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-6"><i class="fa fa-check"></i><b>5.1.12</b> Interaction terms = 6</a></li>
+<li class="chapter" data-level="5.1.13" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-7"><i class="fa fa-check"></i><b>5.1.13</b> Interaction terms = 7</a></li>
+<li class="chapter" data-level="5.1.14" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-8"><i class="fa fa-check"></i><b>5.1.14</b> Interaction terms = 8</a></li>
+<li class="chapter" data-level="5.1.15" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-9"><i class="fa fa-check"></i><b>5.1.15</b> Interaction terms = 9</a></li>
+<li class="chapter" data-level="5.1.16" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-10"><i class="fa fa-check"></i><b>5.1.16</b> Interaction terms = 10</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="seabob-models.html"><a href="seabob-models.html#model-comparison"><i class="fa fa-check"></i><b>5.2</b> Model Comparison</a></li>
+<li class="chapter" data-level="5.3" data-path="seabob-models.html"><a href="seabob-models.html#weight-proportions-across-all-fishing-tows"><i class="fa fa-check"></i><b>5.3</b> Weight proportions across all fishing tows</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="seabob-models.html"><a href="seabob-models.html#subsetting-and-plotting-data-1"><i class="fa fa-check"></i><b>5.3.1</b> Subsetting and plotting data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="seabob-models.html"><a href="seabob-models.html#predictor-1-1"><i class="fa fa-check"></i><b>5.3.2</b> Predictor = 1</a></li>
+<li class="chapter" data-level="5.3.3" data-path="seabob-models.html"><a href="seabob-models.html#predictors-2-1"><i class="fa fa-check"></i><b>5.3.3</b> Predictors = 2</a></li>
+<li class="chapter" data-level="5.3.4" data-path="seabob-models.html"><a href="seabob-models.html#predictors-3-1"><i class="fa fa-check"></i><b>5.3.4</b> Predictors = 3</a></li>
+<li class="chapter" data-level="5.3.5" data-path="seabob-models.html"><a href="seabob-models.html#predictors-4-1"><i class="fa fa-check"></i><b>5.3.5</b> Predictors = 4</a></li>
+<li class="chapter" data-level="5.3.6" data-path="seabob-models.html"><a href="seabob-models.html#predictors-5-1"><i class="fa fa-check"></i><b>5.3.6</b> Predictors = 5</a></li>
+<li class="chapter" data-level="5.3.7" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-1-1"><i class="fa fa-check"></i><b>5.3.7</b> Interaction terms = 1</a></li>
+<li class="chapter" data-level="5.3.8" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-2-1"><i class="fa fa-check"></i><b>5.3.8</b> Interaction terms = 2</a></li>
+<li class="chapter" data-level="5.3.9" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-3-1"><i class="fa fa-check"></i><b>5.3.9</b> Interaction terms = 3</a></li>
+<li class="chapter" data-level="5.3.10" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-4-1"><i class="fa fa-check"></i><b>5.3.10</b> Interaction terms = 4</a></li>
+<li class="chapter" data-level="5.3.11" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-5-1"><i class="fa fa-check"></i><b>5.3.11</b> Interaction terms = 5</a></li>
+<li class="chapter" data-level="5.3.12" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-6-1"><i class="fa fa-check"></i><b>5.3.12</b> Interaction terms = 6</a></li>
+<li class="chapter" data-level="5.3.13" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-7-1"><i class="fa fa-check"></i><b>5.3.13</b> Interaction terms = 7</a></li>
+<li class="chapter" data-level="5.3.14" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-8-1"><i class="fa fa-check"></i><b>5.3.14</b> Interaction terms = 8</a></li>
+<li class="chapter" data-level="5.3.15" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-9-1"><i class="fa fa-check"></i><b>5.3.15</b> Interaction terms = 9</a></li>
+<li class="chapter" data-level="5.3.16" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-10-1"><i class="fa fa-check"></i><b>5.3.16</b> Interaction terms = 10</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="seabob-models.html"><a href="seabob-models.html#model-comparison-1"><i class="fa fa-check"></i><b>5.4</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html"><i class="fa fa-check"></i><b>6</b> Seabob Models - Best Models</a><ul>
+<li class="chapter" data-level="6.1" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#cpue"><i class="fa fa-check"></i><b>6.1</b> CPUE</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#data-modifications"><i class="fa fa-check"></i><b>6.1.1</b> Data modifications</a></li>
+<li class="chapter" data-level="6.1.2" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#qucik-glance-at-response-variable"><i class="fa fa-check"></i><b>6.1.2</b> Qucik glance at response variable</a></li>
+<li class="chapter" data-level="6.1.3" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#model-comparison-2"><i class="fa fa-check"></i><b>6.1.3</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#weight-prop."><i class="fa fa-check"></i><b>6.2</b> Weight prop.</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#data-modifications-1"><i class="fa fa-check"></i><b>6.2.1</b> Data modifications</a></li>
+<li class="chapter" data-level="6.2.2" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#qucik-glance-at-response-variable-1"><i class="fa fa-check"></i><b>6.2.2</b> Qucik glance at response variable</a></li>
+<li class="chapter" data-level="6.2.3" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#model-comparison-3"><i class="fa fa-check"></i><b>6.2.3</b> Model Comparison</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html"><i class="fa fa-check"></i><b>7</b> Best CPUE Models - Top 10 Bycatch Species</a><ul>
+<li class="chapter" data-level="7.1" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#data-modifications-2"><i class="fa fa-check"></i><b>7.1</b> Data Modifications</a></li>
+<li class="chapter" data-level="7.2" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#cpue-model-selection"><i class="fa fa-check"></i><b>7.2</b> CPUE Model Selection</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#macrodon-ancylodon"><i class="fa fa-check"></i><b>7.2.1</b> Macrodon ancylodon</a></li>
+<li class="chapter" data-level="7.2.2" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#callinectes-ornatus"><i class="fa fa-check"></i><b>7.2.2</b> Callinectes ornatus</a></li>
+<li class="chapter" data-level="7.2.3" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#stellifer-rastrifer"><i class="fa fa-check"></i><b>7.2.3</b> Stellifer rastrifer</a></li>
+<li class="chapter" data-level="7.2.4" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#stellifer-microps"><i class="fa fa-check"></i><b>7.2.4</b> Stellifer microps</a></li>
+<li class="chapter" data-level="7.2.5" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#cynoscion-virescens"><i class="fa fa-check"></i><b>7.2.5</b> Cynoscion virescens</a></li>
+<li class="chapter" data-level="7.2.6" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#symphurus-plagusia"><i class="fa fa-check"></i><b>7.2.6</b> Symphurus plagusia</a></li>
+<li class="chapter" data-level="7.2.7" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#bagre-bagre"><i class="fa fa-check"></i><b>7.2.7</b> Bagre bagre</a></li>
+<li class="chapter" data-level="7.2.8" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#trichiurus-lepturus"><i class="fa fa-check"></i><b>7.2.8</b> Trichiurus lepturus</a></li>
+<li class="chapter" data-level="7.2.9" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#achirus-achirus"><i class="fa fa-check"></i><b>7.2.9</b> Achirus achirus</a></li>
+<li class="chapter" data-level="7.2.10" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#paralonchurus-brasiliensis"><i class="fa fa-check"></i><b>7.2.10</b> Paralonchurus brasiliensis</a></li>
+<li class="chapter" data-level="7.2.11" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#summary"><i class="fa fa-check"></i><b>7.2.11</b> Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html"><i class="fa fa-check"></i><b>8</b> Non-parametric Tests</a><ul>
+<li class="chapter" data-level="8.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#top-10-discard-species-weight-prop"><i class="fa fa-check"></i><b>8.1</b> Top 10 discard species weight prop</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#data-modifications-3"><i class="fa fa-check"></i><b>8.1.1</b> Data Modifications</a></li>
+<li class="chapter" data-level="8.1.2" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#macrodon-ancylodon-1"><i class="fa fa-check"></i><b>8.1.2</b> Macrodon ancylodon</a></li>
+<li class="chapter" data-level="8.1.3" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#callinectes-ornatus-1"><i class="fa fa-check"></i><b>8.1.3</b> Callinectes ornatus</a></li>
+<li class="chapter" data-level="8.1.4" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#stellifer-rastrifer-1"><i class="fa fa-check"></i><b>8.1.4</b> Stellifer rastrifer</a></li>
+<li class="chapter" data-level="8.1.5" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#stellifer-microps-1"><i class="fa fa-check"></i><b>8.1.5</b> Stellifer microps</a></li>
+<li class="chapter" data-level="8.1.6" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#cynoscion-virescens-1"><i class="fa fa-check"></i><b>8.1.6</b> Cynoscion virescens</a></li>
+<li class="chapter" data-level="8.1.7" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#symphurus-plagusia-1"><i class="fa fa-check"></i><b>8.1.7</b> Symphurus plagusia</a></li>
+<li class="chapter" data-level="8.1.8" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#bagre-bagre-1"><i class="fa fa-check"></i><b>8.1.8</b> Bagre bagre</a></li>
+<li class="chapter" data-level="8.1.9" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#trichiurus-lepturus-1"><i class="fa fa-check"></i><b>8.1.9</b> Trichiurus lepturus</a></li>
+<li class="chapter" data-level="8.1.10" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#achirus-achirus-1"><i class="fa fa-check"></i><b>8.1.10</b> Achirus achirus</a></li>
+<li class="chapter" data-level="8.1.11" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#paralonchurus-brasiliensis-1"><i class="fa fa-check"></i><b>8.1.11</b> Paralonchurus brasiliensis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#model-comparison-14"><i class="fa fa-check"></i><b>8.2</b> Model Comparison</a></li>
+<li class="chapter" data-level="8.3" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#all-species-across-bottom-trawl-tows"><i class="fa fa-check"></i><b>8.3</b> All species across bottom trawl tows</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#data-modifications-4"><i class="fa fa-check"></i><b>8.3.1</b> Data Modifications</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#model-comparison-15"><i class="fa fa-check"></i><b>8.4</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html"><i class="fa fa-check"></i><b>9</b> Best Proportion Models - Top 10 Bycatch Species</a><ul>
+<li class="chapter" data-level="9.1" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#list-of-the-most-recent-changes--"><i class="fa fa-check"></i><b>9.1</b> List of the Most Recent Changes :-</a></li>
+<li class="chapter" data-level="9.2" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#negative-binomial-model-selection"><i class="fa fa-check"></i><b>9.2</b> Negative Binomial Model Selection</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#data-modifications-5"><i class="fa fa-check"></i><b>9.2.1</b> Data Modifications</a></li>
+<li class="chapter" data-level="9.2.2" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#macrodon-ancylodon-2"><i class="fa fa-check"></i><b>9.2.2</b> 1. Macrodon ancylodon</a></li>
+<li class="chapter" data-level="9.2.3" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#callinectes-ornatus-2"><i class="fa fa-check"></i><b>9.2.3</b> 2. Callinectes ornatus</a></li>
+<li class="chapter" data-level="9.2.4" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#stellifer-rastrifer-2"><i class="fa fa-check"></i><b>9.2.4</b> 3. Stellifer rastrifer</a></li>
+<li class="chapter" data-level="9.2.5" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#stellifer-microps-2"><i class="fa fa-check"></i><b>9.2.5</b> 4. Stellifer microps</a></li>
+<li class="chapter" data-level="9.2.6" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#cynoscion-virescens-2"><i class="fa fa-check"></i><b>9.2.6</b> 5. Cynoscion virescens</a></li>
+<li class="chapter" data-level="9.2.7" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#symphurus-plagusia-2"><i class="fa fa-check"></i><b>9.2.7</b> 6. Symphurus plagusia</a></li>
+<li class="chapter" data-level="9.2.8" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#bagre-bagre-2"><i class="fa fa-check"></i><b>9.2.8</b> 7. Bagre bagre</a></li>
+<li class="chapter" data-level="9.2.9" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#trichiurus-lepturus-2"><i class="fa fa-check"></i><b>9.2.9</b> 8. Trichiurus lepturus</a></li>
+<li class="chapter" data-level="9.2.10" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#achirus-achirus-2"><i class="fa fa-check"></i><b>9.2.10</b> 9. Achirus achirus</a></li>
+<li class="chapter" data-level="9.2.11" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#paralonchurus-brasiliensis-2"><i class="fa fa-check"></i><b>9.2.11</b> 10. Paralonchurus brasiliensis</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#id.81"><i class="fa fa-check"></i><b>9.3</b> Model Comparison - AIC</a></li>
+<li class="chapter" data-level="9.4" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#id.82"><i class="fa fa-check"></i><b>9.4</b> Model Comparison - P.values</a></li>
+<li class="chapter" data-level="9.5" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#id.83"><i class="fa fa-check"></i><b>9.5</b> Binomial Model Selection</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#data-modifications-r"><i class="fa fa-check"></i><b>9.5.1</b> Data modifications R</a></li>
+<li class="chapter" data-level="9.5.2" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#running-models-on-top-10-discard-species"><i class="fa fa-check"></i><b>9.5.2</b> Running models on Top 10 discard species</a></li>
+<li class="chapter" data-level="9.5.3" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#macrodon-ancylodon-3"><i class="fa fa-check"></i><b>9.5.3</b> 1. Macrodon ancylodon</a></li>
+<li class="chapter" data-level="9.5.4" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#callinectes-ornatus-3"><i class="fa fa-check"></i><b>9.5.4</b> 2. Callinectes ornatus</a></li>
+<li class="chapter" data-level="9.5.5" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#stellifer-rastrifer-3"><i class="fa fa-check"></i><b>9.5.5</b> 3. Stellifer rastrifer</a></li>
+<li class="chapter" data-level="9.5.6" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#stellifer-microps-3"><i class="fa fa-check"></i><b>9.5.6</b> 4. Stellifer microps</a></li>
+<li class="chapter" data-level="9.5.7" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#cynoscion-virescens-3"><i class="fa fa-check"></i><b>9.5.7</b> 5. Cynoscion virescens</a></li>
+<li class="chapter" data-level="9.5.8" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#symphurus-plagusia-3"><i class="fa fa-check"></i><b>9.5.8</b> 6. Symphurus plagusia</a></li>
+<li class="chapter" data-level="9.5.9" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#bagre-bagre-3"><i class="fa fa-check"></i><b>9.5.9</b> 7. Bagre bagre</a></li>
+<li class="chapter" data-level="9.5.10" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#trichiurus-lepturus-3"><i class="fa fa-check"></i><b>9.5.10</b> 8. Trichiurus lepturus</a></li>
+<li class="chapter" data-level="9.5.11" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#achirus-achirus-3"><i class="fa fa-check"></i><b>9.5.11</b> 9. Achirus achirus</a></li>
+<li class="chapter" data-level="9.5.12" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#paralonchurus-brasiliensis-3"><i class="fa fa-check"></i><b>9.5.12</b> 10. Paralonchurus brasiliensis</a></li>
+<li class="chapter" data-level="9.5.13" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#summary-1"><i class="fa fa-check"></i><b>9.5.13</b> Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="id-91.html"><a href="id-91.html"><i class="fa fa-check"></i><b>10</b> Correlation Analysis for Primary Species</a><ul>
+<li class="chapter" data-level="10.1" data-path="id-91.html"><a href="id-91.html#weight-proportions"><i class="fa fa-check"></i><b>10.1</b> Weight Proportions</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="id-91.html"><a href="id-91.html#correlation-plots"><i class="fa fa-check"></i><b>10.1.1</b> Correlation plots</a></li>
+<li class="chapter" data-level="10.1.2" data-path="id-91.html"><a href="id-91.html#correlation-matrix"><i class="fa fa-check"></i><b>10.1.2</b> Correlation matrix</a></li>
+<li class="chapter" data-level="10.1.3" data-path="id-91.html"><a href="id-91.html#significant-correlations"><i class="fa fa-check"></i><b>10.1.3</b> Significant correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="id-91.html"><a href="id-91.html#cpue-1"><i class="fa fa-check"></i><b>10.2</b> CPUE</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="id-91.html"><a href="id-91.html#correlation-plots-1"><i class="fa fa-check"></i><b>10.2.1</b> Correlation plots</a></li>
+<li class="chapter" data-level="10.2.2" data-path="id-91.html"><a href="id-91.html#correlation-matrix-1"><i class="fa fa-check"></i><b>10.2.2</b> Correlation matrix</a></li>
+<li class="chapter" data-level="10.2.3" data-path="id-91.html"><a href="id-91.html#significant-correlations-1"><i class="fa fa-check"></i><b>10.2.3</b> Significant correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="id-91.html"><a href="id-91.html#species-with-factor-variables-correlation"><i class="fa fa-check"></i><b>10.3</b> Species with Factor Variables Correlation</a></li>
+<li class="chapter" data-level="10.4" data-path="id-91.html"><a href="id-91.html#weight-proportions-1"><i class="fa fa-check"></i><b>10.4</b> Weight Proportions</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="id-91.html"><a href="id-91.html#correlation-plots-2"><i class="fa fa-check"></i><b>10.4.1</b> Correlation plots</a></li>
+<li class="chapter" data-level="10.4.2" data-path="id-91.html"><a href="id-91.html#correlation-matrix-2"><i class="fa fa-check"></i><b>10.4.2</b> Correlation matrix</a></li>
+<li class="chapter" data-level="10.4.3" data-path="id-91.html"><a href="id-91.html#significant-correlations-2"><i class="fa fa-check"></i><b>10.4.3</b> Significant correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="id-91.html"><a href="id-91.html#cpue-2"><i class="fa fa-check"></i><b>10.5</b> CPUE</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="id-91.html"><a href="id-91.html#correlation-plots-3"><i class="fa fa-check"></i><b>10.5.1</b> Correlation plots</a></li>
+<li class="chapter" data-level="10.5.2" data-path="id-91.html"><a href="id-91.html#correlation-matrix-3"><i class="fa fa-check"></i><b>10.5.2</b> Correlation matrix</a></li>
+<li class="chapter" data-level="10.5.3" data-path="id-91.html"><a href="id-91.html#significant-correlations-3"><i class="fa fa-check"></i><b>10.5.3</b> Significant correlations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="id-101.html"><a href="id-101.html"><i class="fa fa-check"></i><b>11</b> Principal Component Analysis (PCA)</a><ul>
+<li class="chapter" data-level="11.1" data-path="id-101.html"><a href="id-101.html#prop.weight-models"><i class="fa fa-check"></i><b>11.1</b> Prop.Weight Models</a></li>
+<li class="chapter" data-level="11.2" data-path="id-101.html"><a href="id-101.html#pca"><i class="fa fa-check"></i><b>11.2</b> PCA</a></li>
+<li class="chapter" data-level="11.3" data-path="id-101.html"><a href="id-101.html#cpue-models"><i class="fa fa-check"></i><b>11.3</b> CPUE Models</a></li>
+<li class="chapter" data-level="11.4" data-path="id-101.html"><a href="id-101.html#pca-1"><i class="fa fa-check"></i><b>11.4</b> PCA</a></li>
+<li class="chapter" data-level="11.5" data-path="id-101.html"><a href="id-101.html#id.102"><i class="fa fa-check"></i><b>11.5</b> Canonical Correspondence Analysis</a></li>
+<li class="chapter" data-level="11.6" data-path="id-101.html"><a href="id-101.html#first-approach"><i class="fa fa-check"></i><b>11.6</b> First Approach</a></li>
+<li class="chapter" data-level="11.7" data-path="id-101.html"><a href="id-101.html#second-approach"><i class="fa fa-check"></i><b>11.7</b> Second Approach</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="id-111.html"><a href="id-111.html"><i class="fa fa-check"></i><b>12</b> CLUSTER ANALYSIS</a><ul>
+<li class="chapter" data-level="12.1" data-path="id-111.html"><a href="id-111.html#prop.weight---scaled-data"><i class="fa fa-check"></i><b>12.1</b> Prop.Weight - Scaled Data</a></li>
+<li class="chapter" data-level="12.2" data-path="id-111.html"><a href="id-111.html#k-means-clustering"><i class="fa fa-check"></i><b>12.2</b> K-Means Clustering</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="id-111.html"><a href="id-111.html#k-means-clustering-1"><i class="fa fa-check"></i><b>12.2.1</b> K-means Clustering</a></li>
+<li class="chapter" data-level="12.2.2" data-path="id-111.html"><a href="id-111.html#plotting-results"><i class="fa fa-check"></i><b>12.2.2</b> Plotting results</a></li>
+<li class="chapter" data-level="12.2.3" data-path="id-111.html"><a href="id-111.html#determining-optimal-clusters"><i class="fa fa-check"></i><b>12.2.3</b> Determining Optimal Clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="id-111.html"><a href="id-111.html#hierachical-clustering-hc"><i class="fa fa-check"></i><b>12.3</b> Hierachical Clustering (HC)</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="id-111.html"><a href="id-111.html#determining-optimal-groups"><i class="fa fa-check"></i><b>12.3.1</b> Determining Optimal Groups</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="id-111.html"><a href="id-111.html#cpue---scaled-data"><i class="fa fa-check"></i><b>12.4</b> CPUE - Scaled Data</a></li>
+<li class="chapter" data-level="12.5" data-path="id-111.html"><a href="id-111.html#k-means-clustering-2"><i class="fa fa-check"></i><b>12.5</b> K-Means Clustering</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="id-111.html"><a href="id-111.html#k-means-clustering-3"><i class="fa fa-check"></i><b>12.5.1</b> K-means Clustering</a></li>
+<li class="chapter" data-level="12.5.2" data-path="id-111.html"><a href="id-111.html#plotting-results-1"><i class="fa fa-check"></i><b>12.5.2</b> Plotting results</a></li>
+<li class="chapter" data-level="12.5.3" data-path="id-111.html"><a href="id-111.html#determining-optimal-clusters-1"><i class="fa fa-check"></i><b>12.5.3</b> Determining Optimal Clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="id-111.html"><a href="id-111.html#hierachical-clustering-hc-1"><i class="fa fa-check"></i><b>12.6</b> Hierachical Clustering (HC)</a><ul>
+<li class="chapter" data-level="12.6.1" data-path="id-111.html"><a href="id-111.html#determining-optimal-groups-1"><i class="fa fa-check"></i><b>12.6.1</b> Determining Optimal Groups</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>13</b> Appendix</a><ul>
+<li class="chapter" data-level="13.1" data-path="appendix.html"><a href="appendix.html#common-fish-species"><i class="fa fa-check"></i><b>13.1</b> Common Fish Species</a></li>
+<li class="chapter" data-level="13.2" data-path="appendix.html"><a href="appendix.html#common-invertebrate-species"><i class="fa fa-check"></i><b>13.2</b> Common Invertebrate Species</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Evaluating Discards using Observer Data Guyana`s Shrimp Fishery</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="id.101" class="section level1">
+<h1><span class="header-section-number">11</span> Principal Component Analysis (PCA)</h1>
+<p><strong>Principal components</strong> are new variables that are constructed as linear combinations or mixtures of the initial variables.
+A PCA converts correlations (or lack thereof) among all of the CPUE and Weight proportions into a 2-D graph. Highly correlated CPUE and Weight proportions will cluster together.
+Also the PCA axis are ranked by order of importance such that differences along the first principal component (PC1) are more important than differences along the second principal component (PC2). This means in clusters = 3 and the difference between clusters on both axes were similar, the clusters along PC1 are deem more different than each other than the clusters along PC2.</p>
+<div id="prop.weight-models" class="section level2">
+<h2><span class="header-section-number">11.1</span> Prop.Weight Models</h2>
+<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb902-1" title="1"><span class="co"># Renaming data</span></a>
+<a class="sourceLine" id="cb902-2" title="2">species.pca &lt;-<span class="st"> </span>species.cor<span class="fl">.2</span> </a>
+<a class="sourceLine" id="cb902-3" title="3"></a>
+<a class="sourceLine" id="cb902-4" title="4"><span class="co"># Printing summary of variables</span></a>
+<a class="sourceLine" id="cb902-5" title="5"><span class="kw">summary</span>(species.pca)</a></code></pre></div>
+<pre><code>   Paralonchurus brasiliensis Macrodon ancylodon  Bagre bagre      
+   Min.   :0.0000000          Min.   :0.002851   Min.   :0.000000  
+   1st Qu.:0.0007246          1st Qu.:0.031118   1st Qu.:0.005845  
+   Median :0.0077088          Median :0.058811   Median :0.015290  
+   Mean   :0.0161345          Mean   :0.081215   Mean   :0.026438  
+   3rd Qu.:0.0180045          3rd Qu.:0.130455   3rd Qu.:0.038828  
+   Max.   :0.1271267          Max.   :0.253113   Max.   :0.164014  
+   Stellifer microps Stellifer rastrifer Achirus achirus     Xiphopenaeus kroyeri
+   Min.   :0.00000   Min.   :0.00000     Min.   :0.0000000   Min.   :0.2570      
+   1st Qu.:0.04096   1st Qu.:0.04546     1st Qu.:0.0002315   1st Qu.:0.4859      
+   Median :0.07081   Median :0.10571     Median :0.0017978   Median :0.5655      
+   Mean   :0.09190   Mean   :0.10953     Mean   :0.0048953   Mean   :0.5660      
+   3rd Qu.:0.12732   3rd Qu.:0.14382     3rd Qu.:0.0037838   3rd Qu.:0.6543      
+   Max.   :0.33241   Max.   :0.41878     Max.   :0.0679333   Max.   :0.9243      
+   Cynoscion virescens Callinectes ornatus Trichiurus lepturus Symphurus plagusia
+   Min.   :0.00000     Min.   :0.000000    Min.   :0.000000    Min.   :0.000000  
+   1st Qu.:0.01174     1st Qu.:0.001940    1st Qu.:0.001923    1st Qu.:0.001034  
+   Median :0.02909     Median :0.004075    Median :0.006844    Median :0.003687  
+   Mean   :0.04366     Mean   :0.015838    Mean   :0.025206    Mean   :0.019168  
+   3rd Qu.:0.05992     3rd Qu.:0.010266    3rd Qu.:0.015598    3rd Qu.:0.012541  
+   Max.   :0.16724     Max.   :0.396213    Max.   :0.443339    Max.   :0.302415</code></pre>
+<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb904-1" title="1">species.pca<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Row.Names =</span> <span class="kw">rownames</span>(species.pca), species.pca)</a>
+<a class="sourceLine" id="cb904-2" title="2"></a>
+<a class="sourceLine" id="cb904-3" title="3"><span class="kw">ggplot</span>(reshape2<span class="op">::</span><span class="kw">melt</span>(species.pca<span class="fl">.2</span>, <span class="dt">id.vars =</span> <span class="st">&quot;Row.Names&quot;</span>),</a>
+<a class="sourceLine" id="cb904-4" title="4">  <span class="kw">aes</span>(<span class="dt">x =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-5" title="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> variable)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-6" title="6"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>,</a>
+<a class="sourceLine" id="cb904-7" title="7">                    <span class="dt">name =</span> <span class="st">&quot;Variable&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb904-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
+<a class="sourceLine" id="cb904-9" title="9">    <span class="dt">nrow =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb904-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, </a>
+<a class="sourceLine" id="cb904-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) </a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pca" class="section level2">
+<h2><span class="header-section-number">11.2</span> PCA</h2>
+<div class="sourceCode" id="cb905"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb905-1" title="1"><span class="co"># Before</span></a>
+<a class="sourceLine" id="cb905-2" title="2">pca.dat &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca, </a>
+<a class="sourceLine" id="cb905-3" title="3">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb905-4" title="4">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.3-1.png" width="672" style="display: block; margin: auto;" /><img src="bookdown-demo_files/figure-html/10.3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb906-1" title="1"><span class="co"># After </span></a>
+<a class="sourceLine" id="cb906-2" title="2">species.pca.trans &lt;-<span class="st"> </span><span class="kw">t</span>(species.pca)</a>
+<a class="sourceLine" id="cb906-3" title="3">pca.dat.trans &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca.trans, </a>
+<a class="sourceLine" id="cb906-4" title="4">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb906-5" title="5">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.3-3.png" width="672" style="display: block; margin: auto;" /><img src="bookdown-demo_files/figure-html/10.3-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>So what were the PCs generated? How well do they capture the overall variation in the dataset? And how are they stored in the object? Let’s take a look.</p>
+<div class="sourceCode" id="cb907"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb907-1" title="1"><span class="co"># Before</span></a>
+<a class="sourceLine" id="cb907-2" title="2">pca.eig &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb907-3" title="3"></a>
+<a class="sourceLine" id="cb907-4" title="4">pca.eig</a></code></pre></div>
+<pre><code>          eigenvalue percentage of variance cumulative percentage of variance
+  comp 1       2.044                 18.583                            18.583
+  comp 2       1.528                 13.889                            32.472
+  comp 3       1.371                 12.463                            44.935
+  comp 4       1.133                 10.299                            55.235
+  comp 5       1.037                  9.428                            64.662
+  comp 6       0.974                  8.856                            73.518
+  comp 7       0.904                  8.219                            81.737
+  comp 8       0.805                  7.315                            89.053
+  comp 9       0.701                  6.369                            95.421
+  comp 10      0.504                  4.579                           100.000
+  comp 11      0.000                  0.000                           100.000</code></pre>
+<div class="sourceCode" id="cb909"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb909-1" title="1"><span class="co"># After</span></a>
+<a class="sourceLine" id="cb909-2" title="2">pca.eig.trans &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat.trans<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb909-3" title="3"></a>
+<a class="sourceLine" id="cb909-4" title="4">pca.eig.trans</a></code></pre></div>
+<pre><code>          eigenvalue percentage of variance cumulative percentage of variance
+  comp 1      40.882                 86.982                            86.982
+  comp 2       2.007                  4.270                            91.253
+  comp 3       1.191                  2.534                            93.786
+  comp 4       1.001                  2.130                            95.916
+  comp 5       0.729                  1.551                            97.467
+  comp 6       0.456                  0.970                            98.437
+  comp 7       0.385                  0.818                            99.256
+  comp 8       0.183                  0.390                            99.646
+  comp 9       0.118                  0.251                            99.897
+  comp 10      0.048                  0.103                           100.000</code></pre>
+<div class="sourceCode" id="cb911"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb911-1" title="1"><span class="co"># Before</span></a>
+<a class="sourceLine" id="cb911-2" title="2">pca.eig<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig))</a>
+<a class="sourceLine" id="cb911-3" title="3">pca.eig<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig)</a>
+<a class="sourceLine" id="cb911-4" title="4"></a>
+<a class="sourceLine" id="cb911-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">11</span></a>
+<a class="sourceLine" id="cb911-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
+<a class="sourceLine" id="cb911-7" title="7"></a>
+<a class="sourceLine" id="cb911-8" title="8"><span class="co">#Scree plot</span></a>
+<a class="sourceLine" id="cb911-9" title="9"><span class="kw">ggplot</span>(pca.eig, </a>
+<a class="sourceLine" id="cb911-10" title="10">  <span class="kw">aes</span>(<span class="dt">x =</span> index,</a>
+<a class="sourceLine" id="cb911-11" title="11">    <span class="dt">y =</span> <span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb911-12" title="12"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb911-13" title="13">    <span class="kw">aes</span>(<span class="dt">fill =</span> index),</a>
+<a class="sourceLine" id="cb911-14" title="14">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb911-15" title="15"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, </a>
+<a class="sourceLine" id="cb911-16" title="16">    <span class="dt">group =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb911-17" title="17">    <span class="dt">size =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb911-18" title="18">    <span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb911-19" title="19"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb911-20" title="20"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
+<a class="sourceLine" id="cb911-21" title="21">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb911-22" title="22"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
+<a class="sourceLine" id="cb911-23" title="23"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb911-24" title="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb912"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb912-1" title="1"><span class="co"># After </span></a>
+<a class="sourceLine" id="cb912-2" title="2">pca.eig.trans<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.trans))</a>
+<a class="sourceLine" id="cb912-3" title="3">pca.eig.trans<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.trans)</a>
+<a class="sourceLine" id="cb912-4" title="4"></a>
+<a class="sourceLine" id="cb912-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb912-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
+<a class="sourceLine" id="cb912-7" title="7"></a>
+<a class="sourceLine" id="cb912-8" title="8"><span class="co">#Scree plot</span></a>
+<a class="sourceLine" id="cb912-9" title="9">pca.eig.trans <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb912-10" title="10"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index,</a>
+<a class="sourceLine" id="cb912-11" title="11">  <span class="dt">y =</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-12" title="12"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb912-13" title="13">    <span class="kw">aes</span>(<span class="dt">fill =</span> index),</a>
+<a class="sourceLine" id="cb912-14" title="14">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-15" title="15"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont,</a>
+<a class="sourceLine" id="cb912-16" title="16">    <span class="dt">group =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb912-17" title="17">    <span class="dt">size =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb912-18" title="18">    <span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-19" title="19"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-20" title="20"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
+<a class="sourceLine" id="cb912-21" title="21">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-22" title="22"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-23" title="23"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-24" title="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb913"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb913-1" title="1">pca.contrib &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>var<span class="op">$</span>contrib, <span class="dv">2</span>))[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb913-2" title="2">pca.contrib</a></code></pre></div>
+<pre><code>                             Dim.1 Dim.2 Dim.3 Dim.4
+  Paralonchurus brasiliensis  5.75 10.10  0.22 12.29
+  Macrodon ancylodon          6.92 11.45 20.41 11.66
+  Bagre bagre                 0.17  1.27  6.15  0.43
+  Stellifer microps          21.04  0.97  2.65 10.17
+  Stellifer rastrifer        11.40  9.66 11.22  1.62
+  Achirus achirus             3.67 12.27  0.69 21.51
+  Xiphopenaeus kroyeri       38.26  3.18  3.35  0.85
+  Cynoscion virescens         5.26 19.78  6.11 14.22
+  Callinectes ornatus         5.95  3.88  1.56 13.12
+  Trichiurus lepturus         1.53  0.04 45.38  2.49
+  Symphurus plagusia          0.04 27.38  2.26 11.64</code></pre>
+<div class="sourceCode" id="cb915"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb915-1" title="1">pca.contrib<span class="op">$</span>var &lt;-</a>
+<a class="sourceLine" id="cb915-2" title="2"><span class="st">  </span><span class="kw">row.names</span>(pca.contrib) <span class="co">#Turn row names into a variable</span></a>
+<a class="sourceLine" id="cb915-3" title="3"></a>
+<a class="sourceLine" id="cb915-4" title="4">pca.contrib &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(pca.contrib,<span class="dt">id.vars =</span> <span class="st">&quot;var&quot;</span>) <span class="co">#Melt the dataset</span></a>
+<a class="sourceLine" id="cb915-5" title="5">  </a>
+<a class="sourceLine" id="cb915-6" title="6">total.var &lt;-</a>
+<a class="sourceLine" id="cb915-7" title="7"><span class="st">  </span><span class="kw">paste0</span>(<span class="st">&quot;(&quot;</span>,pca.eig<span class="op">$</span><span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],<span class="st">&quot;% of Variance)&quot;</span>,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>) <span class="co">#Extract the % of variance explained by each PC</span></a>
+<a class="sourceLine" id="cb915-8" title="8"></a>
+<a class="sourceLine" id="cb915-9" title="9">pca.contrib<span class="op">$</span>variable &lt;-<span class="st"> </span><span class="kw">factor</span>(pca.contrib<span class="op">$</span>variable,<span class="dt">labels =</span></a>
+<a class="sourceLine" id="cb915-10" title="10">  <span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="st">&quot; &quot;</span>, total.var,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="co">#Append these values to the names of each PC</span></a></code></pre></div>
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb916-1" title="1">pca.coord &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>var<span class="op">$</span>coord, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb916-2" title="2">pca.coord</a></code></pre></div>
+<pre><code>                              Dim.1  Dim.2  Dim.3  Dim.4  Dim.5
+  Paralonchurus brasiliensis  0.343 -0.393 -0.055 -0.373 -0.263
+  Macrodon ancylodon          0.376 -0.418  0.529  0.363 -0.055
+  Bagre bagre                 0.060 -0.139 -0.290  0.069  0.793
+  Stellifer microps           0.656  0.121 -0.191 -0.340 -0.232
+  Stellifer rastrifer         0.483  0.384 -0.392 -0.135  0.234
+  Achirus achirus             0.274  0.433 -0.097  0.494 -0.220
+  Xiphopenaeus kroyeri       -0.884 -0.221 -0.214  0.098 -0.096
+  Cynoscion virescens         0.328 -0.550 -0.289  0.401 -0.152
+  Callinectes ornatus        -0.349  0.244  0.146 -0.386 -0.202
+  Trichiurus lepturus         0.177  0.025  0.789 -0.168  0.316
+  Symphurus plagusia         -0.027  0.647  0.176  0.363 -0.071</code></pre>
+<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb918-1" title="1"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.contrib))</a>
+<a class="sourceLine" id="cb918-2" title="2">{</a>
+<a class="sourceLine" id="cb918-3" title="3">  pca.contrib<span class="op">$</span>dir[i] &lt;-<span class="st"> </span>pca.coord[<span class="kw">which</span>(<span class="kw">row.names</span>(pca.coord) <span class="op">==</span><span class="st"> </span>pca.contrib<span class="op">$</span>var[i]),</a>
+<a class="sourceLine" id="cb918-4" title="4">                                  <span class="kw">grep</span>(<span class="kw">as.numeric</span>(<span class="kw">substr</span>(pca.contrib<span class="op">$</span>variable[i],<span class="dv">3</span>,<span class="dv">3</span>)),<span class="kw">names</span>(pca.coord))] <span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb918-5" title="5"><span class="st">    </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb918-6" title="6">}</a>
+<a class="sourceLine" id="cb918-7" title="7">pca.contrib</a></code></pre></div>
+<pre><code>                            var                   variable value   dir
+  1  Paralonchurus brasiliensis PC1 ( 18.583% of Variance)  5.75  TRUE
+  2          Macrodon ancylodon PC1 ( 18.583% of Variance)  6.92  TRUE
+  3                 Bagre bagre PC1 ( 18.583% of Variance)  0.17  TRUE
+  4           Stellifer microps PC1 ( 18.583% of Variance) 21.04  TRUE
+  5         Stellifer rastrifer PC1 ( 18.583% of Variance) 11.40  TRUE
+  6             Achirus achirus PC1 ( 18.583% of Variance)  3.67  TRUE
+  7        Xiphopenaeus kroyeri PC1 ( 18.583% of Variance) 38.26 FALSE
+  8         Cynoscion virescens PC1 ( 18.583% of Variance)  5.26  TRUE
+  9         Callinectes ornatus PC1 ( 18.583% of Variance)  5.95 FALSE
+  10        Trichiurus lepturus PC1 ( 18.583% of Variance)  1.53  TRUE
+  11         Symphurus plagusia PC1 ( 18.583% of Variance)  0.04 FALSE
+  12 Paralonchurus brasiliensis PC2 ( 13.889% of Variance) 10.10 FALSE
+  13         Macrodon ancylodon PC2 ( 13.889% of Variance) 11.45 FALSE
+  14                Bagre bagre PC2 ( 13.889% of Variance)  1.27 FALSE
+  15          Stellifer microps PC2 ( 13.889% of Variance)  0.97  TRUE
+  16        Stellifer rastrifer PC2 ( 13.889% of Variance)  9.66  TRUE
+  17            Achirus achirus PC2 ( 13.889% of Variance) 12.27  TRUE
+  18       Xiphopenaeus kroyeri PC2 ( 13.889% of Variance)  3.18 FALSE
+  19        Cynoscion virescens PC2 ( 13.889% of Variance) 19.78 FALSE
+  20        Callinectes ornatus PC2 ( 13.889% of Variance)  3.88  TRUE
+  21        Trichiurus lepturus PC2 ( 13.889% of Variance)  0.04  TRUE
+  22         Symphurus plagusia PC2 ( 13.889% of Variance) 27.38  TRUE
+  23 Paralonchurus brasiliensis PC3 ( 12.463% of Variance)  0.22 FALSE
+  24         Macrodon ancylodon PC3 ( 12.463% of Variance) 20.41  TRUE
+  25                Bagre bagre PC3 ( 12.463% of Variance)  6.15 FALSE
+  26          Stellifer microps PC3 ( 12.463% of Variance)  2.65 FALSE
+  27        Stellifer rastrifer PC3 ( 12.463% of Variance) 11.22 FALSE
+  28            Achirus achirus PC3 ( 12.463% of Variance)  0.69 FALSE
+  29       Xiphopenaeus kroyeri PC3 ( 12.463% of Variance)  3.35 FALSE
+  30        Cynoscion virescens PC3 ( 12.463% of Variance)  6.11 FALSE
+  31        Callinectes ornatus PC3 ( 12.463% of Variance)  1.56  TRUE
+  32        Trichiurus lepturus PC3 ( 12.463% of Variance) 45.38  TRUE
+  33         Symphurus plagusia PC3 ( 12.463% of Variance)  2.26  TRUE
+  34 Paralonchurus brasiliensis PC4 ( 10.299% of Variance) 12.29 FALSE
+  35         Macrodon ancylodon PC4 ( 10.299% of Variance) 11.66  TRUE
+  36                Bagre bagre PC4 ( 10.299% of Variance)  0.43  TRUE
+  37          Stellifer microps PC4 ( 10.299% of Variance) 10.17 FALSE
+  38        Stellifer rastrifer PC4 ( 10.299% of Variance)  1.62 FALSE
+  39            Achirus achirus PC4 ( 10.299% of Variance) 21.51  TRUE
+  40       Xiphopenaeus kroyeri PC4 ( 10.299% of Variance)  0.85  TRUE
+  41        Cynoscion virescens PC4 ( 10.299% of Variance) 14.22  TRUE
+  42        Callinectes ornatus PC4 ( 10.299% of Variance) 13.12 FALSE
+  43        Trichiurus lepturus PC4 ( 10.299% of Variance)  2.49 FALSE
+  44         Symphurus plagusia PC4 ( 10.299% of Variance) 11.64  TRUE</code></pre>
+<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb920-1" title="1"><span class="kw">ggplot</span>(pca.contrib,<span class="kw">aes</span>(<span class="dt">x =</span> var,</a>
+<a class="sourceLine" id="cb920-2" title="2">  <span class="dt">y =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-3" title="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(pca.contrib<span class="op">$</span>var)),</a>
+<a class="sourceLine" id="cb920-4" title="4">             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb920-6" title="6">    <span class="kw">aes</span>(<span class="dt">fill =</span> var),</a>
+<a class="sourceLine" id="cb920-7" title="7">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
+<a class="sourceLine" id="cb920-9" title="9">    <span class="dt">nrow =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb920-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-11" title="11"><span class="st">  </span><span class="co"># geom_label(aes(label = var,colour = dir)) +</span></a>
+<a class="sourceLine" id="cb920-12" title="12"><span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb920-13" title="13"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-15" title="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">&quot;% Contribution to Principal Component&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot; &quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-16" title="16"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb920-17" title="17">    <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-18" title="18"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">override.aes =</span></a>
+<a class="sourceLine" id="cb920-19" title="19">      <span class="kw">aes</span>(<span class="dt">label =</span> <span class="st">&quot; &quot;</span>), <span class="dt">nrow =</span> <span class="dv">4</span>)) </a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cpue-models" class="section level2">
+<h2><span class="header-section-number">11.3</span> CPUE Models</h2>
+<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb921-1" title="1"><span class="co"># Renaming data</span></a>
+<a class="sourceLine" id="cb921-2" title="2">species.pca<span class="fl">.2</span> &lt;-<span class="st"> </span>species.cor<span class="fl">.3</span> </a>
+<a class="sourceLine" id="cb921-3" title="3"></a>
+<a class="sourceLine" id="cb921-4" title="4"><span class="co"># Printing summary of variables</span></a>
+<a class="sourceLine" id="cb921-5" title="5"><span class="kw">summary</span>(species.pca<span class="fl">.2</span>)</a></code></pre></div>
+<pre><code>   Paralonchurus brasiliensis Macrodon ancylodon  Bagre bagre     
+   Min.   :0.00000            Min.   : 0.1975    Min.   : 0.0000  
+   1st Qu.:0.05017            1st Qu.: 2.0452    1st Qu.: 0.4175  
+   Median :0.54000            Median : 4.4133    Median : 1.1275  
+   Mean   :1.15831            Mean   : 6.6959    Mean   : 1.9998  
+   3rd Qu.:1.29774            3rd Qu.: 9.8163    3rd Qu.: 2.9458  
+   Max.   :9.73250            Max.   :21.1257    Max.   :13.2245  
+   Stellifer microps Stellifer rastrifer Achirus achirus  Xiphopenaeus kroyeri
+   Min.   : 0.000    Min.   : 0.000      Min.   :0.0000   Min.   : 10.71      
+   1st Qu.: 3.085    1st Qu.: 2.896      1st Qu.:0.0125   1st Qu.: 32.88      
+   Median : 5.900    Median : 8.739      Median :0.1575   Median : 44.01      
+   Mean   : 7.769    Mean   : 9.365      Mean   :0.4012   Mean   : 45.41      
+   3rd Qu.:10.810    3rd Qu.:13.644      3rd Qu.:0.3038   3rd Qu.: 51.28      
+   Max.   :33.870    Max.   :40.992      Max.   :4.9553   Max.   :145.46      
+   Cynoscion virescens Callinectes ornatus Trichiurus lepturus Symphurus plagusia
+   Min.   : 0.0000     Min.   : 0.0000     Min.   : 0.0000     Min.   : 0.00000  
+   1st Qu.: 0.9841     1st Qu.: 0.1457     1st Qu.: 0.1075     1st Qu.: 0.06026  
+   Median : 2.4430     Median : 0.3718     Median : 0.4005     Median : 0.30398  
+   Mean   : 3.5052     Mean   : 1.0301     Mean   : 2.4355     Mean   : 1.65960  
+   3rd Qu.: 4.7189     3rd Qu.: 0.7879     3rd Qu.: 1.4448     3rd Qu.: 1.05889  
+   Max.   :14.1000     Max.   :21.7650     Max.   :50.7136     Max.   :32.36166</code></pre>
+<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb923-1" title="1">species.pca<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Row.Names =</span> <span class="kw">rownames</span>(species.pca<span class="fl">.2</span>), species.pca<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb923-2" title="2"></a>
+<a class="sourceLine" id="cb923-3" title="3"><span class="kw">ggplot</span>(reshape2<span class="op">::</span><span class="kw">melt</span>(species.pca<span class="fl">.3</span>, <span class="dt">id.vars =</span> <span class="st">&quot;Row.Names&quot;</span>),</a>
+<a class="sourceLine" id="cb923-4" title="4">  <span class="kw">aes</span>(<span class="dt">x =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb923-5" title="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> variable)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb923-6" title="6"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>,</a>
+<a class="sourceLine" id="cb923-7" title="7">                    <span class="dt">name =</span> <span class="st">&quot;Variable&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb923-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
+<a class="sourceLine" id="cb923-9" title="9">    <span class="dt">nrow =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb923-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb923-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, </a>
+<a class="sourceLine" id="cb923-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb923-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) </a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.12-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pca-1" class="section level2">
+<h2><span class="header-section-number">11.4</span> PCA</h2>
+<div class="sourceCode" id="cb924"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb924-1" title="1"><span class="co"># Before </span></a>
+<a class="sourceLine" id="cb924-2" title="2">pca.dat<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca<span class="fl">.2</span>, </a>
+<a class="sourceLine" id="cb924-3" title="3">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb924-4" title="4">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.13-1.png" width="672" style="display: block; margin: auto;" /><img src="bookdown-demo_files/figure-html/10.13-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb925-1" title="1"><span class="co"># After </span></a>
+<a class="sourceLine" id="cb925-2" title="2">species.pca.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">t</span>(species.pca<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb925-3" title="3">pca.dat.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca.<span class="fl">2.</span>trans, </a>
+<a class="sourceLine" id="cb925-4" title="4">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb925-5" title="5">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.13-3.png" width="672" style="display: block; margin: auto;" /><img src="bookdown-demo_files/figure-html/10.13-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>So what were the PCs generated? How well do they capture the overall variation in the dataset? And how are they stored in the object? Let’s take a look.</p>
+<div class="sourceCode" id="cb926"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb926-1" title="1"><span class="co"># Before</span></a>
+<a class="sourceLine" id="cb926-2" title="2">pca.eig<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb926-3" title="3"></a>
+<a class="sourceLine" id="cb926-4" title="4">pca.eig<span class="fl">.2</span></a></code></pre></div>
+<pre><code>          eigenvalue percentage of variance cumulative percentage of variance
+  comp 1       1.980                 18.000                            18.000
+  comp 2       1.344                 12.219                            30.219
+  comp 3       1.274                 11.586                            41.805
+  comp 4       1.168                 10.621                            52.426
+  comp 5       1.021                  9.280                            61.706
+  comp 6       1.007                  9.156                            70.862
+  comp 7       0.887                  8.061                            78.923
+  comp 8       0.753                  6.846                            85.769
+  comp 9       0.656                  5.963                            91.732
+  comp 10      0.554                  5.035                            96.767
+  comp 11      0.356                  3.233                           100.000</code></pre>
+<div class="sourceCode" id="cb928"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb928-1" title="1"><span class="co"># After</span></a>
+<a class="sourceLine" id="cb928-2" title="2">pca.eig.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat.<span class="fl">2.</span>trans<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb928-3" title="3"></a>
+<a class="sourceLine" id="cb928-4" title="4">pca.eig.<span class="fl">2.</span>trans</a></code></pre></div>
+<pre><code>          eigenvalue percentage of variance cumulative percentage of variance
+  comp 1      40.882                 86.982                            86.982
+  comp 2       2.007                  4.270                            91.253
+  comp 3       1.191                  2.534                            93.786
+  comp 4       1.001                  2.130                            95.916
+  comp 5       0.729                  1.551                            97.467
+  comp 6       0.456                  0.970                            98.437
+  comp 7       0.385                  0.818                            99.256
+  comp 8       0.183                  0.390                            99.646
+  comp 9       0.118                  0.251                            99.897
+  comp 10      0.048                  0.103                           100.000</code></pre>
+<div class="sourceCode" id="cb930"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb930-1" title="1"><span class="co"># Before </span></a>
+<a class="sourceLine" id="cb930-2" title="2">pca.eig<span class="fl">.2</span><span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig<span class="fl">.2</span>))</a>
+<a class="sourceLine" id="cb930-3" title="3">pca.eig<span class="fl">.2</span><span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb930-4" title="4"></a>
+<a class="sourceLine" id="cb930-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">11</span></a>
+<a class="sourceLine" id="cb930-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
+<a class="sourceLine" id="cb930-7" title="7"></a>
+<a class="sourceLine" id="cb930-8" title="8"><span class="co">#Scree plot</span></a>
+<a class="sourceLine" id="cb930-9" title="9"><span class="kw">ggplot</span>(pca.eig<span class="fl">.2</span>,<span class="kw">aes</span>(<span class="dt">x=</span>index,<span class="dt">y=</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb930-10" title="10"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,<span class="kw">aes</span>(<span class="dt">fill =</span> index),<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb930-11" title="11"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, <span class="dt">group =</span> <span class="dv">1</span>),<span class="dt">size =</span> <span class="dv">1</span>,<span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb930-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb930-13" title="13"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
+<a class="sourceLine" id="cb930-14" title="14">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb930-15" title="15"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
+<a class="sourceLine" id="cb930-16" title="16"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb930-17" title="17"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb931-1" title="1"><span class="co"># After</span></a>
+<a class="sourceLine" id="cb931-2" title="2">pca.eig.<span class="fl">2.</span>trans<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.<span class="fl">2.</span>trans))</a>
+<a class="sourceLine" id="cb931-3" title="3">pca.eig.<span class="fl">2.</span>trans<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.<span class="fl">2.</span>trans)</a>
+<a class="sourceLine" id="cb931-4" title="4"></a>
+<a class="sourceLine" id="cb931-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb931-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
+<a class="sourceLine" id="cb931-7" title="7"></a>
+<a class="sourceLine" id="cb931-8" title="8"><span class="co">#Scree plot</span></a>
+<a class="sourceLine" id="cb931-9" title="9"><span class="kw">ggplot</span>(pca.eig.<span class="fl">2.</span>trans,<span class="kw">aes</span>(<span class="dt">x=</span>index,<span class="dt">y=</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb931-10" title="10"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,<span class="kw">aes</span>(<span class="dt">fill =</span> index),<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb931-11" title="11"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, <span class="dt">group =</span> <span class="dv">1</span>),<span class="dt">size =</span> <span class="dv">1</span>,<span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb931-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb931-13" title="13"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
+<a class="sourceLine" id="cb931-14" title="14">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb931-15" title="15"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
+<a class="sourceLine" id="cb931-16" title="16"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb931-17" title="17"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.15-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb932"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb932-1" title="1">pca.contrib<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>var<span class="op">$</span>contrib, <span class="dv">2</span>))[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb932-2" title="2">pca.contrib<span class="fl">.2</span></a></code></pre></div>
+<pre><code>                             Dim.1 Dim.2 Dim.3 Dim.4
+  Paralonchurus brasiliensis  4.18 29.66 12.13  3.42
+  Macrodon ancylodon         26.17  9.73  1.84  2.30
+  Bagre bagre                 1.25  0.49  5.67 17.21
+  Stellifer microps          17.03  5.05  1.27  7.53
+  Stellifer rastrifer        17.42  9.64  9.40  1.81
+  Achirus achirus             5.07  0.74 17.34  4.88
+  Xiphopenaeus kroyeri        0.04 21.52  0.13  1.85
+  Cynoscion virescens        16.87  5.19  6.89 21.05
+  Callinectes ornatus        11.29  0.39  0.00  0.49
+  Trichiurus lepturus         0.21 17.23  0.01 38.34
+  Symphurus plagusia          0.47  0.36 45.32  1.13</code></pre>
+<div class="sourceCode" id="cb934"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb934-1" title="1">pca.contrib<span class="fl">.2</span><span class="op">$</span>var &lt;-</a>
+<a class="sourceLine" id="cb934-2" title="2"><span class="st">  </span><span class="kw">row.names</span>(pca.contrib<span class="fl">.2</span>) <span class="co">#Turn row names into a variable</span></a>
+<a class="sourceLine" id="cb934-3" title="3"></a>
+<a class="sourceLine" id="cb934-4" title="4">pca.contrib<span class="fl">.2</span> &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(pca.contrib<span class="fl">.2</span>,<span class="dt">id.vars =</span> <span class="st">&quot;var&quot;</span>) <span class="co">#Melt the dataset</span></a>
+<a class="sourceLine" id="cb934-5" title="5">  </a>
+<a class="sourceLine" id="cb934-6" title="6">total.var &lt;-</a>
+<a class="sourceLine" id="cb934-7" title="7"><span class="st">  </span><span class="kw">paste0</span>(<span class="st">&quot;(&quot;</span>,pca.eig<span class="fl">.2</span><span class="op">$</span><span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],<span class="st">&quot;% of Variance)&quot;</span>,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>) <span class="co">#Extract the % of variance explained by each PC</span></a>
+<a class="sourceLine" id="cb934-8" title="8"></a>
+<a class="sourceLine" id="cb934-9" title="9">pca.contrib<span class="fl">.2</span><span class="op">$</span>variable &lt;-<span class="st"> </span><span class="kw">factor</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>variable,<span class="dt">labels =</span></a>
+<a class="sourceLine" id="cb934-10" title="10">  <span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="st">&quot; &quot;</span>, total.var,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="co">#Append these values to the names of each PC</span></a></code></pre></div>
+<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb935-1" title="1">pca.coord<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>var<span class="op">$</span>coord, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb935-2" title="2">pca.coord<span class="fl">.2</span></a></code></pre></div>
+<pre><code>                              Dim.1  Dim.2  Dim.3  Dim.4  Dim.5
+  Paralonchurus brasiliensis  0.288 -0.631 -0.393  0.200 -0.078
+  Macrodon ancylodon          0.720  0.362 -0.153  0.164 -0.128
+  Bagre bagre                 0.157  0.081  0.269 -0.448 -0.432
+  Stellifer microps           0.581 -0.261  0.127  0.297  0.200
+  Stellifer rastrifer         0.587 -0.360  0.346  0.145  0.145
+  Achirus achirus             0.317  0.100  0.470 -0.239 -0.152
+  Xiphopenaeus kroyeri        0.028  0.538  0.041  0.147  0.679
+  Cynoscion virescens         0.578  0.264 -0.296 -0.496  0.120
+  Callinectes ornatus        -0.473 -0.072  0.004  0.076  0.039
+  Trichiurus lepturus         0.064  0.481  0.012  0.669 -0.490
+  Symphurus plagusia         -0.097 -0.069  0.760  0.115  0.099</code></pre>
+<div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb937-1" title="1"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.contrib<span class="fl">.2</span>))</a>
+<a class="sourceLine" id="cb937-2" title="2">{</a>
+<a class="sourceLine" id="cb937-3" title="3">  pca.contrib<span class="fl">.2</span><span class="op">$</span>dir[i] &lt;-<span class="st"> </span>pca.coord<span class="fl">.2</span>[<span class="kw">which</span>(<span class="kw">row.names</span>(pca.coord) <span class="op">==</span><span class="st"> </span>pca.contrib<span class="fl">.2</span><span class="op">$</span>var[i]),</a>
+<a class="sourceLine" id="cb937-4" title="4">                                  <span class="kw">grep</span>(<span class="kw">as.numeric</span>(<span class="kw">substr</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>variable[i],<span class="dv">3</span>,<span class="dv">3</span>)),<span class="kw">names</span>(pca.coord<span class="fl">.2</span>))] <span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb937-5" title="5"><span class="st">    </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb937-6" title="6">}</a>
+<a class="sourceLine" id="cb937-7" title="7">pca.contrib<span class="fl">.2</span></a></code></pre></div>
+<pre><code>                            var                   variable value   dir
+  1  Paralonchurus brasiliensis PC1 ( 18.000% of Variance)  4.18  TRUE
+  2          Macrodon ancylodon PC1 ( 18.000% of Variance) 26.17  TRUE
+  3                 Bagre bagre PC1 ( 18.000% of Variance)  1.25  TRUE
+  4           Stellifer microps PC1 ( 18.000% of Variance) 17.03  TRUE
+  5         Stellifer rastrifer PC1 ( 18.000% of Variance) 17.42  TRUE
+  6             Achirus achirus PC1 ( 18.000% of Variance)  5.07  TRUE
+  7        Xiphopenaeus kroyeri PC1 ( 18.000% of Variance)  0.04  TRUE
+  8         Cynoscion virescens PC1 ( 18.000% of Variance) 16.87  TRUE
+  9         Callinectes ornatus PC1 ( 18.000% of Variance) 11.29 FALSE
+  10        Trichiurus lepturus PC1 ( 18.000% of Variance)  0.21  TRUE
+  11         Symphurus plagusia PC1 ( 18.000% of Variance)  0.47 FALSE
+  12 Paralonchurus brasiliensis PC2 ( 12.219% of Variance) 29.66 FALSE
+  13         Macrodon ancylodon PC2 ( 12.219% of Variance)  9.73  TRUE
+  14                Bagre bagre PC2 ( 12.219% of Variance)  0.49  TRUE
+  15          Stellifer microps PC2 ( 12.219% of Variance)  5.05 FALSE
+  16        Stellifer rastrifer PC2 ( 12.219% of Variance)  9.64 FALSE
+  17            Achirus achirus PC2 ( 12.219% of Variance)  0.74  TRUE
+  18       Xiphopenaeus kroyeri PC2 ( 12.219% of Variance) 21.52  TRUE
+  19        Cynoscion virescens PC2 ( 12.219% of Variance)  5.19  TRUE
+  20        Callinectes ornatus PC2 ( 12.219% of Variance)  0.39 FALSE
+  21        Trichiurus lepturus PC2 ( 12.219% of Variance) 17.23  TRUE
+  22         Symphurus plagusia PC2 ( 12.219% of Variance)  0.36 FALSE
+  23 Paralonchurus brasiliensis PC3 ( 11.586% of Variance) 12.13 FALSE
+  24         Macrodon ancylodon PC3 ( 11.586% of Variance)  1.84 FALSE
+  25                Bagre bagre PC3 ( 11.586% of Variance)  5.67  TRUE
+  26          Stellifer microps PC3 ( 11.586% of Variance)  1.27  TRUE
+  27        Stellifer rastrifer PC3 ( 11.586% of Variance)  9.40  TRUE
+  28            Achirus achirus PC3 ( 11.586% of Variance) 17.34  TRUE
+  29       Xiphopenaeus kroyeri PC3 ( 11.586% of Variance)  0.13  TRUE
+  30        Cynoscion virescens PC3 ( 11.586% of Variance)  6.89 FALSE
+  31        Callinectes ornatus PC3 ( 11.586% of Variance)  0.00  TRUE
+  32        Trichiurus lepturus PC3 ( 11.586% of Variance)  0.01  TRUE
+  33         Symphurus plagusia PC3 ( 11.586% of Variance) 45.32  TRUE
+  34 Paralonchurus brasiliensis PC4 ( 10.621% of Variance)  3.42  TRUE
+  35         Macrodon ancylodon PC4 ( 10.621% of Variance)  2.30  TRUE
+  36                Bagre bagre PC4 ( 10.621% of Variance) 17.21 FALSE
+  37          Stellifer microps PC4 ( 10.621% of Variance)  7.53  TRUE
+  38        Stellifer rastrifer PC4 ( 10.621% of Variance)  1.81  TRUE
+  39            Achirus achirus PC4 ( 10.621% of Variance)  4.88 FALSE
+  40       Xiphopenaeus kroyeri PC4 ( 10.621% of Variance)  1.85  TRUE
+  41        Cynoscion virescens PC4 ( 10.621% of Variance) 21.05 FALSE
+  42        Callinectes ornatus PC4 ( 10.621% of Variance)  0.49  TRUE
+  43        Trichiurus lepturus PC4 ( 10.621% of Variance) 38.34  TRUE
+  44         Symphurus plagusia PC4 ( 10.621% of Variance)  1.13  TRUE</code></pre>
+<div class="sourceCode" id="cb939"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb939-1" title="1"><span class="kw">ggplot</span>(pca.contrib<span class="fl">.2</span>,<span class="kw">aes</span>(<span class="dt">x =</span> var,</a>
+<a class="sourceLine" id="cb939-2" title="2">  <span class="dt">y =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-3" title="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>var)),</a>
+<a class="sourceLine" id="cb939-4" title="4">             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb939-6" title="6">    <span class="kw">aes</span>(<span class="dt">fill =</span> var),</a>
+<a class="sourceLine" id="cb939-7" title="7">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
+<a class="sourceLine" id="cb939-9" title="9">    <span class="dt">nrow =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb939-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-11" title="11"><span class="st">  </span><span class="co"># geom_label(aes(label = var,colour = dir)) +</span></a>
+<a class="sourceLine" id="cb939-12" title="12"><span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb939-13" title="13"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-15" title="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">&quot;% Contribution to Principal Component&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot; &quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-16" title="16"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb939-17" title="17">    <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-18" title="18"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">override.aes =</span></a>
+<a class="sourceLine" id="cb939-19" title="19">      <span class="kw">aes</span>(<span class="dt">label =</span> <span class="st">&quot; &quot;</span>), <span class="dt">nrow =</span> <span class="dv">4</span>)) </a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.20-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="id.102" class="section level2">
+<h2><span class="header-section-number">11.5</span> Canonical Correspondence Analysis</h2>
+</div>
+<div id="first-approach" class="section level2">
+<h2><span class="header-section-number">11.6</span> First Approach</h2>
+<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb940-1" title="1"><span class="co"># Data</span></a>
+<a class="sourceLine" id="cb940-2" title="2">cca.data.all &lt;-<span class="st"> </span>species.cor <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb940-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> LatinNames,</a>
+<a class="sourceLine" id="cb940-4" title="4">    <span class="dt">values_from =</span> CpueKGHR,</a>
+<a class="sourceLine" id="cb940-5" title="5">    <span class="dt">values_fill =</span> <span class="dv">0</span>) </a>
+<a class="sourceLine" id="cb940-6" title="6"></a>
+<a class="sourceLine" id="cb940-7" title="7"><span class="co"># Creating two data frames</span></a>
+<a class="sourceLine" id="cb940-8" title="8">cca<span class="fl">.1</span> &lt;-<span class="st"> </span>cca.data.all[,<span class="dv">7</span><span class="op">:</span><span class="dv">17</span>]</a>
+<a class="sourceLine" id="cb940-9" title="9">cca<span class="fl">.2</span> &lt;-<span class="st"> </span>cca.data.all[,<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>]</a>
+<a class="sourceLine" id="cb940-10" title="10"></a>
+<a class="sourceLine" id="cb940-11" title="11"><span class="co"># Fitting model </span></a>
+<a class="sourceLine" id="cb940-12" title="12">cca.model &lt;-<span class="st"> </span><span class="kw">cca</span>(cca<span class="fl">.1</span>, cca<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb940-13" title="13">cca.model</a></code></pre></div>
+<pre><code>  Call: cca(X = cca.1, Y = cca.2)
+  
+                Inertia Proportion Rank
+  Total          0.8608     1.0000     
+  Constrained    0.1379     0.1602    5
+  Unconstrained  0.7229     0.8398   10
+  Inertia is scaled Chi-square 
+  
+  Eigenvalues for constrained axes:
+     CCA1    CCA2    CCA3    CCA4    CCA5 
+  0.06526 0.03722 0.01996 0.01006 0.00539 
+  
+  Eigenvalues for unconstrained axes:
+      CA1     CA2     CA3     CA4     CA5     CA6     CA7     CA8     CA9    CA10 
+  0.18303 0.16279 0.12756 0.08077 0.05257 0.03636 0.02307 0.02147 0.01908 0.01624</code></pre>
+<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb942-1" title="1"><span class="kw">plot</span>(cca.model, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/10.22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb943"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb943-1" title="1"><span class="kw">summary</span>(cca.model)</a></code></pre></div>
+<pre><code>  
+  Call:
+  cca(X = cca.1, Y = cca.2) 
+  
+  Partitioning of scaled Chi-square:
+                Inertia Proportion
+  Total          0.8608     1.0000
+  Constrained    0.1379     0.1602
+  Unconstrained  0.7229     0.8398
+  
+  Eigenvalues, and their contribution to the scaled Chi-square 
+  
+  Importance of components:
+                           CCA1    CCA2    CCA3    CCA4     CCA5    CA1    CA2
+  Eigenvalue            0.06526 0.03722 0.01996 0.01006 0.005387 0.1830 0.1628
+  Proportion Explained  0.07581 0.04324 0.02318 0.01169 0.006258 0.2126 0.1891
+  Cumulative Proportion 0.07581 0.11905 0.14223 0.15392 0.160179 0.3728 0.5619
+                           CA3     CA4     CA5     CA6     CA7     CA8     CA9
+  Eigenvalue            0.1276 0.08077 0.05257 0.03636 0.02307 0.02147 0.01908
+  Proportion Explained  0.1482 0.09383 0.06106 0.04224 0.02680 0.02494 0.02216
+  Cumulative Proportion 0.7101 0.80392 0.86499 0.90723 0.93403 0.95897 0.98114
+                           CA10
+  Eigenvalue            0.01624
+  Proportion Explained  0.01886
+  Cumulative Proportion 1.00000
+  
+  Accumulated constrained eigenvalues
+  Importance of components:
+                           CCA1    CCA2    CCA3    CCA4     CCA5
+  Eigenvalue            0.06526 0.03722 0.01996 0.01006 0.005387
+  Proportion Explained  0.47330 0.26993 0.14473 0.07298 0.039067
+  Cumulative Proportion 0.47330 0.74323 0.88796 0.96093 1.000000
+  
+  Scaling 2 for species and site scores
+  * Species are scaled proportional to eigenvalues
+  * Sites are unscaled: weighted dispersion equal on all dimensions
+  
+  
+  Species scores
+  
+                                 CCA1     CCA2      CCA3      CCA4     CCA5
+  Paralonchurus brasiliensis  0.02748 -0.45661 -0.339955  0.019251 -0.21440
+  Macrodon ancylodon          0.40023 -0.01776 -0.010411 -0.030281  0.14479
+  Bagre bagre                -0.04806 -0.63689  0.205688  0.072250 -0.12975
+  Stellifer microps          -0.07369  0.00381 -0.328803  0.002252  0.06392
+  Stellifer rastrifer         0.10610 -0.12658  0.177073  0.048232  0.02861
+  Achirus achirus             0.12384  0.18996  0.193990  0.518130  0.23695
+  Xiphopenaeus kroyeri       -0.08461  0.07303  0.009001 -0.034371 -0.03236
+  Cynoscion virescens         0.08635 -0.19043  0.167191 -0.187407  0.07792
+  Callinectes ornatus        -0.61593 -0.94948 -0.245892  0.332167  0.08980
+  Trichiurus lepturus         0.97818  0.20857 -0.090303  0.260045 -0.15359
+  Symphurus plagusia         -0.78019  0.49555  0.210260  0.362214  0.09449
+                                  CA1
+  Paralonchurus brasiliensis  0.34321
+  Macrodon ancylodon          0.04433
+  Bagre bagre                 0.11078
+  Stellifer microps           0.17851
+  Stellifer rastrifer         0.27695
+  Achirus achirus             0.26715
+  Xiphopenaeus kroyeri        0.02714
+  Cynoscion virescens         0.34832
+  Callinectes ornatus        -1.82833
+  Trichiurus lepturus        -1.97265
+  Symphurus plagusia         -0.46344
+  
+  
+  Site scores (weighted averages of species scores)
+  
+            CCA1     CCA2    CCA3     CCA4    CCA5       CA1
+  sit1  -1.14349 -0.50504  0.1846 -0.46079 -1.8566 -0.114983
+  sit2  -0.89116 -0.29325  0.3574 -1.97345 -3.2211  0.020595
+  sit3  -0.48955 -0.80566  0.4921 -2.63489 -3.5810  0.445352
+  sit4  -0.27425 -1.08299  2.1065 -1.79200 -2.6571  0.442834
+  sit5  -0.58259 -0.29484  1.3430 -3.57880 -3.2227  0.170931
+  sit6   0.13383 -0.99771  1.1192 -1.48150  0.4699  0.217833
+  sit7  -0.53095 -2.49138  2.9573  0.13484 -5.0015  0.595964
+  sit8   0.59811 -2.29944  1.0477  1.31118  0.6749  0.939792
+  sit9  -4.57600 -9.06281 -4.4513 12.50583  4.3489 -4.095687
+  sit10  2.08400  0.62702 -1.5283  1.88912 -5.6665 -1.081932
+  sit11  0.30265 -1.38338 -1.3414 -3.32251  0.9048  0.446470
+  sit12  0.06562 -1.97550 -0.8959 -1.70124 -1.1606  0.163767
+  sit13 -0.21380 -1.07853 -0.5063 -2.84298 -0.6721  0.431443
+  sit14 -1.00722  0.80462 -2.7153  1.49947  3.5311  0.004316
+  sit15  0.32465 -0.67692 -1.9410  0.59683  1.5623  0.216871
+  sit16 -0.74884  0.82809 -0.1441 -1.84374 -1.9804  0.049954
+  sit17 -1.02420  0.07255 -1.1221 -0.17331 -0.6887  0.034097
+  sit18 -3.84353  3.89551  4.8438 10.63238  2.5850 -0.940138
+  sit19  0.28910 -0.57107 -2.5836 -1.68788 -5.0735  0.215862
+  sit20 -0.14895  0.50449  0.2487 -2.34332 -1.6913 -0.125760
+  sit21  0.16704  1.62179 -0.4030 -0.68424 -5.1611 -0.584864
+  sit22 -0.26396  1.21016 -1.3877 -1.48359 -2.6144 -0.164048
+  sit23 -1.00364 -0.07507 -1.2468  0.13086 -0.1580 -0.158986
+  sit24 -0.94527  1.53582  0.1627 -2.21812 -5.2719 -0.329603
+  sit25  1.31255  0.33007  0.5471 -2.36513  3.5509  0.381892
+  sit26  1.08343  0.17184  1.1433  0.15498  1.5612  0.324346
+  sit27  0.09485 -0.70095  1.7906 -0.06341 -0.9763  0.830737
+  sit28 -0.79795  0.78952 -0.2374 -1.36536 -2.5259 -0.033270
+  sit29 -0.80376  0.90676  0.8261 -2.03650 -3.2173  0.349068
+  sit30  0.52285 -0.81654  0.3805 -0.51493  3.6564  0.426326
+  sit31  6.92789  2.62070 -1.9958 11.53778 -9.3936 -4.265626
+  sit32  0.77136 -0.26184 -1.9679  0.55060  6.3488  0.519242
+  sit33  1.40761 -0.02301  0.3661  0.15286 -0.7246 -0.088963
+  sit34  0.50153 -0.11390  0.7323 -2.20137  2.3162  0.400273
+  sit35 -1.34872  2.18712  1.6183  3.87961  5.4239  0.142341
+  sit36 -0.14322 -0.38369 -1.2799 -0.36894 -0.3691  0.571666
+  sit37  0.41910 -0.25396  1.4695 -1.85079  6.0640  1.036438
+  sit38  0.46482 -0.58002 -5.0107  1.30168  1.8613  0.303934
+  sit39 -1.51178  2.03833  1.7996  5.39848  3.7387  0.312827
+  sit40 -0.55579  0.72642 -3.2175 -2.48851  0.3644  0.447474
+  sit41 -0.21651  0.36412  1.0343 -1.60754 -0.2850  0.831888
+  sit42  0.15778 -0.77482 -0.1977  1.48721  4.4656  0.248139
+  sit43  0.09229 -0.15439  1.8360 -4.54190  0.7999  0.040881
+  sit44  0.74819 -0.36323  0.2234 -3.07641  4.3228  0.418975
+  sit45 -0.22046 -0.20538  1.2404 -4.05603  1.4417  0.207515
+  sit46 -0.44369 -0.16170  0.8793  1.52004  0.9238  0.159277
+  sit47  0.18946  0.21543  2.2185 -3.01961  1.7421  0.306350
+  
+  
+  Site constraints (linear combinations of constraining variables)
+  
+            CCA1      CCA2     CCA3     CCA4     CCA5       CA1
+  con1   0.51721 -0.643712  1.54087 -0.59303 -0.68887 -0.114983
+  con2  -0.64694 -0.770861  1.20300 -0.70651  0.93218  0.020595
+  con3   0.51721 -0.643712  1.54087 -0.59303 -0.68887  0.445352
+  con4   0.30181 -0.413890  2.41682  0.01281 -0.79799  0.442834
+  con5  -0.86234 -0.541039  2.07895 -0.10068  0.82306  0.170931
+  con6  -0.64694 -0.770861  1.20300 -0.70651  0.93218  0.217833
+  con7  -0.04936 -2.263123 -0.20974  0.83946 -1.13950  0.595964
+  con8  -0.04936 -2.263123 -0.20974  0.83946 -1.13950  0.939792
+  con9  -1.21351 -2.390272 -0.54761  0.72598  0.48155 -4.095687
+  con10  0.31633 -3.786772 -0.70860  1.23816 -0.78340 -1.081932
+  con11 -1.21351 -2.390272 -0.54761  0.72598  0.48155  0.446470
+  con12 -1.21351 -2.390272 -0.54761  0.72598  0.48155  0.163767
+  con13  0.08659 -0.362700 -1.71832 -1.06368 -1.29007  0.431443
+  con14 -1.26040  0.271976 -1.80676 -1.37651  0.15293  0.004316
+  con15 -0.34420  0.096944  0.03358  0.14799 -1.50831  0.216871
+  con16 -1.69119  0.731619 -0.05486 -0.16484 -0.06530  0.049954
+  con17 -0.74244  1.088590  1.15896  0.55448 -1.79547  0.034097
+  con18 -1.90659  0.961441  0.82110  0.44100 -0.17442 -0.940138
+  con19  0.19576  0.778133 -1.60287 -0.84404 -1.24656  0.215862
+  con20 -1.39918  1.110628 -0.18884  0.25415  0.15625 -0.125760
+  con21 -0.23503  1.237777  0.14903  0.36763 -1.46480 -0.584864
+  con22 -0.01964  1.007955 -0.72692 -0.23820 -1.35568 -0.164048
+  con23 -1.18379  0.880806 -1.06479 -0.35169  0.26537 -0.158986
+  con24 -1.18379  0.880806 -1.06479 -0.35169  0.26537 -0.329603
+  con25  1.71634  0.148581 -0.17500 -0.24482  0.13948  0.381892
+  con26  1.71634  0.148581 -0.17500 -0.24482  0.13948  0.324346
+  con27  1.50094  0.378403  0.70095  0.36102  0.03036  0.830737
+  con28  0.33679  0.251254  0.36309  0.24753  1.65141 -0.033270
+  con29  0.55219  0.021432 -0.51287 -0.35830  1.76053  0.349068
+  con30  0.59050  0.325847 -0.14188  0.15411  1.81675  0.426326
+  con31  1.75464  0.452996  0.19599  0.26759  0.19570 -4.265626
+  con32  0.59050  0.325847 -0.14188  0.15411  1.81675  0.519242
+  con33  1.75464  0.452996  0.19599  0.26759  0.19570 -0.088963
+  con34  0.59050  0.325847 -0.14188  0.15411  1.81675  0.400273
+  con35  1.93749 -0.308828 -0.05344  0.46694  0.37375  0.142341
+  con36 -0.77256  0.689728  0.35827  2.39958  0.79179  0.571666
+  con37  0.39159  0.816878  0.69614  2.51306 -0.82926  1.036438
+  con38  1.03778  0.127412 -1.93172  0.69555 -0.50191  0.303934
+  con39 -0.77256  0.689728  0.35827  2.39958  0.79179  0.312827
+  con40 -0.12637  0.000263 -2.26958  0.58207  1.11914  0.447474
+  con41  1.03778  0.127412 -1.93172  0.69555 -0.50191  0.831888
+  con42  0.76515 -0.341531  0.03840 -2.00405 -0.64868  0.248139
+  con43 -0.61439 -0.238858  0.57648 -1.51170  0.86325  0.040881
+  con44  0.54976 -0.111709  0.91435 -1.39821 -0.75780  0.418975
+  con45 -0.82979 -0.009037  1.45243 -0.90586  0.75413  0.207515
+  con46 -0.82979 -0.009037  1.45243 -0.90586  0.75413  0.159277
+  con47  0.76515 -0.341531  0.03840 -2.00405 -0.64868  0.306350
+  
+  
+  Biplot scores for constraining variables
+  
+                      CCA1     CCA2     CCA3     CCA4    CCA5 CA1
+  CompanyPSI       -0.5600  0.03840 -0.51312  0.44267 -0.4751   0
+  Month             0.4543  0.45902 -0.37098  0.58243  0.3257   0
+  TimePeriodsNight -0.6296  0.04066 -0.05257 -0.02391  0.7737   0
+  FishingZones     -0.3261  0.82198 -0.03249 -0.41785 -0.2058   0
+  FishingDepthMtr  -0.3231 -0.31242 -0.17413 -0.80361 -0.3491   0</code></pre>
+<div class="sourceCode" id="cb945"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb945-1" title="1"><span class="kw">anova</span>(cca.model)</a></code></pre></div>
+<pre><code>  Permutation test for cca under reduced model
+  Permutation: free
+  Number of permutations: 999
+  
+  Model: cca(X = cca.1, Y = cca.2)
+           Df ChiSquare     F Pr(&gt;F)  
+  Model     5   0.13789 1.564  0.014 *
+  Residual 41   0.72295               
+  ---
+  Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="second-approach" class="section level2">
+<h2><span class="header-section-number">11.7</span> Second Approach</h2>
+<div class="sourceCode" id="cb947"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb947-1" title="1">data<span class="fl">.1</span> &lt;-<span class="st"> </span>cca<span class="fl">.1</span>[, <span class="dv">7</span>]</a>
+<a class="sourceLine" id="cb947-2" title="2">data<span class="fl">.2</span> &lt;-<span class="st"> </span>cca<span class="fl">.1</span>[, <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dv">8</span><span class="op">:</span><span class="dv">11</span>)]</a>
+<a class="sourceLine" id="cb947-3" title="3"></a>
+<a class="sourceLine" id="cb947-4" title="4"><span class="co"># Running model</span></a>
+<a class="sourceLine" id="cb947-5" title="5">cc1 &lt;-<span class="st"> </span><span class="kw">cc</span>(data<span class="fl">.1</span>, data<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb947-6" title="6"></a>
+<a class="sourceLine" id="cb947-7" title="7"><span class="co"># display the canonical correlations</span></a>
+<a class="sourceLine" id="cb947-8" title="8">cc1<span class="op">$</span>cor</a></code></pre></div>
+<pre><code>  [1] 0.2637492</code></pre>
+<div class="sourceCode" id="cb949"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb949-1" title="1"><span class="co"># raw canonical coefficients</span></a>
+<a class="sourceLine" id="cb949-2" title="2">cc1[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
+<pre><code>  $xcoef
+                             [,1]
+  Xiphopenaeus kroyeri 0.04494189
+  
+  $ycoef
+                                      [,1]
+  Paralonchurus brasiliensis -4.966794e-01
+  Macrodon ancylodon          6.313754e-02
+  Bagre bagre                -1.287257e-01
+  Stellifer microps           5.488107e-03
+  Stellifer rastrifer         1.189172e-02
+  Achirus achirus            -4.746134e-01
+  Cynoscion virescens         1.420318e-02
+  Callinectes ornatus        -7.866754e-02
+  Trichiurus lepturus         2.799891e-03
+  Symphurus plagusia         -7.486898e-05</code></pre>
+<p>The raw canonical coefficients are interpreted in a manner analogous to interpreting regression coefficients i.e., for the species <em>Paralonchurus brasiliensis</em>, a one unit increase in CPUE leads to a -0.497 decrease in the first canonical variate of the other variables are held constant?</p>
+<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb951-1" title="1"><span class="co"># compute canonical loadings</span></a>
+<a class="sourceLine" id="cb951-2" title="2">cc2 &lt;-<span class="st"> </span><span class="kw">comput</span>(data<span class="fl">.1</span>, data<span class="fl">.2</span>, cc1)</a>
+<a class="sourceLine" id="cb951-3" title="3"></a>
+<a class="sourceLine" id="cb951-4" title="4"><span class="co"># display canonical loadings</span></a>
+<a class="sourceLine" id="cb951-5" title="5">cc2[<span class="dv">3</span><span class="op">:</span><span class="dv">6</span>]</a></code></pre></div>
+<pre><code>  $corr.X.xscores
+                       [,1]
+  Xiphopenaeus kroyeri    1
+  
+  $corr.Y.xscores
+                                     [,1]
+  Paralonchurus brasiliensis -0.195988858
+  Macrodon ancylodon          0.081786903
+  Bagre bagre                -0.051124636
+  Stellifer microps           0.004561790
+  Stellifer rastrifer        -0.003702687
+  Achirus achirus            -0.064958484
+  Cynoscion virescens         0.046361884
+  Callinectes ornatus        -0.049958370
+  Trichiurus lepturus         0.055686205
+  Symphurus plagusia          0.006428255
+  
+  $corr.X.yscores
+                            [,1]
+  Xiphopenaeus kroyeri 0.2637492
+  
+  $corr.Y.yscores
+                                    [,1]
+  Paralonchurus brasiliensis -0.74308806
+  Macrodon ancylodon          0.31009350
+  Bagre bagre                -0.19383809
+  Stellifer microps           0.01729594
+  Stellifer rastrifer        -0.01403867
+  Achirus achirus            -0.24628887
+  Cynoscion virescens         0.17578021
+  Callinectes ornatus        -0.18941622
+  Trichiurus lepturus         0.21113319
+  Symphurus plagusia          0.02437261</code></pre>
+<p>The above correlations are between observed variables and canonical variables which are known as the canonical loadings. These canonical variates are actually a type of latent variable.</p>
+<div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb953-1" title="1"><span class="co"># tests of canonical dimensions</span></a>
+<a class="sourceLine" id="cb953-2" title="2">rho &lt;-<span class="st"> </span>cc1<span class="op">$</span>cor</a>
+<a class="sourceLine" id="cb953-3" title="3"><span class="co">## Define number of observations, number of variables in first set, and number of variables in the second set.</span></a>
+<a class="sourceLine" id="cb953-4" title="4">n &lt;-<span class="st"> </span><span class="kw">dim</span>(data<span class="fl">.1</span>)[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb953-5" title="5">p &lt;-<span class="st"> </span><span class="kw">length</span>(data<span class="fl">.1</span>)</a>
+<a class="sourceLine" id="cb953-6" title="6">q &lt;-<span class="st"> </span><span class="kw">length</span>(data<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb953-7" title="7"></a>
+<a class="sourceLine" id="cb953-8" title="8"><span class="co">## Calculate p-values using the F-approximations of different test statistics:</span></a>
+<a class="sourceLine" id="cb953-9" title="9"><span class="kw">p.asym</span>(rho, n, p, q, <span class="dt">tstat =</span> <span class="st">&quot;Wilks&quot;</span>)</a></code></pre></div>
+<pre><code>  Wilks&#39; Lambda, using F-approximation (Rao&#39;s F):
+                stat    approx df1 df2   p.value
+  1 to 1:  0.9304364 0.2691523  10  36 0.9842124</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="id-91.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="id-111.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/10-part10.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

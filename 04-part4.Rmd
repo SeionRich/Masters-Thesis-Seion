@@ -1,0 +1,620 @@
+# Seabob Models
+
+## CPUE across all fishing tows
+
+### Subsetting and plotting data
+
+```{r 41, fig.cap = "Distribution of seabob cpue across fishing tows"}
+
+target.catch <- SummaryTable %>% 
+  filter(CatchCategory == "Target catch")
+
+target.catch %>% 
+  ggplot() + 
+  geom_histogram(mapping = aes(x = CpueKGHr)) +
+  labs(x = "Seabob CPUE (kgs/hr)") +
+  theme_bw()
+
+# Converting variables to factors
+factor.var <- c("Company",
+  "Month",
+  "TimePeriods",
+  "FishingZones",
+  "FishingDepthMtr")
+
+target.catch[,factor.var] <- lapply(target.catch[,factor.var], factor)
+
+glimpse(target.catch)
+```
+
+### Predictor = 1 
+
+```{r 4.2}
+seabob.glm.1 <- glm(CpueKGHr ~ Company,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.1)
+
+anova(seabob.glm.1)
+```
+
+### Predictors = 2
+
+```{r 4.3}
+seabob.glm.2 <- glm(CpueKGHr ~ Company +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.2)
+```
+
+### Predictors = 3
+
+```{r 4.4}
+seabob.glm.3 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month,
+  family = gaussian(link = "log"),
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.3)
+```
+
+### Predictors = 4
+
+```{r 4.5}
+seabob.glm.4 <- glm(CpueKGHr ~ Company +
+    TimePeriods + 
+    Month + 
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = target.catch,
+  na.action = na.exclude)
+
+# Print summary
+summary(seabob.glm.4)
+```
+
+### Predictors = 5
+
+```{r 4.6}
+seabob.glm.5 <- glm(CpueKGHr ~ Company +
+    TimePeriods + 
+    Month + 
+    FishingZones +
+    FishingDepthMtr,
+  family = gaussian(link = "log"),
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.5)
+```
+
+### Interaction terms = 1
+
+```{r 4.7}
+seabob.glm.6 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Company*TimePeriods,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.6)
+```
+
+### Interaction terms = 2
+
+```{r 4.8}
+seabob.glm.7 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    Company*TimePeriods +
+    Company*Month,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.7)
+```
+
+### Interaction terms = 3
+
+```{r 4.9}
+seabob.glm.8 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    Company*TimePeriods +
+    Company*Month +
+    TimePeriods*Month,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.8)
+```
+
+### Interaction terms = 4
+
+```{r 4.10}
+seabob.glm.9 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    TimePeriods*Month,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.9)
+```
+
+### Interaction terms = 5
+
+```{r 4.11}
+seabob.glm.10 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    TimePeriods*Month +
+    TimePeriods*FishingZones,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.10)
+```
+
+### Interaction terms = 6
+
+```{r 4.12}
+seabob.glm.11 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    Month*FishingZones,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.11)
+```
+
+### Interaction terms = 7
+
+```{r 4.13}
+seabob.glm.12 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    FishingDepthMtr +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    Company*FishingDepthMtr +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    TimePeriods*FishingDepthMtr,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.12)
+```
+
+### Interaction terms = 8
+
+```{r 4.14}
+seabob.glm.13 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    FishingDepthMtr +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    Company*FishingDepthMtr +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    TimePeriods*FishingDepthMtr +
+    Month*FishingZones,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.13)
+```
+
+### Interaction terms = 9
+
+```{r 4.15}
+seabob.glm.14 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    FishingDepthMtr +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    Company*FishingDepthMtr +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    TimePeriods*FishingDepthMtr +
+    Month*FishingZones +
+    Month*FishingDepthMtr,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.14)
+```
+
+### Interaction terms = 10
+
+```{r 4.16}
+seabob.glm.15 <- glm(CpueKGHr ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    FishingDepthMtr +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    Company*FishingDepthMtr +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    TimePeriods*FishingDepthMtr +
+    Month*FishingZones +
+    Month*FishingDepthMtr +
+    FishingZones*FishingDepthMtr,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.15)
+```
+
+## Model Comparison
+
+```{r 4.17}
+rcompanion::compareGLM(seabob.glm.1,
+  seabob.glm.2,
+  seabob.glm.3,
+  seabob.glm.4,
+  seabob.glm.5,
+  seabob.glm.6,
+  seabob.glm.7,
+  seabob.glm.8,
+  seabob.glm.9,
+  seabob.glm.10,
+  seabob.glm.11,
+  seabob.glm.12,
+  seabob.glm.13,
+  seabob.glm.14,
+  seabob.glm.15) 
+```
+
+
+## Weight proportions across all fishing tows
+
+### Subsetting and plotting data
+
+```{r 4.18, fig.cap = "Distribution of weight proportions across fishing tows"}
+
+target.catch <- SummaryTable %>% 
+  filter(CatchCategory == "Target catch")
+
+target.catch %>% 
+  ggplot() + 
+  geom_histogram(mapping = aes(x = PropWeight)) +
+  labs(x = "Weight proportions (kgs)") +
+  theme_bw()
+
+# Converting variables to factors
+factor.var <- c("Company",
+  "Month",
+  "TimePeriods",
+  "FishingZones",
+  "FishingDepthMtr")
+
+target.catch[,factor.var] <- lapply(target.catch[,factor.var], factor)
+
+glimpse(target.catch)
+```
+
+### Predictor = 1 
+
+```{r 4.19}
+seabob.glm.1 <- glm(PropWeight ~ Company,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.1)
+```
+
+### Predictors = 2
+
+```{r 4.20}
+seabob.glm.2 <- glm(PropWeight ~ Company +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.2)
+```
+
+### Predictors = 3
+
+```{r 4.21}
+seabob.glm.3 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month,
+  family = gaussian(link = "log"),
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.3)
+```
+
+### Predictors = 4
+
+```{r 4.22}
+seabob.glm.4 <- glm(PropWeight ~ Company +
+    TimePeriods + 
+    Month + 
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = target.catch,
+  na.action = na.exclude)
+
+# Print summary
+summary(seabob.glm.4)
+```
+
+### Predictors = 5
+
+```{r 4.23}
+seabob.glm.5 <- glm(PropWeight ~ Company +
+    TimePeriods + 
+    Month + 
+    FishingZones +
+    FishingDepthMtr,
+  family = gaussian(link = "log"),
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.5)
+```
+
+### Interaction terms = 1
+
+```{r 4.24}
+seabob.glm.6 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Company*TimePeriods,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.6)
+```
+
+### Interaction terms = 2
+
+```{r 4.25}
+seabob.glm.7 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    Company*TimePeriods +
+    Company*Month,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.7)
+```
+
+### Interaction terms = 3
+
+```{r 4.26}
+seabob.glm.8 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    Company*TimePeriods +
+    Company*Month +
+    TimePeriods*Month,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.8)
+```
+
+### Interaction terms = 4
+
+```{r 4.27}
+seabob.glm.9 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    TimePeriods*Month,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.9)
+```
+
+### Interaction terms = 5
+
+```{r 4.28}
+seabob.glm.10 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    TimePeriods*Month +
+    TimePeriods*FishingZones,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.10)
+```
+
+### Interaction terms = 6
+
+```{r 4.29}
+seabob.glm.11 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    Month*FishingZones,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.11)
+```
+
+### Interaction terms = 7
+
+```{r 4.30}
+seabob.glm.12 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    FishingDepthMtr +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    Company*FishingDepthMtr +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    TimePeriods*FishingDepthMtr,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.12)
+```
+
+### Interaction terms = 8
+
+```{r 4.31}
+seabob.glm.13 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    FishingDepthMtr +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    Company*FishingDepthMtr +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    TimePeriods*FishingDepthMtr +
+    Month*FishingZones,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.13)
+```
+
+### Interaction terms = 9
+
+```{r 4.32}
+seabob.glm.14 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    FishingDepthMtr +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    Company*FishingDepthMtr +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    TimePeriods*FishingDepthMtr +
+    Month*FishingZones +
+    Month*FishingDepthMtr,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.14)
+```
+
+### Interaction terms = 10
+
+```{r 4.33}
+seabob.glm.15 <- glm(PropWeight ~ Company +
+    TimePeriods +
+    Month +
+    FishingZones +
+    FishingDepthMtr +
+    Company*TimePeriods +
+    Company*Month +
+    Company*FishingZones +
+    Company*FishingDepthMtr +
+    TimePeriods*Month +
+    TimePeriods*FishingZones +
+    TimePeriods*FishingDepthMtr +
+    Month*FishingZones +
+    Month*FishingDepthMtr +
+    FishingZones*FishingDepthMtr,
+  family = gaussian(link = "log"), 
+  data = target.catch)
+
+# Print summary
+summary(seabob.glm.15)
+```
+
+## Model Comparison
+
+```{r 4.34}
+rcompanion::compareGLM(seabob.glm.1,
+  seabob.glm.2,
+  seabob.glm.3,
+  seabob.glm.4,
+  seabob.glm.5,
+  seabob.glm.6,
+  seabob.glm.7,
+  seabob.glm.8,
+  seabob.glm.9,
+  seabob.glm.10,
+  seabob.glm.11,
+  seabob.glm.12,
+  seabob.glm.13,
+  seabob.glm.14,
+  seabob.glm.15) 
+```

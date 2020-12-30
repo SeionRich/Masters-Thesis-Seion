@@ -1,0 +1,133 @@
+# Distribution of factor variables
+
+## Company
+
+```{r 1.1}
+ObserverData.2 <- ObserverData %>% 
+  group_by(DragID2,
+    Company) %>% 
+  dplyr::summarise(.groups = 'drop')
+
+ObserverData.2 <- ObserverData.2 %>% 
+  group_by(Company) %>% 
+  dplyr::summarise(n = n(),
+    .groups = 'drop')
+
+ggplot(data = ObserverData.2,
+  aes(x = Company,
+    y = n,
+    color = Company)) + 
+  geom_bar(stat = "identity",
+    width = .3,
+    fill = "gray") +
+  scale_fill_brewer(palette = "Set2") +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.position = "none") +
+  labs(x = "Company",
+    y = "Count",
+    title = "Histogram of bottom trawl sampling distribution by company") 
+```
+
+## Fishing Depths
+
+```{r 1.2}
+ObserverData.3 <- ObserverData %>% 
+  group_by(DragID2,
+    FishingDepthMtr) %>% 
+  dplyr::summarise(.groups = 'drop')
+
+ggplot(data = ObserverData.3,
+  aes(x = FishingDepthMtr)) + 
+  geom_bar(color = "blue",
+    fill = "gray") +
+  scale_x_continuous(breaks = seq(from = 9, to = 22)) +
+  scale_fill_brewer(palette = "Set2") +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.position = "none") +
+  labs(x = "Fishing Depths (m)",
+    y = "Count",
+    title = "Histogram of bottom trawl sampling distribution by fishing depths")
+```
+
+## Time of day
+
+```{r 1.3}
+
+ObserverData.4 <- ObserverData %>% 
+  group_by(DragID2, TimePeriods) %>% 
+  dplyr::summarise(.groups = 'drop')
+
+ObserverData.4 <- ObserverData.4 %>% 
+  group_by(TimePeriods) %>% 
+  dplyr::summarise(n = n(),
+    .groups = 'drop')
+
+ggplot(data = ObserverData.4,
+  aes(x = TimePeriods,
+    y = n,
+    color = TimePeriods)) + 
+  geom_bar(stat = "identity",
+    width = .3,
+    fill = "gray") +
+  theme_bw() +
+  scale_fill_brewer(palette = "Set2") +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.position = "none") +
+  labs(x = "Time of day",
+    y = "Count",
+    title = "Histogram of bottom trawl sampling distribution by time of day")
+
+```
+
+## Months
+
+```{r 1.4}
+ObserverData.5 <- ObserverData %>% 
+  group_by(DragID2, Month) %>% 
+  dplyr::summarise(.groups = 'drop')
+
+ggplot(data = ObserverData.5,
+  aes(x = Month)) + 
+  geom_bar(color = "orange",
+    fill = "gray") +
+  scale_x_continuous(breaks = seq(from = 1, to = 12)) +
+  theme_bw() +
+  scale_fill_brewer(palette = "Set2") +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.position = "none") +
+  labs(x = "Months",
+    y = "Count",
+    title = "Histogram of bottom trawl sampling distribution by month")
+```
+
+## Fishing Zones
+
+```{r 1.5}
+ObserverData.6 <- ObserverData %>% 
+  group_by(DragID2, FishingZones) %>% 
+  dplyr::summarise(.groups = 'drop')
+
+ggplot(data = ObserverData.6,
+  aes(x = FishingZones)) + 
+  geom_bar(color = "red",
+    fill = "gray") +
+  scale_x_continuous(breaks = seq(from = 1, to = 9)) +
+  theme_bw() +
+  scale_fill_brewer(palette = "Set2") +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.position = "none") +
+  labs(x = "Fishing Zones",
+    y = "Count",
+    title = "Histogram of bottom trawl sampling distribution by fishing zones")
+
+```
+
+
+

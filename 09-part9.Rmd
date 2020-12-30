@@ -1,0 +1,393 @@
+# Correlation Analysis for Primary Species{#id.91}
+
+## Weight Proportions 
+
+**Data preparation**
+
+```{r 9.1}
+
+Top10names.plusone <- c("Macrodon ancylodon",        
+"Callinectes ornatus",       
+"Stellifer rastrifer",       
+"Stellifer microps",         
+"Cynoscion virescens",       
+"Symphurus plagusia",        
+"Bagre bagre",               
+"Trichiurus lepturus",       
+"Achirus achirus",           
+"Paralonchurus brasiliensis", 
+"Xiphopenaeus kroyeri") 
+  
+# Modifying data
+species.cor <- ObserverData %>% 
+  filter(LatinNames %in% Top10names.plusone) %>% 
+  group_by(DragID2) %>%  
+  mutate(PropWeight = CpueKGHR/sum(CpueKGHR)) %>% 
+  ungroup() %>% 
+  dplyr::select(LatinNames,
+    DragID2,
+    PropWeight,
+    Company,
+    Month,
+    TimePeriods,
+    FishingZones,
+    FishingDepthMtr)
+
+species.cor.2.temp <- species.cor %>%
+  pivot_wider(names_from = LatinNames,
+    values_from = PropWeight,
+    values_fill = 0) 
+
+head(species.cor.2.temp) %>% 
+  kbl() %>%
+  kable_classic() %>% 
+  row_spec(0, bold = TRUE) %>% 
+  kable_styling(fixed_thead = T,
+    bootstrap_options = "condensed") %>% 
+  scroll_box(width = "750px", height = "300px")
+
+species.cor.2 <- species.cor.2.temp[,7:17]
+
+```
+
+### Correlation plots
+
+```{r 9.2, fig.width = 10, fig.height = 8}
+# Species correlation plot 
+chart.Correlation(species.cor.2, 
+  histogram = TRUE,
+  pch = 19)
+```
+
+### Correlation matrix
+
+```{r 9.3, fig.width = 10, fig.height = 8}
+
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  = (cormat)[ut],
+    p = pmat[ut])
+}
+
+# Drawing a correlogram
+cor.mat <- cor(species.cor.2,
+  method = "spearman")
+cor.mat[lower.tri(cor.mat)] <- NA
+cor.mat <- reshape2::melt(cor.mat)
+cor.mat <- na.omit(cor.mat)
+cor.mat$Var1 <- factor(cor.mat$Var1,levels = unique(cor.mat$Var1))
+cor.mat$Var2 <- factor(cor.mat$Var2,levels = unique(cor.mat$Var2))
+
+ggplot(data = cor.mat, aes(Var2, Var1, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradientn(colours = brewer.pal(5,"RdYlBu"),
+                       name = "Spearman\nCorrelation") +
+  theme_bw(base_size = 15) +
+  theme(axis.text.x = element_text(
+      angle = 45, vjust = 1, hjust = 1
+    ),
+    legend.title = element_text(size = 16)
+    # ,
+    # legend.position = "top"
+  ) +
+  coord_fixed() +
+  labs(x = "",y = "")+
+  geom_text(aes(label = round(value, 2)), size = 3)
+
+# Flattening matrix
+cor.mtx.2 <- rcorr(as.matrix(species.cor.2))
+
+flattenCorrMatrix(round(cor.mtx.2$r,3),
+  format(round(cor.mtx.2$P,3),
+    scientific = FALSE)) %>% 
+  arrange(p)
+
+# Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. 
+```
+
+### Significant correlations 
+
+```{r 9.4, fig.width = 10, fig.height = 8, fig.align = "center"}
+m <- cor(species.cor.2)
+
+res1 <- cor.mtest(species.cor.2, conf.level = 0.95)
+
+corrplot(m,
+  method = "number",
+  type = "upper",
+  number.cex = 0.7, 
+  p.mat = res1$p,
+  tl.cex = 0.8) 
+```
+
+## CPUE
+
+**Data preparation**
+
+```{r 9.5}
+
+Top10names.plusone <- c("Macrodon ancylodon",        
+"Callinectes ornatus",       
+"Stellifer rastrifer",       
+"Stellifer microps",         
+"Cynoscion virescens",       
+"Symphurus plagusia",        
+"Bagre bagre",               
+"Trichiurus lepturus",       
+"Achirus achirus",           
+"Paralonchurus brasiliensis", 
+"Xiphopenaeus kroyeri") 
+  
+# Modifying data
+species.cor <- ObserverData %>% 
+  filter(LatinNames %in% Top10names.plusone) %>% 
+  group_by(DragID2) %>%  
+  mutate(PropWeight = CpueKGHR/sum(CpueKGHR)) %>% 
+  ungroup() %>% 
+  dplyr::select(LatinNames,
+    DragID2,
+    CpueKGHR,
+    Company,
+    Month,
+    TimePeriods,
+    FishingZones,
+    FishingDepthMtr)
+
+species.cor.3.temp <- species.cor %>%
+  pivot_wider(names_from = LatinNames,
+    values_from = CpueKGHR,
+    values_fill = 0) 
+
+head(species.cor.3.temp)
+
+species.cor.3 <- species.cor.3.temp[,7:17]
+```
+
+### Correlation plots
+
+```{r 9.6, fig.width = 10, fig.height = 8}
+# Species correlation plot 
+chart.Correlation(species.cor.3, 
+  histogram = TRUE,
+  pch = 19)
+```
+
+### Correlation matrix
+
+```{r 9.7, fig.width = 10, fig.height = 8}
+
+# Drawing a correlogram
+cor.mat <- cor(species.cor.3,
+  method = "spearman")
+cor.mat[lower.tri(cor.mat)] <- NA
+cor.mat <- reshape2::melt(cor.mat)
+cor.mat <- na.omit(cor.mat)
+cor.mat$Var1 <- factor(cor.mat$Var1,levels = unique(cor.mat$Var1))
+cor.mat$Var2 <- factor(cor.mat$Var2,levels = unique(cor.mat$Var2))
+
+ggplot(data = cor.mat, aes(Var2, Var1, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradientn(colours = brewer.pal(5,"RdYlBu"),
+                       name = "Spearman\nCorrelation") +
+  theme_bw(base_size = 15) +
+  theme(axis.text.x = element_text(
+      angle = 45, vjust = 1, hjust = 1
+    ),
+    legend.title = element_text(size = 16)
+    # ,
+    # legend.position = "top"
+  ) +
+  coord_fixed() +
+  labs(x = "",y = "")+
+  geom_text(aes(label = round(value, 2)), size = 3)
+
+# Flattening matrix
+cor.mtx.2 <- rcorr(as.matrix(species.cor.3))
+
+flattenCorrMatrix(round(cor.mtx.2$r,3),
+  format(round(cor.mtx.2$P,3),
+    scientific = FALSE)) %>% 
+  arrange(p)
+
+
+# Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. 
+```
+
+### Significant correlations 
+
+```{r 9.8, fig.width = 10, fig.height = 8, fig.align = "center"}
+m <- cor(species.cor.3)
+
+res1 <- cor.mtest(species.cor.3, conf.level = 0.95)
+
+corrplot(m,
+  method = "number",
+  type = "upper",
+  number.cex = 0.7, 
+  p.mat = res1$p,
+  tl.cex = 0.8) 
+```
+
+## Species with Factor Variables Correlation
+
+## Weight Proportions
+
+```{r 9.9}
+species.fv.cor <- species.cor.2.temp[,2:17] %>% 
+  mutate(Company = case_when(Company == "PSI" ~ 1,
+    Company == "NHS" ~ 0),
+    TimePeriods = case_when(TimePeriods == "Day" ~ 1,
+      TimePeriods == "Night" ~ 0))
+```
+
+### Correlation plots
+
+```{r 9.10, fig.width = 10, fig.height = 8}
+
+# Species correlation plot 
+chart.Correlation(species.fv.cor, 
+  histogram = TRUE,
+  pch = 19)
+```
+
+### Correlation matrix
+
+```{r 9.11, fig.width = 10, fig.height = 8}
+# Drawing a correlogram
+cor.mat <- cor(species.fv.cor,
+  method = "spearman")
+cor.mat[lower.tri(cor.mat)] <- NA
+cor.mat <- reshape2::melt(cor.mat)
+cor.mat <- na.omit(cor.mat)
+cor.mat$Var1 <- factor(cor.mat$Var1,levels = unique(cor.mat$Var1))
+cor.mat$Var2 <- factor(cor.mat$Var2,levels = unique(cor.mat$Var2))
+
+ggplot(data = cor.mat, aes(Var2, Var1, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradientn(colours = brewer.pal(5,"RdYlBu"),
+                       name = "Spearman\nCorrelation") +
+  theme_bw(base_size = 15) +
+  theme(axis.text.x = element_text(
+      angle = 45, vjust = 1, hjust = 1
+    ),
+    legend.title = element_text(size = 16)
+    # ,
+    # legend.position = "top"
+  ) +
+  coord_fixed() +
+  labs(x = "",y = "")+
+  geom_text(aes(label = round(value, 2)), size = 3)
+
+# Flattening matrix
+cor.mtx.2 <- rcorr(as.matrix(species.fv.cor))
+
+flattenCorrMatrix(round(cor.mtx.2$r,3),
+  format(round(cor.mtx.2$P,3),
+    scientific = FALSE)) %>% 
+  arrange(p)
+```
+
+### Significant correlations 
+
+```{r 9.12, fig.width = 10, fig.height = 8, fig.align = "center"}
+m <- cor(species.fv.cor)
+
+res1 <- cor.mtest(species.fv.cor, conf.level = 0.95)
+
+corrplot(m,
+  method = "number",
+  type = "upper",
+  number.cex = 0.7, 
+  p.mat = res1$p,
+  tl.cex = 0.8) 
+```
+
+## CPUE
+
+**Data preparation**
+
+```{r 9.13}
+
+species.fv.cor.2 <- species.cor.3.temp[,2:17] %>% 
+  mutate(Company = case_when(Company == "PSI" ~ 1,
+    Company == "NHS" ~ 0),
+    TimePeriods = case_when(TimePeriods == "Day" ~ 1,
+      TimePeriods == "Night" ~ 0))
+
+```
+
+### Correlation plots
+
+```{r 9.14, fig.width = 10, fig.height = 8}
+
+# Species correlation plot 
+chart.Correlation(species.fv.cor.2, 
+  histogram = TRUE,
+  pch = 19)
+```
+
+### Correlation matrix
+
+```{r 9.15, fig.width = 10, fig.height = 8}
+
+# Drawing a correlogram
+cor.mat <- cor(species.fv.cor.2,
+  method = "spearman")
+cor.mat[lower.tri(cor.mat)] <- NA
+cor.mat <- reshape2::melt(cor.mat)
+cor.mat <- na.omit(cor.mat)
+cor.mat$Var1 <- factor(cor.mat$Var1,levels = unique(cor.mat$Var1))
+cor.mat$Var2 <- factor(cor.mat$Var2,levels = unique(cor.mat$Var2))
+
+ggplot(data = cor.mat, aes(Var2, Var1, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradientn(colours = brewer.pal(5,"RdYlBu"),
+                       name = "Spearman\nCorrelation") +
+  theme_bw(base_size = 15) +
+  theme(axis.text.x = element_text(
+      angle = 45, vjust = 1, hjust = 1
+    ),
+    legend.title = element_text(size = 16)
+    # ,
+    # legend.position = "top"
+  ) +
+  coord_fixed() +
+  labs(x = "",y = "")+
+  geom_text(aes(label = round(value, 2)), size = 3)
+
+# Flattening matrix
+cor.mtx.2 <- rcorr(as.matrix(species.fv.cor.2))
+
+flattenCorrMatrix(round(cor.mtx.2$r,3),
+  format(round(cor.mtx.2$P,3),
+    scientific = FALSE)) %>% 
+  arrange(p)
+
+
+# Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. 
+```
+
+### Significant correlations 
+
+```{r 9.16, fig.width = 10, fig.height = 8, fig.align = "center"}
+
+m <- cor(species.fv.cor.2)
+
+res1 <- cor.mtest(species.fv.cor.2, conf.level = 0.95)
+
+corrplot(m,
+  method = "number",
+  type = "upper",
+  number.cex = 0.7, 
+  p.mat = res1$p,
+  tl.cex = 0.8) 
+```
+
+
+
+
+
+

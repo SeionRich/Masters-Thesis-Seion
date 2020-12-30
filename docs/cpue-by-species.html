@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Cpue by species | Evaluating Discards using Observer Data Guyana`s Shrimp Fishery</title>
+  <meta name="description" content="4 Cpue by species | Evaluating Discards using Observer Data Guyana`s Shrimp Fishery" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Cpue by species | Evaluating Discards using Observer Data Guyana`s Shrimp Fishery" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Cpue by species | Evaluating Discards using Observer Data Guyana`s Shrimp Fishery" />
+  
+  
+  
+
+<meta name="author" content="Seion Richardson" />
+
+
+<meta name="date" content="2020-12-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="catch-per-unit-effort.html"/>
+<link rel="next" href="seabob-models.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MAS102M - Seion Richardson</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Data</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#fishing-area"><i class="fa fa-check"></i><b>1.1</b> Fishing Area</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#creating-a-few-additonal-variables"><i class="fa fa-check"></i><b>1.2</b> Creating a few additonal variables</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#dividing-the-data-up-by-catch-groups"><i class="fa fa-check"></i><b>1.3</b> Dividing the data up by catch groups</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#data-by-bottom-trawl-tows-sampled---appendix"><i class="fa fa-check"></i><b>1.3.1</b> Data by bottom trawl tows sampled - Appendix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html"><i class="fa fa-check"></i><b>2</b> Distribution of factor variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#company"><i class="fa fa-check"></i><b>2.1</b> Company</a></li>
+<li class="chapter" data-level="2.2" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#fishing-depths"><i class="fa fa-check"></i><b>2.2</b> Fishing Depths</a></li>
+<li class="chapter" data-level="2.3" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#time-of-day"><i class="fa fa-check"></i><b>2.3</b> Time of day</a></li>
+<li class="chapter" data-level="2.4" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#months"><i class="fa fa-check"></i><b>2.4</b> Months</a></li>
+<li class="chapter" data-level="2.5" data-path="distribution-of-factor-variables.html"><a href="distribution-of-factor-variables.html#fishing-zones"><i class="fa fa-check"></i><b>2.5</b> Fishing Zones</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html"><i class="fa fa-check"></i><b>3</b> Catch per unit effort</a><ul>
+<li class="chapter" data-level="3.1" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#all-species"><i class="fa fa-check"></i><b>3.1</b> All species</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#bottom-trawl-tows"><i class="fa fa-check"></i><b>3.1.1</b> Bottom trawl tows</a></li>
+<li class="chapter" data-level="3.1.2" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#fishing-depths-1"><i class="fa fa-check"></i><b>3.1.2</b> Fishing Depths</a></li>
+<li class="chapter" data-level="3.1.3" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#time-of-day-1"><i class="fa fa-check"></i><b>3.1.3</b> Time of day</a></li>
+<li class="chapter" data-level="3.1.4" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#company-1"><i class="fa fa-check"></i><b>3.1.4</b> Company</a></li>
+<li class="chapter" data-level="3.1.5" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#months-1"><i class="fa fa-check"></i><b>3.1.5</b> Months</a></li>
+<li class="chapter" data-level="3.1.6" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#checking-if-code-worked-using-months"><i class="fa fa-check"></i><b>3.1.6</b> Checking if code worked using Months…</a></li>
+<li class="chapter" data-level="3.1.7" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#fishing-zones-1"><i class="fa fa-check"></i><b>3.1.7</b> Fishing Zones</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#species-cpue"><i class="fa fa-check"></i><b>3.2</b> Species CPUE</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#species-by-bottom-trawl-tows"><i class="fa fa-check"></i><b>3.2.1</b> Species by bottom trawl tows</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#histogram-of-top-10-species-cpue"><i class="fa fa-check"></i><b>3.3</b> Histogram of Top 10 species CPUE</a></li>
+<li class="chapter" data-level="3.4" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#weight-proportions-for-the-top-10-discard-species-across-fishing-tows"><i class="fa fa-check"></i><b>3.4</b> Weight proportions for the Top 10 Discard Species across fishing tows</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#tables"><i class="fa fa-check"></i><b>3.4.1</b> Tables</a></li>
+<li class="chapter" data-level="3.4.2" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#plots"><i class="fa fa-check"></i><b>3.4.2</b> Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#species-length-table"><i class="fa fa-check"></i><b>3.5</b> Species Length Table</a></li>
+<li class="chapter" data-level="3.6" data-path="catch-per-unit-effort.html"><a href="catch-per-unit-effort.html#visualising-lenght-measurements"><i class="fa fa-check"></i><b>3.6</b> Visualising Lenght Measurements</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="cpue-by-species.html"><a href="cpue-by-species.html"><i class="fa fa-check"></i><b>4</b> Cpue by species</a></li>
+<li class="chapter" data-level="5" data-path="seabob-models.html"><a href="seabob-models.html"><i class="fa fa-check"></i><b>5</b> Seabob Models</a><ul>
+<li class="chapter" data-level="5.1" data-path="seabob-models.html"><a href="seabob-models.html#cpue-across-all-fishing-tows"><i class="fa fa-check"></i><b>5.1</b> CPUE across all fishing tows</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="seabob-models.html"><a href="seabob-models.html#subsetting-and-plotting-data"><i class="fa fa-check"></i><b>5.1.1</b> Subsetting and plotting data</a></li>
+<li class="chapter" data-level="5.1.2" data-path="seabob-models.html"><a href="seabob-models.html#predictor-1"><i class="fa fa-check"></i><b>5.1.2</b> Predictor = 1</a></li>
+<li class="chapter" data-level="5.1.3" data-path="seabob-models.html"><a href="seabob-models.html#predictors-2"><i class="fa fa-check"></i><b>5.1.3</b> Predictors = 2</a></li>
+<li class="chapter" data-level="5.1.4" data-path="seabob-models.html"><a href="seabob-models.html#predictors-3"><i class="fa fa-check"></i><b>5.1.4</b> Predictors = 3</a></li>
+<li class="chapter" data-level="5.1.5" data-path="seabob-models.html"><a href="seabob-models.html#predictors-4"><i class="fa fa-check"></i><b>5.1.5</b> Predictors = 4</a></li>
+<li class="chapter" data-level="5.1.6" data-path="seabob-models.html"><a href="seabob-models.html#predictors-5"><i class="fa fa-check"></i><b>5.1.6</b> Predictors = 5</a></li>
+<li class="chapter" data-level="5.1.7" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-1"><i class="fa fa-check"></i><b>5.1.7</b> Interaction terms = 1</a></li>
+<li class="chapter" data-level="5.1.8" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-2"><i class="fa fa-check"></i><b>5.1.8</b> Interaction terms = 2</a></li>
+<li class="chapter" data-level="5.1.9" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-3"><i class="fa fa-check"></i><b>5.1.9</b> Interaction terms = 3</a></li>
+<li class="chapter" data-level="5.1.10" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-4"><i class="fa fa-check"></i><b>5.1.10</b> Interaction terms = 4</a></li>
+<li class="chapter" data-level="5.1.11" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-5"><i class="fa fa-check"></i><b>5.1.11</b> Interaction terms = 5</a></li>
+<li class="chapter" data-level="5.1.12" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-6"><i class="fa fa-check"></i><b>5.1.12</b> Interaction terms = 6</a></li>
+<li class="chapter" data-level="5.1.13" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-7"><i class="fa fa-check"></i><b>5.1.13</b> Interaction terms = 7</a></li>
+<li class="chapter" data-level="5.1.14" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-8"><i class="fa fa-check"></i><b>5.1.14</b> Interaction terms = 8</a></li>
+<li class="chapter" data-level="5.1.15" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-9"><i class="fa fa-check"></i><b>5.1.15</b> Interaction terms = 9</a></li>
+<li class="chapter" data-level="5.1.16" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-10"><i class="fa fa-check"></i><b>5.1.16</b> Interaction terms = 10</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="seabob-models.html"><a href="seabob-models.html#model-comparison"><i class="fa fa-check"></i><b>5.2</b> Model Comparison</a></li>
+<li class="chapter" data-level="5.3" data-path="seabob-models.html"><a href="seabob-models.html#weight-proportions-across-all-fishing-tows"><i class="fa fa-check"></i><b>5.3</b> Weight proportions across all fishing tows</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="seabob-models.html"><a href="seabob-models.html#subsetting-and-plotting-data-1"><i class="fa fa-check"></i><b>5.3.1</b> Subsetting and plotting data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="seabob-models.html"><a href="seabob-models.html#predictor-1-1"><i class="fa fa-check"></i><b>5.3.2</b> Predictor = 1</a></li>
+<li class="chapter" data-level="5.3.3" data-path="seabob-models.html"><a href="seabob-models.html#predictors-2-1"><i class="fa fa-check"></i><b>5.3.3</b> Predictors = 2</a></li>
+<li class="chapter" data-level="5.3.4" data-path="seabob-models.html"><a href="seabob-models.html#predictors-3-1"><i class="fa fa-check"></i><b>5.3.4</b> Predictors = 3</a></li>
+<li class="chapter" data-level="5.3.5" data-path="seabob-models.html"><a href="seabob-models.html#predictors-4-1"><i class="fa fa-check"></i><b>5.3.5</b> Predictors = 4</a></li>
+<li class="chapter" data-level="5.3.6" data-path="seabob-models.html"><a href="seabob-models.html#predictors-5-1"><i class="fa fa-check"></i><b>5.3.6</b> Predictors = 5</a></li>
+<li class="chapter" data-level="5.3.7" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-1-1"><i class="fa fa-check"></i><b>5.3.7</b> Interaction terms = 1</a></li>
+<li class="chapter" data-level="5.3.8" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-2-1"><i class="fa fa-check"></i><b>5.3.8</b> Interaction terms = 2</a></li>
+<li class="chapter" data-level="5.3.9" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-3-1"><i class="fa fa-check"></i><b>5.3.9</b> Interaction terms = 3</a></li>
+<li class="chapter" data-level="5.3.10" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-4-1"><i class="fa fa-check"></i><b>5.3.10</b> Interaction terms = 4</a></li>
+<li class="chapter" data-level="5.3.11" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-5-1"><i class="fa fa-check"></i><b>5.3.11</b> Interaction terms = 5</a></li>
+<li class="chapter" data-level="5.3.12" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-6-1"><i class="fa fa-check"></i><b>5.3.12</b> Interaction terms = 6</a></li>
+<li class="chapter" data-level="5.3.13" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-7-1"><i class="fa fa-check"></i><b>5.3.13</b> Interaction terms = 7</a></li>
+<li class="chapter" data-level="5.3.14" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-8-1"><i class="fa fa-check"></i><b>5.3.14</b> Interaction terms = 8</a></li>
+<li class="chapter" data-level="5.3.15" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-9-1"><i class="fa fa-check"></i><b>5.3.15</b> Interaction terms = 9</a></li>
+<li class="chapter" data-level="5.3.16" data-path="seabob-models.html"><a href="seabob-models.html#interaction-terms-10-1"><i class="fa fa-check"></i><b>5.3.16</b> Interaction terms = 10</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="seabob-models.html"><a href="seabob-models.html#model-comparison-1"><i class="fa fa-check"></i><b>5.4</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html"><i class="fa fa-check"></i><b>6</b> Seabob Models - Best Models</a><ul>
+<li class="chapter" data-level="6.1" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#cpue"><i class="fa fa-check"></i><b>6.1</b> CPUE</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#data-modifications"><i class="fa fa-check"></i><b>6.1.1</b> Data modifications</a></li>
+<li class="chapter" data-level="6.1.2" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#qucik-glance-at-response-variable"><i class="fa fa-check"></i><b>6.1.2</b> Qucik glance at response variable</a></li>
+<li class="chapter" data-level="6.1.3" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#model-comparison-2"><i class="fa fa-check"></i><b>6.1.3</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#weight-prop."><i class="fa fa-check"></i><b>6.2</b> Weight prop.</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#data-modifications-1"><i class="fa fa-check"></i><b>6.2.1</b> Data modifications</a></li>
+<li class="chapter" data-level="6.2.2" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#qucik-glance-at-response-variable-1"><i class="fa fa-check"></i><b>6.2.2</b> Qucik glance at response variable</a></li>
+<li class="chapter" data-level="6.2.3" data-path="seabob-models-best-models.html"><a href="seabob-models-best-models.html#model-comparison-3"><i class="fa fa-check"></i><b>6.2.3</b> Model Comparison</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html"><i class="fa fa-check"></i><b>7</b> Best CPUE Models - Top 10 Bycatch Species</a><ul>
+<li class="chapter" data-level="7.1" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#data-modifications-2"><i class="fa fa-check"></i><b>7.1</b> Data Modifications</a></li>
+<li class="chapter" data-level="7.2" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#cpue-model-selection"><i class="fa fa-check"></i><b>7.2</b> CPUE Model Selection</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#macrodon-ancylodon"><i class="fa fa-check"></i><b>7.2.1</b> Macrodon ancylodon</a></li>
+<li class="chapter" data-level="7.2.2" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#callinectes-ornatus"><i class="fa fa-check"></i><b>7.2.2</b> Callinectes ornatus</a></li>
+<li class="chapter" data-level="7.2.3" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#stellifer-rastrifer"><i class="fa fa-check"></i><b>7.2.3</b> Stellifer rastrifer</a></li>
+<li class="chapter" data-level="7.2.4" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#stellifer-microps"><i class="fa fa-check"></i><b>7.2.4</b> Stellifer microps</a></li>
+<li class="chapter" data-level="7.2.5" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#cynoscion-virescens"><i class="fa fa-check"></i><b>7.2.5</b> Cynoscion virescens</a></li>
+<li class="chapter" data-level="7.2.6" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#symphurus-plagusia"><i class="fa fa-check"></i><b>7.2.6</b> Symphurus plagusia</a></li>
+<li class="chapter" data-level="7.2.7" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#bagre-bagre"><i class="fa fa-check"></i><b>7.2.7</b> Bagre bagre</a></li>
+<li class="chapter" data-level="7.2.8" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#trichiurus-lepturus"><i class="fa fa-check"></i><b>7.2.8</b> Trichiurus lepturus</a></li>
+<li class="chapter" data-level="7.2.9" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#achirus-achirus"><i class="fa fa-check"></i><b>7.2.9</b> Achirus achirus</a></li>
+<li class="chapter" data-level="7.2.10" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#paralonchurus-brasiliensis"><i class="fa fa-check"></i><b>7.2.10</b> Paralonchurus brasiliensis</a></li>
+<li class="chapter" data-level="7.2.11" data-path="best-cpue-models-top-10-bycatch-species.html"><a href="best-cpue-models-top-10-bycatch-species.html#summary"><i class="fa fa-check"></i><b>7.2.11</b> Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html"><i class="fa fa-check"></i><b>8</b> Non-parametric Tests</a><ul>
+<li class="chapter" data-level="8.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#top-10-discard-species-weight-prop"><i class="fa fa-check"></i><b>8.1</b> Top 10 discard species weight prop</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#data-modifications-3"><i class="fa fa-check"></i><b>8.1.1</b> Data Modifications</a></li>
+<li class="chapter" data-level="8.1.2" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#macrodon-ancylodon-1"><i class="fa fa-check"></i><b>8.1.2</b> Macrodon ancylodon</a></li>
+<li class="chapter" data-level="8.1.3" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#callinectes-ornatus-1"><i class="fa fa-check"></i><b>8.1.3</b> Callinectes ornatus</a></li>
+<li class="chapter" data-level="8.1.4" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#stellifer-rastrifer-1"><i class="fa fa-check"></i><b>8.1.4</b> Stellifer rastrifer</a></li>
+<li class="chapter" data-level="8.1.5" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#stellifer-microps-1"><i class="fa fa-check"></i><b>8.1.5</b> Stellifer microps</a></li>
+<li class="chapter" data-level="8.1.6" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#cynoscion-virescens-1"><i class="fa fa-check"></i><b>8.1.6</b> Cynoscion virescens</a></li>
+<li class="chapter" data-level="8.1.7" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#symphurus-plagusia-1"><i class="fa fa-check"></i><b>8.1.7</b> Symphurus plagusia</a></li>
+<li class="chapter" data-level="8.1.8" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#bagre-bagre-1"><i class="fa fa-check"></i><b>8.1.8</b> Bagre bagre</a></li>
+<li class="chapter" data-level="8.1.9" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#trichiurus-lepturus-1"><i class="fa fa-check"></i><b>8.1.9</b> Trichiurus lepturus</a></li>
+<li class="chapter" data-level="8.1.10" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#achirus-achirus-1"><i class="fa fa-check"></i><b>8.1.10</b> Achirus achirus</a></li>
+<li class="chapter" data-level="8.1.11" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#paralonchurus-brasiliensis-1"><i class="fa fa-check"></i><b>8.1.11</b> Paralonchurus brasiliensis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#model-comparison-14"><i class="fa fa-check"></i><b>8.2</b> Model Comparison</a></li>
+<li class="chapter" data-level="8.3" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#all-species-across-bottom-trawl-tows"><i class="fa fa-check"></i><b>8.3</b> All species across bottom trawl tows</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#data-modifications-4"><i class="fa fa-check"></i><b>8.3.1</b> Data Modifications</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#model-comparison-15"><i class="fa fa-check"></i><b>8.4</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html"><i class="fa fa-check"></i><b>9</b> Best Proportion Models - Top 10 Bycatch Species</a><ul>
+<li class="chapter" data-level="9.1" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#list-of-the-most-recent-changes--"><i class="fa fa-check"></i><b>9.1</b> List of the Most Recent Changes :-</a></li>
+<li class="chapter" data-level="9.2" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#negative-binomial-model-selection"><i class="fa fa-check"></i><b>9.2</b> Negative Binomial Model Selection</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#data-modifications-5"><i class="fa fa-check"></i><b>9.2.1</b> Data Modifications</a></li>
+<li class="chapter" data-level="9.2.2" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#macrodon-ancylodon-2"><i class="fa fa-check"></i><b>9.2.2</b> 1. Macrodon ancylodon</a></li>
+<li class="chapter" data-level="9.2.3" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#callinectes-ornatus-2"><i class="fa fa-check"></i><b>9.2.3</b> 2. Callinectes ornatus</a></li>
+<li class="chapter" data-level="9.2.4" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#stellifer-rastrifer-2"><i class="fa fa-check"></i><b>9.2.4</b> 3. Stellifer rastrifer</a></li>
+<li class="chapter" data-level="9.2.5" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#stellifer-microps-2"><i class="fa fa-check"></i><b>9.2.5</b> 4. Stellifer microps</a></li>
+<li class="chapter" data-level="9.2.6" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#cynoscion-virescens-2"><i class="fa fa-check"></i><b>9.2.6</b> 5. Cynoscion virescens</a></li>
+<li class="chapter" data-level="9.2.7" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#symphurus-plagusia-2"><i class="fa fa-check"></i><b>9.2.7</b> 6. Symphurus plagusia</a></li>
+<li class="chapter" data-level="9.2.8" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#bagre-bagre-2"><i class="fa fa-check"></i><b>9.2.8</b> 7. Bagre bagre</a></li>
+<li class="chapter" data-level="9.2.9" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#trichiurus-lepturus-2"><i class="fa fa-check"></i><b>9.2.9</b> 8. Trichiurus lepturus</a></li>
+<li class="chapter" data-level="9.2.10" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#achirus-achirus-2"><i class="fa fa-check"></i><b>9.2.10</b> 9. Achirus achirus</a></li>
+<li class="chapter" data-level="9.2.11" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#paralonchurus-brasiliensis-2"><i class="fa fa-check"></i><b>9.2.11</b> 10. Paralonchurus brasiliensis</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#id.81"><i class="fa fa-check"></i><b>9.3</b> Model Comparison - AIC</a></li>
+<li class="chapter" data-level="9.4" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#id.82"><i class="fa fa-check"></i><b>9.4</b> Model Comparison - P.values</a></li>
+<li class="chapter" data-level="9.5" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#id.83"><i class="fa fa-check"></i><b>9.5</b> Binomial Model Selection</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#data-modifications-r"><i class="fa fa-check"></i><b>9.5.1</b> Data modifications R</a></li>
+<li class="chapter" data-level="9.5.2" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#running-models-on-top-10-discard-species"><i class="fa fa-check"></i><b>9.5.2</b> Running models on Top 10 discard species</a></li>
+<li class="chapter" data-level="9.5.3" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#macrodon-ancylodon-3"><i class="fa fa-check"></i><b>9.5.3</b> 1. Macrodon ancylodon</a></li>
+<li class="chapter" data-level="9.5.4" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#callinectes-ornatus-3"><i class="fa fa-check"></i><b>9.5.4</b> 2. Callinectes ornatus</a></li>
+<li class="chapter" data-level="9.5.5" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#stellifer-rastrifer-3"><i class="fa fa-check"></i><b>9.5.5</b> 3. Stellifer rastrifer</a></li>
+<li class="chapter" data-level="9.5.6" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#stellifer-microps-3"><i class="fa fa-check"></i><b>9.5.6</b> 4. Stellifer microps</a></li>
+<li class="chapter" data-level="9.5.7" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#cynoscion-virescens-3"><i class="fa fa-check"></i><b>9.5.7</b> 5. Cynoscion virescens</a></li>
+<li class="chapter" data-level="9.5.8" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#symphurus-plagusia-3"><i class="fa fa-check"></i><b>9.5.8</b> 6. Symphurus plagusia</a></li>
+<li class="chapter" data-level="9.5.9" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#bagre-bagre-3"><i class="fa fa-check"></i><b>9.5.9</b> 7. Bagre bagre</a></li>
+<li class="chapter" data-level="9.5.10" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#trichiurus-lepturus-3"><i class="fa fa-check"></i><b>9.5.10</b> 8. Trichiurus lepturus</a></li>
+<li class="chapter" data-level="9.5.11" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#achirus-achirus-3"><i class="fa fa-check"></i><b>9.5.11</b> 9. Achirus achirus</a></li>
+<li class="chapter" data-level="9.5.12" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#paralonchurus-brasiliensis-3"><i class="fa fa-check"></i><b>9.5.12</b> 10. Paralonchurus brasiliensis</a></li>
+<li class="chapter" data-level="9.5.13" data-path="best-proportion-models-top-10-bycatch-species.html"><a href="best-proportion-models-top-10-bycatch-species.html#summary-1"><i class="fa fa-check"></i><b>9.5.13</b> Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="id-91.html"><a href="id-91.html"><i class="fa fa-check"></i><b>10</b> Correlation Analysis for Primary Species</a><ul>
+<li class="chapter" data-level="10.1" data-path="id-91.html"><a href="id-91.html#weight-proportions"><i class="fa fa-check"></i><b>10.1</b> Weight Proportions</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="id-91.html"><a href="id-91.html#correlation-plots"><i class="fa fa-check"></i><b>10.1.1</b> Correlation plots</a></li>
+<li class="chapter" data-level="10.1.2" data-path="id-91.html"><a href="id-91.html#correlation-matrix"><i class="fa fa-check"></i><b>10.1.2</b> Correlation matrix</a></li>
+<li class="chapter" data-level="10.1.3" data-path="id-91.html"><a href="id-91.html#significant-correlations"><i class="fa fa-check"></i><b>10.1.3</b> Significant correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="id-91.html"><a href="id-91.html#cpue-1"><i class="fa fa-check"></i><b>10.2</b> CPUE</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="id-91.html"><a href="id-91.html#correlation-plots-1"><i class="fa fa-check"></i><b>10.2.1</b> Correlation plots</a></li>
+<li class="chapter" data-level="10.2.2" data-path="id-91.html"><a href="id-91.html#correlation-matrix-1"><i class="fa fa-check"></i><b>10.2.2</b> Correlation matrix</a></li>
+<li class="chapter" data-level="10.2.3" data-path="id-91.html"><a href="id-91.html#significant-correlations-1"><i class="fa fa-check"></i><b>10.2.3</b> Significant correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="id-91.html"><a href="id-91.html#species-with-factor-variables-correlation"><i class="fa fa-check"></i><b>10.3</b> Species with Factor Variables Correlation</a></li>
+<li class="chapter" data-level="10.4" data-path="id-91.html"><a href="id-91.html#weight-proportions-1"><i class="fa fa-check"></i><b>10.4</b> Weight Proportions</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="id-91.html"><a href="id-91.html#correlation-plots-2"><i class="fa fa-check"></i><b>10.4.1</b> Correlation plots</a></li>
+<li class="chapter" data-level="10.4.2" data-path="id-91.html"><a href="id-91.html#correlation-matrix-2"><i class="fa fa-check"></i><b>10.4.2</b> Correlation matrix</a></li>
+<li class="chapter" data-level="10.4.3" data-path="id-91.html"><a href="id-91.html#significant-correlations-2"><i class="fa fa-check"></i><b>10.4.3</b> Significant correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="id-91.html"><a href="id-91.html#cpue-2"><i class="fa fa-check"></i><b>10.5</b> CPUE</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="id-91.html"><a href="id-91.html#correlation-plots-3"><i class="fa fa-check"></i><b>10.5.1</b> Correlation plots</a></li>
+<li class="chapter" data-level="10.5.2" data-path="id-91.html"><a href="id-91.html#correlation-matrix-3"><i class="fa fa-check"></i><b>10.5.2</b> Correlation matrix</a></li>
+<li class="chapter" data-level="10.5.3" data-path="id-91.html"><a href="id-91.html#significant-correlations-3"><i class="fa fa-check"></i><b>10.5.3</b> Significant correlations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="id-101.html"><a href="id-101.html"><i class="fa fa-check"></i><b>11</b> Principal Component Analysis (PCA)</a><ul>
+<li class="chapter" data-level="11.1" data-path="id-101.html"><a href="id-101.html#prop.weight-models"><i class="fa fa-check"></i><b>11.1</b> Prop.Weight Models</a></li>
+<li class="chapter" data-level="11.2" data-path="id-101.html"><a href="id-101.html#pca"><i class="fa fa-check"></i><b>11.2</b> PCA</a></li>
+<li class="chapter" data-level="11.3" data-path="id-101.html"><a href="id-101.html#cpue-models"><i class="fa fa-check"></i><b>11.3</b> CPUE Models</a></li>
+<li class="chapter" data-level="11.4" data-path="id-101.html"><a href="id-101.html#pca-1"><i class="fa fa-check"></i><b>11.4</b> PCA</a></li>
+<li class="chapter" data-level="11.5" data-path="id-101.html"><a href="id-101.html#id.102"><i class="fa fa-check"></i><b>11.5</b> Canonical Correspondence Analysis</a></li>
+<li class="chapter" data-level="11.6" data-path="id-101.html"><a href="id-101.html#first-approach"><i class="fa fa-check"></i><b>11.6</b> First Approach</a></li>
+<li class="chapter" data-level="11.7" data-path="id-101.html"><a href="id-101.html#second-approach"><i class="fa fa-check"></i><b>11.7</b> Second Approach</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="id-111.html"><a href="id-111.html"><i class="fa fa-check"></i><b>12</b> CLUSTER ANALYSIS</a><ul>
+<li class="chapter" data-level="12.1" data-path="id-111.html"><a href="id-111.html#prop.weight---scaled-data"><i class="fa fa-check"></i><b>12.1</b> Prop.Weight - Scaled Data</a></li>
+<li class="chapter" data-level="12.2" data-path="id-111.html"><a href="id-111.html#k-means-clustering"><i class="fa fa-check"></i><b>12.2</b> K-Means Clustering</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="id-111.html"><a href="id-111.html#k-means-clustering-1"><i class="fa fa-check"></i><b>12.2.1</b> K-means Clustering</a></li>
+<li class="chapter" data-level="12.2.2" data-path="id-111.html"><a href="id-111.html#plotting-results"><i class="fa fa-check"></i><b>12.2.2</b> Plotting results</a></li>
+<li class="chapter" data-level="12.2.3" data-path="id-111.html"><a href="id-111.html#determining-optimal-clusters"><i class="fa fa-check"></i><b>12.2.3</b> Determining Optimal Clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="id-111.html"><a href="id-111.html#hierachical-clustering-hc"><i class="fa fa-check"></i><b>12.3</b> Hierachical Clustering (HC)</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="id-111.html"><a href="id-111.html#determining-optimal-groups"><i class="fa fa-check"></i><b>12.3.1</b> Determining Optimal Groups</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="id-111.html"><a href="id-111.html#cpue---scaled-data"><i class="fa fa-check"></i><b>12.4</b> CPUE - Scaled Data</a></li>
+<li class="chapter" data-level="12.5" data-path="id-111.html"><a href="id-111.html#k-means-clustering-2"><i class="fa fa-check"></i><b>12.5</b> K-Means Clustering</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="id-111.html"><a href="id-111.html#k-means-clustering-3"><i class="fa fa-check"></i><b>12.5.1</b> K-means Clustering</a></li>
+<li class="chapter" data-level="12.5.2" data-path="id-111.html"><a href="id-111.html#plotting-results-1"><i class="fa fa-check"></i><b>12.5.2</b> Plotting results</a></li>
+<li class="chapter" data-level="12.5.3" data-path="id-111.html"><a href="id-111.html#determining-optimal-clusters-1"><i class="fa fa-check"></i><b>12.5.3</b> Determining Optimal Clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="id-111.html"><a href="id-111.html#hierachical-clustering-hc-1"><i class="fa fa-check"></i><b>12.6</b> Hierachical Clustering (HC)</a><ul>
+<li class="chapter" data-level="12.6.1" data-path="id-111.html"><a href="id-111.html#determining-optimal-groups-1"><i class="fa fa-check"></i><b>12.6.1</b> Determining Optimal Groups</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>13</b> Appendix</a><ul>
+<li class="chapter" data-level="13.1" data-path="appendix.html"><a href="appendix.html#common-fish-species"><i class="fa fa-check"></i><b>13.1</b> Common Fish Species</a></li>
+<li class="chapter" data-level="13.2" data-path="appendix.html"><a href="appendix.html#common-invertebrate-species"><i class="fa fa-check"></i><b>13.2</b> Common Invertebrate Species</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Evaluating Discards using Observer Data Guyana`s Shrimp Fishery</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="cpue-by-species" class="section level1">
+<h1><span class="header-section-number">4</span> Cpue by species</h1>
+<!-- **FREQUENCY HISTOGRAMS** -->
+<!-- ```{r, fig.width = 7, fig.height = 65} -->
+<!-- Species <- ObserverData %>%  -->
+<!--   group_by(LatinNames, CommonName) %>%  -->
+<!--   dplyr::summarise(NoSampled = n(), -->
+<!--     .groups = 'drop') %>% -->
+<!--   filter(NoSampled >= 10) %>%  -->
+<!--   arrange(desc(NoSampled))  -->
+<!-- Species.names <- Species$LatinNames -->
+<!-- Remove <- c("Multiple species finfish", "Multiple species prawns", "Xiphopenaeus kroyeri") -->
+<!-- Plot.species <- ObserverData %>%  -->
+<!--   filter(LatinNames %in% Species.names) -->
+<!-- Plot.species <- Plot.species %>%  -->
+<!--   mutate(LatinNames = fct_relevel(LatinNames, Species.names)) %>% -->
+<!--   filter(!LatinNames %in% Remove) -->
+<!-- Plot.species %>%  -->
+<!--   ggplot(aes(x = CpueKGHR, -->
+<!--     fill = LatinNames)) +  -->
+<!--   geom_histogram(bins = 20) + -->
+<!--   theme_bw() + -->
+<!--   theme(panel.background = element_rect(fill = "white", -->
+<!--     colour = "grey50"), -->
+<!--     legend.position = "none") + -->
+<!--   labs(x = "CPUE (kgs/hr)", -->
+<!--     y = "Count", -->
+<!--     title = "Histograms of CPUE for all species observations", -->
+<!--     subtitle = "Colour is used to represent the different catch groups") + -->
+<!--   facet_wrap(~LatinNames, -->
+<!--     scales = "free",  -->
+<!--     ncol = 2)  -->
+<!-- ``` -->
+<!-- ## Company -->
+<!-- ```{r, fig.width = 6, fig.height = 6} -->
+<!-- names <- unique(Plot.species$LatinNames) -->
+<!-- for(i in names){ -->
+<!--   Plots.1 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = Company)) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different fishing companies") + -->
+<!--     facet_wrap(~Company, -->
+<!--       scales = "free",  -->
+<!--       ncol = 1) -->
+<!--   print(Plots.1) -->
+<!-- } -->
+<!-- ``` -->
+<!-- ## Fishing Depths -->
+<!-- ```{r, fig.width = 7, fig.height = 9, warning = FALSE} -->
+<!-- for(i in names){ -->
+<!--   Plots.2 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = as.factor(FishingDepthMtr))) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different fishing depths") + -->
+<!--     facet_wrap(~FishingDepthMtr, -->
+<!--       scales = "free", -->
+<!--       ncol = 2) -->
+<!--   print(Plots.2) -->
+<!-- } -->
+<!-- ``` -->
+<!-- ## Time of day -->
+<!-- ```{r, fig.width = 6, fig.height = 6} -->
+<!-- for(i in names){ -->
+<!--   Plots.3 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = TimePeriods)) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different time of day") + -->
+<!--     facet_wrap(~TimePeriods, -->
+<!--       scales = "free",  -->
+<!--       ncol = 1)  -->
+<!--   print(Plots.3) -->
+<!-- } -->
+<!-- ``` -->
+<!-- ## Months -->
+<!-- ```{r, fig.width = 7, fig.height = 9} -->
+<!-- for(i in names){ -->
+<!--   Plots.4 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = as.factor(Month))) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different fishing depths") + -->
+<!--     facet_wrap(~Month, -->
+<!--       scales = "free", -->
+<!--       ncol = 2) -->
+<!--   print(Plots.4) -->
+<!-- } -->
+<!-- ``` -->
+<!-- ## Fishing Zones -->
+<!-- ```{r, fig.width = 7, fig.height = 8} -->
+<!-- for(i in names){ -->
+<!--   Plots.5 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = as.factor(FishingZones))) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different fishing depths") + -->
+<!--     facet_wrap(~FishingZones, -->
+<!--       scales = "free", -->
+<!--       ncol = 2) -->
+<!--   print(Plots.5) -->
+<!-- } -->
+<!-- ``` -->
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="catch-per-unit-effort.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="seabob-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-part3.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

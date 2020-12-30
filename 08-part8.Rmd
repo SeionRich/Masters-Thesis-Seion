@@ -1,0 +1,2160 @@
+#  Best Proportion Models - Top 10 Bycatch Species
+
+## List of the Most Recent Changes :-
+
+1. Summary tables for the negative binomial model outputs:
+  
+* [AIC][Model Comparison - AIC]
+* [P-value][Model Comparison - P.values]
+  
+2. Correct the response variable in the [binomial models][Binomial Model Selection] 
+
+3. Adjust correlation matrix by adding [p-values and correlation for every factor variables][Correlation Analysis for Primary Species]
+
+4. Do [PCA for species][Principal Component Analysis (PCA)] not fishing trips. 
+
+5. Conduct a [Canonical correspondence analysis][Canonical Correspondence Analysis]. 
+
+6. [K-mean and hierarchical clustering starting from k = 3][CLUSTER ANALYSIS]. Do K-means by species and not fishing tows. 
+
+7. Repeat the variable PCA plots but showing different factors instead? 
+
+<br>
+
+## Negative Binomial Model Selection
+
+### Data Modifications 
+
+```{r 8.1}
+# Names to remove 
+Remove <- c("Multiple species finfish", "Multiple species prawns", "Xiphopenaeus kroyeri")
+
+# Data
+Top10Species <- ObserverData %>% 
+  group_by(LatinNames, CommonName) %>% 
+  dplyr::summarise(NoSampled = n(),
+    .groups = 'drop') %>%
+  filter(NoSampled >= 10) %>%
+  filter(!LatinNames %in% Remove) %>%
+  arrange(desc(NoSampled)) %>% 
+  head(10)
+
+# Creating a vector of names
+Top10names <- Top10Species$LatinNames
+
+
+# Filtering data to keep species
+FilteredSpecies <- ObserverData %>% 
+  filter(LatinNames %in% Top10names) %>% 
+  group_by(DragID2) %>%  
+  mutate(PropWeight = CpueKGHR/sum(CpueKGHR)) %>% 
+  ungroup() %>% 
+  dplyr::select(LatinNames,
+    DragID2,
+    PropWeight,
+    Company,
+    Month,
+    TimePeriods,
+    FishingZones,
+    FishingDepthMtr)
+
+# Converting variables to factors
+factor.var <- c("Company",
+  "Month",
+  "TimePeriods",
+  "FishingZones")
+
+FilteredSpecies[,factor.var] <- lapply(FilteredSpecies[,factor.var], factor)
+
+# Removing fishing zones 2 and 5
+drop.zones <- c(2, 5)
+FilteredSpecies <- FilteredSpecies %>% 
+  filter(!FishingZones %in% drop.zones) %>% 
+  droplevels()
+```
+
+### 1. Macrodon ancylodon
+
+```{r 8.2, warning = FALSE}
+
+# filtering data
+species.1 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[1]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+ma.an.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.1)
+
+ma.an.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(ma.an.1a$theta),
+  data = species.1)
+
+summary(ma.an.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+ma.an.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.1)
+
+ma.an.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(ma.an.2a$theta),
+  data = species.1)
+
+summary(ma.an.2b) # print summary
+
+# 3 Predictors
+ma.an.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.1)
+
+ma.an.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(ma.an.3a$theta),
+  data = species.1)
+
+summary(ma.an.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+ma.an.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.1)
+
+ma.an.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(ma.an.4a$theta),
+  data = species.1)
+
+summary(ma.an.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+ma.an.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.1)
+
+ma.an.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(ma.an.4a$theta),
+  data = species.1)
+
+summary(ma.an.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.3}
+(sum.tab.1 <- rcompanion::compareGLM(ma.an.1b,
+  ma.an.2b,
+  ma.an.3b,
+  ma.an.4b,
+  ma.an.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 2. Callinectes ornatus
+
+```{r 8.4, warning = FALSE}
+
+# filtering data
+species.2 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[2]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+ca.or.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.2)
+
+ca.or.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(ca.or.1a$theta),
+  data = species.2)
+
+summary(ca.or.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+ca.or.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.2)
+
+ca.or.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(ca.or.2a$theta),
+  data = species.2)
+
+summary(ca.or.2b) # print summary
+
+# 3 Predictors
+ca.or.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.2)
+
+ca.or.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(ca.or.3a$theta),
+  data = species.2)
+
+summary(ca.or.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+ca.or.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.2)
+
+ca.or.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(ca.or.4a$theta),
+  data = species.2)
+
+summary(ca.or.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+ca.or.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.2)
+
+ca.or.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(ca.or.4a$theta),
+  data = species.2)
+
+summary(ca.or.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.5}
+(sum.tab.2 <- rcompanion::compareGLM(ca.or.1b,
+  ca.or.2b,
+  ca.or.3b,
+  ca.or.4b,
+  ca.or.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 3. Stellifer rastrifer
+
+```{r 8.6, warning = FALSE}
+
+# filtering data
+species.3 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[3]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+st.ra.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.3)
+
+st.ra.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(st.ra.1a$theta),
+  data = species.3)
+
+summary(st.ra.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+st.ra.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.3)
+
+st.ra.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(st.ra.2a$theta),
+  data = species.3)
+
+summary(st.ra.2b) # print summary
+
+# 3 Predictors
+st.ra.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.3)
+
+st.ra.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(st.ra.3a$theta),
+  data = species.3)
+
+summary(st.ra.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+st.ra.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.3)
+
+st.ra.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(st.ra.4a$theta),
+  data = species.3)
+
+summary(st.ra.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+st.ra.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.3)
+
+st.ra.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(st.ra.4a$theta),
+  data = species.3)
+
+summary(st.ra.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.7}
+(sum.tab.3 <- rcompanion::compareGLM(st.ra.1b,
+  st.ra.2b,
+  st.ra.3b,
+  st.ra.4b,
+  st.ra.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 4. Stellifer microps
+
+```{r 8.8, warning = FALSE}
+
+# filtering data
+species.4 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[4]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+st.mi.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.4)
+
+st.mi.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(st.mi.1a$theta),
+  data = species.4)
+
+summary(st.mi.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+st.mi.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.4)
+
+st.mi.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(st.mi.2a$theta),
+  data = species.4)
+
+summary(st.mi.2b) # print summary
+
+# 3 Predictors
+st.mi.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.4)
+
+st.mi.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(st.mi.3a$theta),
+  data = species.4)
+
+summary(st.mi.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+st.mi.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.4)
+
+st.mi.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(st.mi.4a$theta),
+  data = species.4)
+
+summary(st.mi.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+st.mi.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.4)
+
+st.mi.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(st.mi.4a$theta),
+  data = species.4)
+
+summary(st.mi.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.9}
+(sum.tab.4 <- rcompanion::compareGLM(st.mi.1b,
+  st.mi.2b,
+  st.mi.3b,
+  st.mi.4b,
+  st.mi.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 5. Cynoscion virescens
+
+```{r 8.10, warning = FALSE}
+
+# filtering data
+species.5 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[5]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+cy.vi.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.5)
+
+cy.vi.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(cy.vi.1a$theta),
+  data = species.5)
+
+summary(cy.vi.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+cy.vi.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.5)
+
+cy.vi.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(cy.vi.2a$theta),
+  data = species.5)
+
+summary(cy.vi.2b) # print summary
+
+# 3 Predictors
+cy.vi.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.5)
+
+cy.vi.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(cy.vi.3a$theta),
+  data = species.5)
+
+summary(cy.vi.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+cy.vi.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.5)
+
+cy.vi.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(cy.vi.4a$theta),
+  data = species.5)
+
+summary(cy.vi.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+cy.vi.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.5)
+
+cy.vi.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(cy.vi.4a$theta),
+  data = species.5)
+
+summary(cy.vi.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.11}
+(sum.tab.5 <- rcompanion::compareGLM(cy.vi.1b,
+  cy.vi.2b,
+  cy.vi.3b,
+  cy.vi.4b,
+  cy.vi.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 6. Symphurus plagusia
+
+```{r 8.12, warning = FALSE}
+
+# filtering data
+species.6 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[6]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+sy.pl.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.6)
+
+sy.pl.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(sy.pl.1a$theta),
+  data = species.6)
+
+summary(sy.pl.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+sy.pl.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.6)
+
+sy.pl.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(sy.pl.2a$theta),
+  data = species.6)
+
+summary(sy.pl.2b) # print summary
+
+# 3 Predictors
+sy.pl.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.6)
+
+sy.pl.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(sy.pl.3a$theta),
+  data = species.6)
+
+summary(sy.pl.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+sy.pl.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.6)
+
+sy.pl.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(sy.pl.4a$theta),
+  data = species.6)
+
+summary(sy.pl.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+sy.pl.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.6)
+
+sy.pl.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(sy.pl.4a$theta),
+  data = species.6)
+
+summary(sy.pl.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.13}
+(sum.tab.6 <- rcompanion::compareGLM(sy.pl.1b,
+  sy.pl.2b,
+  sy.pl.3b,
+  sy.pl.4b,
+  sy.pl.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 7. Bagre bagre
+
+```{r 8.14, warning = FALSE}
+
+# filtering data
+species.7 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[7]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+ba.ba.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.7)
+
+ba.ba.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(ba.ba.1a$theta),
+  data = species.7)
+
+summary(ba.ba.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+ba.ba.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.7)
+
+ba.ba.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(ba.ba.2a$theta),
+  data = species.7)
+
+summary(ba.ba.2b) # print summary
+
+# 3 Predictors
+ba.ba.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.7)
+
+ba.ba.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(ba.ba.3a$theta),
+  data = species.7)
+
+summary(ba.ba.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+ba.ba.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.7)
+
+ba.ba.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(ba.ba.4a$theta),
+  data = species.7)
+
+summary(ba.ba.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+ba.ba.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.7)
+
+ba.ba.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(ba.ba.4a$theta),
+  data = species.7)
+
+summary(ba.ba.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.15}
+(sum.tab.7 <- rcompanion::compareGLM(ba.ba.1b,
+  ba.ba.2b,
+  ba.ba.3b,
+  ba.ba.4b,
+  ba.ba.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 8. Trichiurus lepturus
+
+```{r 8.16, warning = FALSE}
+
+# filtering data
+species.8 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[8]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+tr.le.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.8)
+
+tr.le.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(tr.le.1a$theta),
+  data = species.8)
+
+summary(tr.le.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+tr.le.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.8)
+
+tr.le.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(tr.le.2a$theta),
+  data = species.8)
+
+summary(tr.le.2b) # print summary
+
+# 3 Predictors
+tr.le.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.8)
+
+tr.le.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(tr.le.3a$theta),
+  data = species.8)
+
+summary(tr.le.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+tr.le.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.8)
+
+tr.le.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(tr.le.4a$theta),
+  data = species.8)
+
+summary(tr.le.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+tr.le.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.8)
+
+tr.le.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(tr.le.4a$theta),
+  data = species.8)
+
+summary(tr.le.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.17}
+(sum.tab.8 <- rcompanion::compareGLM(tr.le.1b,
+  tr.le.2b,
+  tr.le.3b,
+  tr.le.4b,
+  tr.le.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 9. Achirus achirus
+
+```{r 8.18, warning = FALSE}
+
+# filtering data
+species.9 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[9]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+ac.ac.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.9)
+
+ac.ac.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(ac.ac.1a$theta),
+  data = species.9)
+
+summary(ac.ac.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+ac.ac.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.9)
+
+ac.ac.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(ac.ac.2a$theta),
+  data = species.9)
+
+summary(ac.ac.2b) # print summary
+
+# 3 Predictors
+ac.ac.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.9)
+
+ac.ac.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(ac.ac.3a$theta),
+  data = species.9)
+
+summary(ac.ac.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+ac.ac.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.9)
+
+ac.ac.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(ac.ac.4a$theta),
+  data = species.9)
+
+summary(ac.ac.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+ac.ac.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.9)
+
+ac.ac.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(ac.ac.4a$theta),
+  data = species.9)
+
+summary(ac.ac.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.19}
+(sum.tab.9 <- rcompanion::compareGLM(ac.ac.1b,
+  ac.ac.2b,
+  ac.ac.3b,
+  ac.ac.4b,
+  ac.ac.5b))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 10. Paralonchurus brasiliensis
+
+```{r 8.20, warning = FALSE}
+
+# filtering data
+species.10 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[10]) %>% 
+  dplyr::select(-LatinNames)
+
+# Running models
+# 2 Predictors
+pa.br.1a <- glm.nb(PropWeight ~ Month +
+    TimePeriods,
+  data = species.10)
+
+pa.br.1b <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = negative.binomial(pa.br.1a$theta),
+  data = species.10)
+
+summary(pa.br.1b) # print summary
+
+# 2 Predictors with 1 interaction term
+pa.br.2a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  data = species.10)
+
+pa.br.2b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = negative.binomial(pa.br.2a$theta),
+  data = species.10)
+
+summary(pa.br.2b) # print summary
+
+# 3 Predictors
+pa.br.3a <- glm.nb(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  data = species.10)
+
+pa.br.3b <- glm(PropWeight ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = negative.binomial(pa.br.3a$theta),
+  data = species.10)
+
+summary(pa.br.3b) # print summary
+
+# 3 Predictors and 1 interaction term
+pa.br.4a <- glm.nb(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  data = species.10)
+
+pa.br.4b <- glm(PropWeight ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = negative.binomial(pa.br.4a$theta),
+  data = species.10)
+
+summary(pa.br.4b) # print summary
+
+# 3 Predictors with 2 interaction term
+pa.br.5a <- glm.nb(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  data = species.10)
+
+pa.br.5b <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+  family = negative.binomial(pa.br.4a$theta),
+  data = species.10)
+
+summary(pa.br.5b) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.21}
+
+(sum.tab.10 <- rcompanion::compareGLM(pa.br.1b,
+  pa.br.2b,
+  pa.br.3b,
+  pa.br.4b,
+  pa.br.5b))
+
+# (sum.tab.10 <- do.call(rbind, 
+#   lapply(list(pa.br.1b,
+#     pa.br.2b,
+#     pa.br.3b,
+#     pa.br.4b,
+#     pa.br.5b),
+#     broom::glance)))
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+## Model Comparison - AIC{#id.81}
+
+```{r 8.22, warning = FALSE}
+
+Species <- Top10names
+
+Model.1 <- c(ma.an.1b$aic, ca.or.1b$aic, st.ra.1b$aic, st.mi.1b$aic, cy.vi.1b$aic, sy.pl.1b$aic, ba.ba.1b$aic, tr.le.1b$aic, ac.ac.1b$aic, pa.br.1b$aic)
+
+Model.2 <- c(ma.an.2b$aic, ca.or.2b$aic, st.ra.2b$aic, st.mi.2b$aic, cy.vi.2b$aic, sy.pl.2b$aic, ba.ba.2b$aic, tr.le.2b$aic, ac.ac.2b$aic, pa.br.2b$aic)
+
+Model.3 <- c(ma.an.3b$aic, ca.or.3b$aic, st.ra.3b$aic, st.mi.3b$aic, cy.vi.3b$aic, sy.pl.3b$aic, ba.ba.3b$aic, tr.le.3b$aic, ac.ac.3b$aic, pa.br.3b$aic)
+
+Model.4 <- c(ma.an.4b$aic, ca.or.4b$aic, st.ra.4b$aic, st.mi.4b$aic, cy.vi.4b$aic, sy.pl.4b$aic, ba.ba.4b$aic, tr.le.4b$aic, ac.ac.4b$aic, pa.br.4b$aic)
+
+Model.5 <- c(ma.an.5b$aic, ca.or.5b$aic, st.ra.5b$aic, st.mi.5b$aic, cy.vi.5b$aic, sy.pl.5b$aic, ba.ba.5b$aic, tr.le.5b$aic, ac.ac.5b$aic, pa.br.5b$aic)
+
+
+nb.comparison.table <- data.frame(Species,
+  Model.1,
+  Model.2,
+  Model.3, 
+  Model.4, 
+  Model.5) %>% 
+  mutate_if(is.numeric,
+    round, 3) 
+
+nb.comparison.table.2 <- nb.comparison.table %>%
+  gather(Models, val, 2:ncol(nb.comparison.table)) %>%
+  spread(Species, val) %>% 
+  arrange(Models)
+
+nb.comparison.table.2 <- nb.comparison.table.2[c("Models",
+"Macrodon ancylodon",        
+"Callinectes ornatus",       
+"Stellifer rastrifer",       
+"Stellifer microps",         
+"Cynoscion virescens",       
+"Symphurus plagusia",        
+"Bagre bagre",               
+"Trichiurus lepturus",       
+"Achirus achirus",           
+"Paralonchurus brasiliensis")]
+
+nb.comparison.table.2 [1:5, 1:11] %>%
+  mutate(`Macrodon ancylodon` = cell_spec(`Macrodon ancylodon`, background = ifelse(`Macrodon ancylodon` == min(`Macrodon ancylodon`), "yellow", " "))) %>% 
+  mutate(`Callinectes ornatus` = cell_spec(`Callinectes ornatus`, background = ifelse(`Callinectes ornatus` == min(`Callinectes ornatus`), "yellow", " "))) %>% 
+  mutate(`Stellifer rastrifer` = cell_spec(`Stellifer rastrifer`, background = ifelse(`Stellifer rastrifer` == min(`Stellifer rastrifer`), "yellow", " "))) %>% 
+  mutate(`Stellifer microps` = cell_spec(`Stellifer microps`, background = ifelse(`Stellifer microps` == min(`Stellifer microps`), "yellow", " "))) %>% 
+  mutate(`Cynoscion virescens` = cell_spec(`Cynoscion virescens`, background = ifelse(`Cynoscion virescens` == min(`Cynoscion virescens`), "yellow", " "))) %>% 
+  mutate(`Symphurus plagusia` = cell_spec(`Symphurus plagusia`, background = ifelse(`Symphurus plagusia` == min(`Symphurus plagusia`), "yellow", " "))) %>% 
+  mutate(`Bagre bagre` = cell_spec(`Bagre bagre`, background = ifelse(`Bagre bagre` == min(`Bagre bagre`), "yellow", " "))) %>% 
+  mutate(`Trichiurus lepturus` = cell_spec(`Trichiurus lepturus`, background = ifelse(`Trichiurus lepturus` == min(`Trichiurus lepturus`), "yellow", " "))) %>% 
+  mutate(`Achirus achirus` = cell_spec(`Achirus achirus`, background = ifelse(`Achirus achirus` == min(`Achirus achirus`), "yellow", " "))) %>% 
+  mutate(`Paralonchurus brasiliensis` = cell_spec(`Paralonchurus brasiliensis`, background = ifelse(`Paralonchurus brasiliensis` == min(`Paralonchurus brasiliensis`), "yellow", " "))) %>% 
+  kbl(caption = "Comparison of Negative Binomial Model Results for the Top 10 bycatch species",
+    booktabs = T, linesep = "", escape = FALSE, format = "html") %>% 
+  add_header_above(c(" " = 1, "Model AIC Values" = 10)) %>% 
+  kable_paper(full_width = F) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped", "condensed")) %>% 
+  column_spec(2:10, color = "black") %>%
+  footnote(general = "The models with the lowest AIC are colored yellow.",
+    number = c("Model.One = Month + TimePeriods", 
+      "Model.Two = Month + TimePeriods + Month*TimePeriods",
+      "Model.Three = TimePeriods + FishingDepthMtr +    FishingZones",
+      "Model.Four = FishingDepthMtr + FishingZones +    TimePeriods + TimePeriods*FishingZones",
+      "Model.Five = Month + TimePeriods + FishingDepthMtr +     Month*TimePeriods + FishingDepthMtr*TimePeriods")) %>% 
+  row_spec(which(nb.comparison.table.2[,2] == min()), bold = T, color = "white", background = "red") %>% scroll_box(width = "750px", height = "600px")
+
+```
+
+## Model Comparison - P.values{#id.82}
+
+```{r 8.23, warning = FALSE}
+
+Models <- c("Model.1",
+  "Model.2",
+  "Model.3", 
+  "Model.4", 
+  "Model.5")
+
+Species.1 <- c(sum.tab.1$Fit.criteria$p.value[1],
+  sum.tab.1$Fit.criteria$p.value[2],
+  sum.tab.1$Fit.criteria$p.value[3],
+  sum.tab.1$Fit.criteria$p.value[4],
+  sum.tab.1$Fit.criteria$p.value[5])
+
+Species.2 <- c(sum.tab.2$Fit.criteria$p.value[1],
+  sum.tab.2$Fit.criteria$p.value[2],
+  sum.tab.2$Fit.criteria$p.value[3],
+  sum.tab.2$Fit.criteria$p.value[4],
+  sum.tab.2$Fit.criteria$p.value[5])
+
+Species.3 <- c(sum.tab.3$Fit.criteria$p.value[1],
+  sum.tab.3$Fit.criteria$p.value[2],
+  sum.tab.3$Fit.criteria$p.value[3],
+  sum.tab.3$Fit.criteria$p.value[4],
+  sum.tab.3$Fit.criteria$p.value[5])
+
+Species.4 <- c(sum.tab.4$Fit.criteria$p.value[1],
+  sum.tab.4$Fit.criteria$p.value[2],
+  sum.tab.4$Fit.criteria$p.value[3],
+  sum.tab.4$Fit.criteria$p.value[4],
+  sum.tab.4$Fit.criteria$p.value[5])
+
+Species.5 <- c(sum.tab.5$Fit.criteria$p.value[1],
+  sum.tab.5$Fit.criteria$p.value[2],
+  sum.tab.5$Fit.criteria$p.value[3],
+  sum.tab.5$Fit.criteria$p.value[4],
+  sum.tab.5$Fit.criteria$p.value[5])
+
+Species.6 <- c(sum.tab.6$Fit.criteria$p.value[1],
+  sum.tab.6$Fit.criteria$p.value[2],
+  sum.tab.6$Fit.criteria$p.value[3],
+  sum.tab.6$Fit.criteria$p.value[4],
+  sum.tab.6$Fit.criteria$p.value[5])
+
+Species.7 <- c(sum.tab.7$Fit.criteria$p.value[1],
+  sum.tab.7$Fit.criteria$p.value[2],
+  sum.tab.7$Fit.criteria$p.value[3],
+  sum.tab.7$Fit.criteria$p.value[4],
+  sum.tab.7$Fit.criteria$p.value[5])
+
+Species.8 <- c(sum.tab.8$Fit.criteria$p.value[1],
+  sum.tab.8$Fit.criteria$p.value[2],
+  sum.tab.8$Fit.criteria$p.value[3],
+  sum.tab.8$Fit.criteria$p.value[4],
+  sum.tab.8$Fit.criteria$p.value[5])
+
+Species.9 <- c(sum.tab.9$Fit.criteria$p.value[1],
+  sum.tab.9$Fit.criteria$p.value[2],
+  sum.tab.9$Fit.criteria$p.value[3],
+  sum.tab.9$Fit.criteria$p.value[4],
+  sum.tab.9$Fit.criteria$p.value[5])
+
+Species.10 <- c(sum.tab.10$Fit.criteria$p.value[1],
+  sum.tab.10$Fit.criteria$p.value[2],
+  sum.tab.10$Fit.criteria$p.value[3],
+  sum.tab.10$Fit.criteria$p.value[4],
+  sum.tab.10$Fit.criteria$p.value[5])
+
+
+nb.2.comparison.table <- data.frame(Models,
+  Species.1,
+  Species.2,
+  Species.3,
+  Species.4,
+  Species.5,
+  Species.6,
+  Species.7,
+  Species.8,
+  Species.9,
+  Species.10) %>% 
+  mutate_if(is.numeric,
+    round, 6) 
+
+nb.2.comparison.table [1:5, 1:11] %>%
+  mutate(Species.1 = cell_spec(Species.1, background = ifelse(Species.1 == min(Species.1), "yellow", " "))) %>% 
+  mutate(Species.2 = cell_spec(Species.2 , background = ifelse(Species.2  == min(Species.2 ), "yellow", " "))) %>% 
+  mutate(Species.3 = cell_spec(Species.3, background = ifelse(Species.3 == min(Species.3), "yellow", " "))) %>% 
+  mutate(Species.4 = cell_spec(Species.4, background = ifelse(Species.4 == min(Species.4), "yellow", " "))) %>% 
+  mutate(Species.5 = cell_spec(Species.5, background = ifelse(Species.5 == min(Species.5), "yellow", " "))) %>% 
+  mutate(Species.6 = cell_spec(Species.6, background = ifelse(Species.6 == min(Species.6), "yellow", " "))) %>% 
+  mutate(Species.7 = cell_spec(Species.7, background = ifelse(Species.7 == min(Species.7), "yellow", " "))) %>% 
+  mutate(Species.8 = cell_spec(Species.8, background = ifelse(Species.8 == min(Species.8), "yellow", " "))) %>% 
+  mutate(Species.9 = cell_spec(Species.9, background = ifelse(Species.9 == min(Species.9), "yellow", " "))) %>% 
+  mutate(Species.10 = cell_spec(Species.10, background = ifelse(Species.10 == min(Species.10), "yellow", " "))) %>% 
+  kbl(caption = "Comparison of Negative Binomial Model Results for the Top 10 bycatch species",
+    booktabs = T, linesep = "", escape = FALSE,col.names = c("Models", "Macrodon ancylodon",        
+"Callinectes ornatus",       
+"Stellifer rastrifer",       
+"Stellifer microps",         
+"Cynoscion virescens",       
+"Symphurus plagusia",        
+"Bagre bagre",               
+"Trichiurus lepturus",       
+"Achirus achirus",           
+"Paralonchurus brasiliensis")) %>% 
+  add_header_above(c(" " = 1, "Model P-values" = 10)) %>% 
+  kable_paper(full_width = F) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped", "condensed")) %>% 
+  column_spec(2:10, color = "black") %>%
+  footnote(general = "The models with the lowest A
+    p-values are colored yellow.",
+    number = c("Model.One = Month + TimePeriods", 
+      "Model.Two = Month + TimePeriods + Month*TimePeriods",
+      "Model.Three = TimePeriods + FishingDepthMtr +    FishingZones",
+      "Model.Four = FishingDepthMtr + FishingZones +    TimePeriods + TimePeriods*FishingZones",
+      "Model.Five = Month + TimePeriods + FishingDepthMtr +     Month*TimePeriods + FishingDepthMtr*TimePeriods")) %>% scroll_box(width = "750px", height = "600px")
+
+```
+
+## Binomial Model Selection{#id.83}
+
+### Data modifications R
+
+```{r 8.24}
+
+# Reshaping data - wide format by tows and changing species value to binomial 
+FilteredSpecies2 <- FilteredSpecies %>%
+  pivot_wider(names_from = LatinNames,
+    values_from = PropWeight,
+    values_fill = 0) %>% 
+  mutate(`Macrodon ancylodon` = ifelse(`Macrodon ancylodon` > 0,"present","absent")) %>% 
+  mutate(`Callinectes ornatus` = ifelse(`Callinectes ornatus` > 0,"present","absent")) %>% 
+  mutate(`Stellifer rastrifer` = ifelse(`Stellifer rastrifer` > 0,"present","absent")) %>% 
+  mutate(`Stellifer microps` = ifelse(`Stellifer microps` > 0,"present","absent")) %>% 
+  mutate(`Cynoscion virescens` = ifelse(`Cynoscion virescens` > 0,"present","absent")) %>% 
+  mutate(`Symphurus plagusia` = ifelse(`Symphurus plagusia` > 0,"present","absent")) %>% 
+  mutate(`Bagre bagre` = ifelse(`Bagre bagre` > 0,"present","absent")) %>% 
+  mutate(`Trichiurus lepturus` = ifelse(`Trichiurus lepturus` > 0,"present","absent")) %>% 
+  mutate(`Achirus achirus` = ifelse(`Achirus achirus` > 0,"present","absent")) %>% 
+  mutate(`Paralonchurus brasiliensis` = ifelse(`Paralonchurus brasiliensis` > 0,"present","absent"))
+
+FilteredSpecies2[,Top10names] <- lapply(FilteredSpecies2[,Top10names], factor)
+
+head(FilteredSpecies2) %>% 
+  kbl() %>%
+  kable_classic() %>% 
+  row_spec(0, bold = TRUE) %>% 
+  kable_styling(fixed_thead = T,
+    bootstrap_options = "condensed") %>% 
+  scroll_box(width = "750px", height = "300px")
+```
+
+### Running models on Top 10 discard species
+
+### 1. Macrodon ancylodon
+
+```{r 8.25, warning = FALSE}
+
+# 2 Predictors
+ma.an.1 <- glm(`Macrodon ancylodon` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ma.an.1) # print summary
+
+# 2 Predictors with 1 interaction term
+ma.an.2 <- glm(`Macrodon ancylodon` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ma.an.2) # print summary
+
+# 3 Predictors
+ma.an.3 <- glm(`Macrodon ancylodon` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ma.an.3) # print summary
+
+# 3 Predictors and 1 interaction term
+ma.an.4 <- glm(`Macrodon ancylodon` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ma.an.4) # print summary
+
+# 3 Predictors with 2 interaction term
+ma.an.5 <- glm(`Macrodon ancylodon` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ma.an.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.26}
+rcompanion::compareGLM(ma.an.1,
+  ma.an.2,
+  ma.an.3,
+  ma.an.4,
+  ma.an.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 2. Callinectes ornatus
+
+```{r 8.27, warning = FALSE}
+
+# 2 Predictors
+ca.or.1 <- glm(`Callinectes ornatus` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ca.or.1) # print summary
+
+# 2 Predictors with 1 interaction term
+ca.or.2 <- glm(`Callinectes ornatus` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ca.or.2) # print summary
+
+# 3 Predictors
+ca.or.3 <- glm(`Callinectes ornatus` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ca.or.3) # print summary
+
+# 3 Predictors and 1 interaction term
+ca.or.4 <- glm(`Callinectes ornatus` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ca.or.4) # print summary
+
+# 3 Predictors with 2 interaction term
+ca.or.5 <- glm(`Callinectes ornatus` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ca.or.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.28}
+rcompanion::compareGLM(ca.or.1,
+  ca.or.2,
+  ca.or.3,
+  ca.or.4,
+  ca.or.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 3. Stellifer rastrifer
+
+```{r 8.29, warning = FALSE}
+
+# 2 Predictors
+st.ra.1 <- glm(`Stellifer rastrifer` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.ra.1) # print summary
+
+# 2 Predictors with 1 interaction term
+st.ra.2 <- glm(`Stellifer rastrifer` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.ra.2) # print summary
+
+# 3 Predictors
+st.ra.3 <- glm(`Stellifer rastrifer` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.ra.3) # print summary
+
+# 3 Predictors and 1 interaction term
+st.ra.4 <- glm(`Stellifer rastrifer` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.ra.4) # print summary
+
+# 3 Predictors with 2 interaction term
+st.ra.5 <- glm(`Stellifer rastrifer` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.ra.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.30}
+rcompanion::compareGLM(st.ra.1,
+  st.ra.2,
+  st.ra.3,
+  st.ra.4,
+  st.ra.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 4. Stellifer microps
+
+```{r 8.31, warning = FALSE}
+
+# 2 Predictors
+st.mi.1 <- glm(`Stellifer microps` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.mi.1) # print summary
+
+# 2 Predictors with 1 interaction term
+st.mi.2 <- glm(`Stellifer microps` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.mi.2) # print summary
+
+# 3 Predictors
+st.mi.3 <- glm(`Stellifer microps` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.mi.3) # print summary
+
+# 3 Predictors and 1 interaction term
+st.mi.4 <- glm(`Stellifer microps` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.mi.4) # print summary
+
+# 3 Predictors with 2 interaction term
+st.mi.5 <- glm(`Stellifer microps` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(st.mi.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.32}
+rcompanion::compareGLM(st.mi.1,
+  st.mi.2,
+  st.mi.3,
+  st.mi.4,
+  st.mi.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 5. Cynoscion virescens
+
+```{r 8.33, warning = FALSE}
+
+# 2 Predictors
+cy.vi.1 <- glm(`Cynoscion virescens` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(cy.vi.1) # print summary
+
+# 2 Predictors with 1 interaction term
+cy.vi.2 <- glm(`Cynoscion virescens` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(cy.vi.2) # print summary
+
+# 3 Predictors
+cy.vi.3 <- glm(`Cynoscion virescens` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(cy.vi.3) # print summary
+
+# 3 Predictors and 1 interaction term
+cy.vi.4 <- glm(`Cynoscion virescens` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(cy.vi.4) # print summary
+
+# 3 Predictors with 2 interaction term
+cy.vi.5 <- glm(`Cynoscion virescens` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(cy.vi.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.34}
+rcompanion::compareGLM(cy.vi.1,
+  cy.vi.2,
+  cy.vi.3,
+  cy.vi.4,
+  cy.vi.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 6. Symphurus plagusia
+
+```{r 8.35, warning = FALSE}
+
+# 2 Predictors
+sy.pl.1 <- glm(`Symphurus plagusia` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(sy.pl.1) # print summary
+
+# 2 Predictors with 1 interaction term
+sy.pl.2 <- glm(`Symphurus plagusia` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(sy.pl.2) # print summary
+
+# 3 Predictors
+sy.pl.3 <- glm(`Symphurus plagusia` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(sy.pl.3) # print summary
+
+# 3 Predictors and 1 interaction term
+sy.pl.4 <- glm(`Symphurus plagusia` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(sy.pl.4) # print summary
+
+# 3 Predictors with 2 interaction term
+sy.pl.5 <- glm(`Symphurus plagusia` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(sy.pl.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.36}
+rcompanion::compareGLM(sy.pl.1,
+  sy.pl.2,
+  sy.pl.3,
+  sy.pl.4,
+  sy.pl.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 7. Bagre bagre
+
+```{r 8.37, warning = FALSE}
+
+# 2 Predictors
+ba.ba.1 <- glm(`Bagre bagre` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ba.ba.1) # print summary
+
+# 2 Predictors with 1 interaction term
+ba.ba.2 <- glm(`Bagre bagre` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ba.ba.2) # print summary
+
+# 3 Predictors
+ba.ba.3 <- glm(`Bagre bagre` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ba.ba.3) # print summary
+
+# 3 Predictors and 1 interaction term
+ba.ba.4 <- glm(`Bagre bagre` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ba.ba.4) # print summary
+
+# 3 Predictors with 2 interaction term
+ba.ba.5 <- glm(`Bagre bagre` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ba.ba.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.38}
+rcompanion::compareGLM(ba.ba.1,
+  ba.ba.2,
+  ba.ba.3,
+  ba.ba.4,
+  ba.ba.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 8. Trichiurus lepturus
+
+```{r 8.39, warning = FALSE}
+
+# 2 Predictors
+tr.le.1 <- glm(`Trichiurus lepturus` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(tr.le.1) # print summary
+
+# 2 Predictors with 1 interaction term
+tr.le.2 <- glm(`Trichiurus lepturus` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(tr.le.2) # print summary
+
+# 3 Predictors
+tr.le.3 <- glm(`Trichiurus lepturus` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(tr.le.3) # print summary
+
+# 3 Predictors and 1 interaction term
+tr.le.4 <- glm(`Trichiurus lepturus` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(tr.le.4) # print summary
+
+# 3 Predictors with 2 interaction term
+tr.le.5 <- glm(`Trichiurus lepturus` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(tr.le.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.40}
+rcompanion::compareGLM(tr.le.1,
+  tr.le.2,
+  tr.le.3,
+  tr.le.4,
+  tr.le.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 9. Achirus achirus
+
+```{r 8.41, warning = FALSE}
+
+# 2 Predictors
+ac.ac.1 <- glm(`Achirus achirus` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ac.ac.1) # print summary
+
+# 2 Predictors with 1 interaction term
+ac.ac.2 <- glm(`Achirus achirus` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ac.ac.2) # print summary
+
+# 3 Predictors
+ac.ac.3 <- glm(`Achirus achirus` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ac.ac.3) # print summary
+
+# 3 Predictors and 1 interaction term
+ac.ac.4 <- glm(`Achirus achirus` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ac.ac.4) # print summary
+
+# 3 Predictors with 2 interaction term
+ac.ac.5 <- glm(`Achirus achirus` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(ac.ac.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.42}
+rcompanion::compareGLM(ac.ac.1,
+  ac.ac.2,
+  ac.ac.3,
+  ac.ac.4,
+  ac.ac.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### 10. Paralonchurus brasiliensis
+
+```{r 8.43, warning = FALSE}
+
+# 2 Predictors
+pa.br.1 <- glm(`Paralonchurus brasiliensis` ~ Month +
+    TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(pa.br.1) # print summary
+
+# 2 Predictors with 1 interaction term
+pa.br.2 <- glm(`Paralonchurus brasiliensis` ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(pa.br.2) # print summary
+
+# 3 Predictors
+pa.br.3 <- glm(`Paralonchurus brasiliensis` ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(pa.br.3) # print summary
+
+# 3 Predictors and 1 interaction term
+pa.br.4 <- glm(`Paralonchurus brasiliensis` ~ FishingDepthMtr +
+    FishingZones +
+    TimePeriods +
+    TimePeriods*FishingZones,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(pa.br.4) # print summary
+
+# 3 Predictors with 2 interaction term
+pa.br.5 <- glm(`Paralonchurus brasiliensis` ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods,
+  family = binomial,
+  data = FilteredSpecies2)
+
+summary(pa.br.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 8.44}
+rcompanion::compareGLM(pa.br.1,
+  pa.br.2,
+  pa.br.3,
+  pa.br.4,
+  pa.br.5)
+
+# Best model = 3
+# Factors = TimePeriods + FishingDepthMtr +     
+# FishingZones
+```
+
+### Summary
+Models 3 was always selected as the best model. 
+
+
+```{r 8.45, eval = FALSE, error = FALSE, include = FALSE}
+<!-- # Alternative Model Selection -->
+  
+  <!-- ## CPUE -->
+  
+  <!-- ### Full model - Without Interactions -->
+  
+  <!-- ```{r 8.1} -->
+  <!-- # Model 1 -->
+  <!-- cpue.model.1 <- glm(CpueKGHr ~ ., -->
+      <!--   family = gaussian, -->
+      <!--   data = target.catch.cpue.2) -->
+  
+  <!-- # Backward elimination method -->
+  <!-- step(cpue.model.1, direction = "backward") -->
+  <!-- ``` -->
+  
+  <!-- ### Full model - With Interactions -->
+  
+  <!-- ```{r 8.2} -->
+  <!-- # Model 2  -->
+  <!-- cpue.model.2 <- glm(CpueKGHr ~ (.)^2, -->
+      <!--   family = gaussian(link = "log"), -->
+      <!--   data = target.catch.cpue.2) -->
+  
+  <!-- # Backward elimination -->
+  <!-- step(cpue.model.2, scope = formula(cpue.model.2), direction = 'backward') -->
+  <!-- ``` -->
+  
+  <!-- ## Weight prop. -->
+  
+  <!-- ### Full model - Without Interactions -->
+  
+  <!-- ```{r 8.3} -->
+  <!-- # Model 1 -->
+  <!-- prop.model.1 <- glm(PropWeight ~ ., -->
+      <!--   family = gaussian, -->
+      <!--   data = target.catch.prop.2) -->
+  
+  <!-- # Backward elimination -->
+  <!-- step(prop.model.1, direction = "backward") -->
+  <!-- ``` -->
+  
+  <!-- ### Full model - With Interactions -->
+  
+  <!-- ```{r 8.4} -->
+  <!-- # Model 2  -->
+  <!-- prop.model.2 <- glm(PropWeight ~ (.)^2, -->
+      <!--   family = gaussian, -->
+      <!--   data = target.catch.prop.2) -->
+  
+  <!-- # Backward elimination method -->
+  <!-- step(prop.model.2, scope = formula(prop.model.2), direction = 'backward') -->
+  <!-- ``` -->
+  
+  
+  <!-- ## More messing around - Forward Selection -->
+  
+  <!-- ```{r 8.5} -->
+  <!-- # Creating a NULL model -->
+  <!-- first.step <- glm(PropWeight ~ 1, data = target.catch.prop.2) -->
+  
+  <!-- # Creating a FULL model -->
+  <!-- fit.all <- glm(PropWeight ~ (.)^2, -->
+      <!--   family = gaussian, -->
+      <!--   data = target.catch.prop.2) -->
+  
+  <!-- # Backward model selection -->
+  <!-- step(first.step, direction = "forward", scope = formula(fit.all)) -->
+  <!-- ``` -->
+  
+  
+  <!-- ## Individual species example - Species 1 -->
+  
+  <!-- ### Full model - Without Interactions -->
+  
+  <!-- ```{r 8.6} -->
+  <!-- # Removing DragID from data -->
+  <!-- species.1.tmp <- species.1 %>%  -->
+  <!--   select(-DragID2) -->
+  
+  <!-- # Model 1 -->
+  <!-- ma.model.1 <- glm(PropWeight ~ ., -->
+      <!--   family = gaussian, -->
+      <!--   data = species.1.tmp) -->
+  
+  <!-- # Backward elimination -->
+  <!-- step(ma.model.1, direction = "backward") -->
+  <!-- ``` -->
+  
+  <!-- ### Full model - With Interactions -->
+  
+  <!-- ```{r 8.7} -->
+  <!-- # Model 2  -->
+  <!-- ma.model.2 <- glm(PropWeight ~ (.)^2, -->
+      <!--   family = gaussian, -->
+      <!--   data = species.1.tmp) -->
+  
+  <!-- # Backward elimination method -->
+  <!-- step(ma.model.2, scope = formula(ma.model.2), direction = 'backward') -->
+  
+  
+  <!-- # summary(glm(CpueKGHR ~ Month + TimePeriods + FishingZones + FishingDepthMtr +  -->
+  <!-- #     Month:TimePeriods + Month:FishingDepthMtr + TimePeriods:FishingZones +  -->
+  <!-- #     TimePeriods:FishingDepthMtr, -->
+  <!-- #   family = gaussian, -->
+  <!-- #   data = species.1.tmp));interaction.plot(species.1$TimePeriods, species.1$FishingZones, species.1$CpueKGHR);table(species.1$TimePeriods, species.1$FishingZones) -->
+  <!-- ``` -->
+  
+  
+  <!-- ## More messing around - Forward Selection -->
+  
+  <!-- ```{r 8.8} -->
+  <!-- # Creating a NULL model -->
+  <!-- first.step <- glm(PropWeight ~ 1, data = species.1.tmp) -->
+  
+  <!-- # Creating a FULL model -->
+  <!-- fit.all <- glm(PropWeight ~ (.)^2, -->
+      <!--   family = gaussian, -->
+      <!--   data = species.1.tmp) -->
+  
+  <!-- # Backward model selection -->
+  <!-- step(first.step, direction = "forward", scope = formula(fit.all)) -->
+  <!-- ``` -->
+  
+  
+  <!-- ## Individual species example - Species 4 -->
+  
+  <!-- ### Full model - Without Interactions -->
+  
+  <!-- ```{r 8.9} -->
+  <!-- # Removing DragID from data -->
+  <!-- species.4.tmp <- species.4  -->
+  
+  <!-- # Model 1 -->
+  <!-- sm.model.1 <- glm(PropWeight ~ ., -->
+      <!--   family = gaussian, -->
+      <!--   data = species.4.tmp) -->
+  
+  <!-- # Backward elimination -->
+  <!-- step(sm.model.1, direction = "backward") -->
+  <!-- ``` -->
+  
+  <!-- ### Full model - With Interactions -->
+  
+  <!-- ```{r 8.10} -->
+  <!-- # Model 2  -->
+  <!-- sm.model.2 <- glm(PropWeight ~ (.)^2, -->
+      <!--   family = gaussian, -->
+      <!--   data = species.4.tmp) -->
+  
+  <!-- # Backward elimination method -->
+  <!-- step(sm.model.2, scope = formula(sm.model.2), direction = 'backward') -->
+  
+  <!-- # # Model 2  -->
+  <!-- # sm.model.2 <- glm(CpueKGHR ~ (.)^2, -->
+  <!-- #   family = gaussian, -->
+  <!-- #   data = species.1) -->
+  <!-- ``` -->
+  
+  
+  <!-- ## More messing around - Forward Selection -->
+  
+  <!-- ```{r 8.11} -->
+  <!-- # Creating a NULL model -->
+  <!-- first.step <- glm(PropWeight ~ 1, data = species.4.tmp) -->
+  
+  <!-- # Creating a FULL model -->
+  <!-- fit.all <- glm(PropWeight ~ (.)^2, -->
+      <!--   family = gaussian, -->
+      <!--   data = species.4.tmp) -->
+  
+  <!-- # Backward model selection -->
+  <!-- step(first.step, direction = "forward", scope = formula(fit.all)) -->
+  <!-- ``` -->
+  
+  
+  <!-- ```{r 8.12, echo = FALSE} -->
+  <!-- a <- glm(PropWeight ~ Month + TimePeriods + FishingZones + FishingDepthMtr + -->
+      <!--     Month:TimePeriods + Month:FishingDepthMtr + TimePeriods:FishingZones + -->
+      <!--     TimePeriods:FishingDepthMtr, -->
+      <!--   family = gaussian, -->
+      <!--   data = species.1.tmp) -->
+  
+  <!-- # interaction.plot(species.1.tmp$Month, species.1.tmp$FishingZones, species.1.tmp$CpueKGHR) -->
+  <!-- # table(species.1.tmp$Month, species.1.tmp$FishingZones) -->
+  <!-- summary(a) -->
+  <!-- alias(a) -->
+  <!-- ``` -->
+```
+
+
+
+

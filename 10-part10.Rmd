@@ -1,0 +1,409 @@
+# Principal Component Analysis (PCA){#id.101}
+
+**Principal components** are new variables that are constructed as linear combinations or mixtures of the initial variables. 
+A PCA converts correlations (or lack thereof) among all of the CPUE and Weight proportions into a 2-D graph. Highly correlated CPUE and Weight proportions will cluster together. 
+Also the PCA axis are ranked by order of importance such that differences along the first principal component (PC1) are more important than differences along the second principal component (PC2). This means in clusters = 3 and the difference between clusters on both axes were similar, the clusters along PC1 are deem more different than each other than the clusters along PC2. 
+
+## Prop.Weight Models
+
+```{r 10.1}
+# Renaming data
+species.pca <- species.cor.2 
+
+# Printing summary of variables
+summary(species.pca)
+```
+
+```{r 10.2, message = FALSE}
+
+species.pca.2 <- cbind(Row.Names = rownames(species.pca), species.pca)
+
+ggplot(reshape2::melt(species.pca.2, id.vars = "Row.Names"),
+  aes(x = value)) +
+  geom_histogram(colour = "black", aes(fill = variable)) +
+  scale_fill_brewer(palette = "Spectral",
+                    name = "Variable")+
+  facet_wrap(~variable,
+    nrow = 3,
+    scales = "free") +
+  labs(x = "", 
+    y = "Frequency") +
+  theme(legend.position = "none") 
+```
+
+## PCA
+
+```{r 10.3}
+# Before
+pca.dat <- PCA(species.pca, 
+  graph = TRUE,
+  scale.unit = TRUE)
+
+# After 
+species.pca.trans <- t(species.pca)
+pca.dat.trans <- PCA(species.pca.trans, 
+  graph = TRUE,
+  scale.unit = TRUE)
+```
+
+So what were the PCs generated? How well do they capture the overall variation in the dataset? And how are they stored in the object? Let’s take a look.
+
+```{r 10.4}
+# Before
+pca.eig <- as.data.frame(format(round(pca.dat$eig,3), scientific = FALSE))
+
+pca.eig
+
+# After
+pca.eig.trans <- as.data.frame(format(round(pca.dat.trans$eig,3), scientific = FALSE))
+
+pca.eig.trans
+```
+  
+  
+```{r 10.5}
+# Before
+pca.eig$index <- as.factor(1:nrow(pca.eig))
+pca.eig$index.cont <- 1:nrow(pca.eig)
+
+nb.cols <- 11
+mycolors <- colorRampPalette(rev(brewer.pal(8, "YlGnBu")))(nb.cols)
+
+#Scree plot
+ggplot(pca.eig, 
+  aes(x = index,
+    y = as.numeric(`percentage of variance`))) +
+  geom_bar(stat = "identity",
+    aes(fill = index),
+    colour = "black") +
+  geom_path(aes(x = index.cont, 
+    group = 1),
+    size = 1,
+    colour = "Gray50") +
+  geom_point(size = 3) +
+  labs(x = "Principal Components",
+       y = "Percentage of Variance Explained") +
+  scale_fill_manual(values = mycolors) +
+  theme_bw(base_size = 15) +
+  theme(legend.position = "none")
+
+# After 
+pca.eig.trans$index <- as.factor(1:nrow(pca.eig.trans))
+pca.eig.trans$index.cont <- 1:nrow(pca.eig.trans)
+
+nb.cols <- 10
+mycolors <- colorRampPalette(rev(brewer.pal(8, "YlGnBu")))(nb.cols)
+
+#Scree plot
+pca.eig.trans %>% 
+ggplot(aes(x = index,
+  y =as.numeric(`percentage of variance`))) +
+  geom_bar(stat = "identity",
+    aes(fill = index),
+    colour = "black") +
+  geom_path(aes(x = index.cont,
+    group = 1),
+    size = 1,
+    colour = "Gray50") +
+  geom_point(size = 3) +
+  labs(x = "Principal Components",
+       y = "Percentage of Variance Explained") +
+  scale_fill_manual(values = mycolors) +
+  theme_bw(base_size = 15) +
+  theme(legend.position = "none")
+```
+
+```{r 10.6}
+
+pca.contrib <- as.data.frame(round(pca.dat$var$contrib, 2))[,1:4]
+pca.contrib
+```
+
+```{r 10.7}
+pca.contrib$var <-
+  row.names(pca.contrib) #Turn row names into a variable
+
+pca.contrib <- reshape2::melt(pca.contrib,id.vars = "var") #Melt the dataset
+  
+total.var <-
+  paste0("(",pca.eig$`percentage of variance`[1:4],"% of Variance)",sep = "") #Extract the % of variance explained by each PC
+
+pca.contrib$variable <- factor(pca.contrib$variable,labels =
+  paste("PC",1:4," ", total.var,sep = "")) #Append these values to the names of each PC
+```
+
+
+```{r 10.8}
+pca.coord <- as.data.frame(round(pca.dat$var$coord, 3))
+pca.coord
+```
+
+```{r 10.9}
+for (i in 1:nrow(pca.contrib))
+{
+  pca.contrib$dir[i] <- pca.coord[which(row.names(pca.coord) == pca.contrib$var[i]),
+                                  grep(as.numeric(substr(pca.contrib$variable[i],3,3)),names(pca.coord))] >
+    0
+}
+pca.contrib
+```
+
+```{r 10.10}
+
+ggplot(pca.contrib,aes(x = var,
+  y = value)) +
+  geom_hline(yintercept = 100 / length(unique(pca.contrib$var)),
+             linetype = "dashed") +
+  geom_bar(stat = "identity",
+    aes(fill = var),
+    colour = "black") +
+  facet_wrap(~variable,
+    nrow = 2,
+    scales = "free") +
+  # geom_label(aes(label = var,colour = dir)) +
+  scale_colour_manual(values = c("red","black"))+
+  scale_fill_brewer(palette = "Spectral") +
+  theme_bw(base_size = 15) +
+  labs(x = NULL, y = "% Contribution to Principal Component", fill = " ") +
+  theme(axis.text.x = element_blank(),
+    legend.position = "bottom") +
+  guides(fill = guide_legend(override.aes =
+      aes(label = " "), nrow = 4)) 
+```
+
+## CPUE Models
+
+```{r 10.11}
+# Renaming data
+species.pca.2 <- species.cor.3 
+
+# Printing summary of variables
+summary(species.pca.2)
+```
+
+```{r 10.12, message = FALSE}
+
+species.pca.3 <- cbind(Row.Names = rownames(species.pca.2), species.pca.2)
+
+ggplot(reshape2::melt(species.pca.3, id.vars = "Row.Names"),
+  aes(x = value)) +
+  geom_histogram(colour = "black", aes(fill = variable)) +
+  scale_fill_brewer(palette = "Spectral",
+                    name = "Variable")+
+  facet_wrap(~variable,
+    nrow = 3,
+    scales = "free") +
+  labs(x = "", 
+    y = "Frequency") +
+  theme(legend.position = "none") 
+```
+
+## PCA
+
+```{r 10.13}
+# Before 
+pca.dat.2 <- PCA(species.pca.2, 
+  graph = TRUE,
+  scale.unit = TRUE)
+
+# After 
+species.pca.2.trans <- t(species.pca.2)
+pca.dat.2.trans <- PCA(species.pca.2.trans, 
+  graph = TRUE,
+  scale.unit = TRUE)
+```
+
+So what were the PCs generated? How well do they capture the overall variation in the dataset? And how are they stored in the object? Let’s take a look.
+
+```{r 10.14}
+# Before
+pca.eig.2 <- as.data.frame(format(round(pca.dat.2$eig,3), scientific = FALSE))
+
+pca.eig.2
+
+# After
+pca.eig.2.trans <- as.data.frame(format(round(pca.dat.2.trans$eig,3), scientific = FALSE))
+
+pca.eig.2.trans
+```
+  
+  
+```{r 10.15}
+# Before 
+pca.eig.2$index <- as.factor(1:nrow(pca.eig.2))
+pca.eig.2$index.cont <- 1:nrow(pca.eig.2)
+
+nb.cols <- 11
+mycolors <- colorRampPalette(rev(brewer.pal(8, "YlGnBu")))(nb.cols)
+
+#Scree plot
+ggplot(pca.eig.2,aes(x=index,y=as.numeric(`percentage of variance`))) +
+  geom_bar(stat = "identity",aes(fill = index),colour = "black") +
+  geom_path(aes(x = index.cont, group = 1),size = 1,colour = "Gray50") +
+  geom_point(size = 3) +
+  labs(x = "Principal Components",
+       y = "Percentage of Variance Explained") +
+  scale_fill_manual(values = mycolors) +
+  theme_bw(base_size = 15) +
+  theme(legend.position = "none")
+
+# After
+pca.eig.2.trans$index <- as.factor(1:nrow(pca.eig.2.trans))
+pca.eig.2.trans$index.cont <- 1:nrow(pca.eig.2.trans)
+
+nb.cols <- 10
+mycolors <- colorRampPalette(rev(brewer.pal(8, "YlGnBu")))(nb.cols)
+
+#Scree plot
+ggplot(pca.eig.2.trans,aes(x=index,y=as.numeric(`percentage of variance`))) +
+  geom_bar(stat = "identity",aes(fill = index),colour = "black") +
+  geom_path(aes(x = index.cont, group = 1),size = 1,colour = "Gray50") +
+  geom_point(size = 3) +
+  labs(x = "Principal Components",
+       y = "Percentage of Variance Explained") +
+  scale_fill_manual(values = mycolors) +
+  theme_bw(base_size = 15) +
+  theme(legend.position = "none")
+
+```
+
+```{r 10.16}
+pca.contrib.2 <- as.data.frame(round(pca.dat.2$var$contrib, 2))[,1:4]
+pca.contrib.2
+```
+
+```{r 10.17}
+pca.contrib.2$var <-
+  row.names(pca.contrib.2) #Turn row names into a variable
+
+pca.contrib.2 <- reshape2::melt(pca.contrib.2,id.vars = "var") #Melt the dataset
+  
+total.var <-
+  paste0("(",pca.eig.2$`percentage of variance`[1:4],"% of Variance)",sep = "") #Extract the % of variance explained by each PC
+
+pca.contrib.2$variable <- factor(pca.contrib.2$variable,labels =
+  paste("PC",1:4," ", total.var,sep = "")) #Append these values to the names of each PC
+```
+
+
+```{r 10.18}
+pca.coord.2 <- as.data.frame(round(pca.dat.2$var$coord, 3))
+pca.coord.2
+```
+
+```{r 10.19}
+for (i in 1:nrow(pca.contrib.2))
+{
+  pca.contrib.2$dir[i] <- pca.coord.2[which(row.names(pca.coord) == pca.contrib.2$var[i]),
+                                  grep(as.numeric(substr(pca.contrib.2$variable[i],3,3)),names(pca.coord.2))] >
+    0
+}
+pca.contrib.2
+```
+
+```{r 10.20}
+
+ggplot(pca.contrib.2,aes(x = var,
+  y = value)) +
+  geom_hline(yintercept = 100 / length(unique(pca.contrib.2$var)),
+             linetype = "dashed") +
+  geom_bar(stat = "identity",
+    aes(fill = var),
+    colour = "black") +
+  facet_wrap(~variable,
+    nrow = 2,
+    scales = "free") +
+  # geom_label(aes(label = var,colour = dir)) +
+  scale_colour_manual(values = c("red","black"))+
+  scale_fill_brewer(palette = "Spectral") +
+  theme_bw(base_size = 15) +
+  labs(x = NULL, y = "% Contribution to Principal Component", fill = " ") +
+  theme(axis.text.x = element_blank(),
+    legend.position = "bottom") +
+  guides(fill = guide_legend(override.aes =
+      aes(label = " "), nrow = 4)) 
+```
+
+
+## Canonical Correspondence Analysis{#id.102}
+
+```{r 10.21, echo=FALSE}
+# data(varespec)
+# data(varechem)
+# ## Common but bad way: use all variables you happen to have in your
+# ## environmental data matrix
+# vare.cca <- cca(varespec, varechem)
+# vare.cca
+# plot(vare.cca)
+# ## Formula interface and a better model
+# vare.cca <- cca(varespec ~ Al + P*(K + Baresoil), data=varechem)
+# vare.cca
+# plot(vare.cca)
+# ## `Partialling out' and `negative components of variance'
+# cca(varespec ~ Ca, varechem)
+# cca(varespec ~ Ca + Condition(pH), varechem)
+```
+
+## First Approach
+
+```{r 10.22}
+# Data
+cca.data.all <- species.cor %>%
+  pivot_wider(names_from = LatinNames,
+    values_from = CpueKGHR,
+    values_fill = 0) 
+
+# Creating two data frames
+cca.1 <- cca.data.all[,7:17]
+cca.2 <- cca.data.all[,2:6]
+
+# Fitting model 
+cca.model <- cca(cca.1, cca.2)
+cca.model
+
+plot(cca.model, xlim = c(-3,3), ylim = c(-1,1))
+
+summary(cca.model)
+
+anova(cca.model)
+```
+
+## Second Approach 
+
+```{r}
+data.1 <- cca.1[, 7]
+data.2 <- cca.1[, c(1:6,8:11)]
+
+# Running model
+cc1 <- cc(data.1, data.2)
+
+# display the canonical correlations
+cc1$cor
+
+# raw canonical coefficients
+cc1[3:4]
+```
+
+The raw canonical coefficients are interpreted in a manner analogous to interpreting regression coefficients i.e., for the species *Paralonchurus brasiliensis*, a one unit increase in CPUE leads to a -0.497 decrease in the first canonical variate of the other variables are held constant?
+
+```{r}
+# compute canonical loadings
+cc2 <- comput(data.1, data.2, cc1)
+
+# display canonical loadings
+cc2[3:6]
+```
+The above correlations are between observed variables and canonical variables which are known as the canonical loadings. These canonical variates are actually a type of latent variable.
+
+```{r}
+# tests of canonical dimensions
+rho <- cc1$cor
+## Define number of observations, number of variables in first set, and number of variables in the second set.
+n <- dim(data.1)[1]
+p <- length(data.1)
+q <- length(data.2)
+
+## Calculate p-values using the F-approximations of different test statistics:
+p.asym(rho, n, p, q, tstat = "Wilks")
+```
+

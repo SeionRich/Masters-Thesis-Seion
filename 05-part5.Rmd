@@ -1,0 +1,303 @@
+# Seabob Models - Best Models
+
+## CPUE 
+
+### Data modifications
+
+```{r 5.1}
+target.catch.cpue <- SummaryTable %>% 
+  ungroup() %>%
+  # mutate(Company.bv = case_when(Company == "PSI" ~ 1,
+  #   Company == "NHS" ~ 0),
+  #   TimePeriods.bv = case_when(TimePeriods == "Day" ~ 1,
+  #   TimePeriods == "Night" ~ 0)) %>% 
+  filter(CatchCategory == "Target catch") %>% 
+  dplyr::select(Company,
+  Month,
+  TimePeriods,
+  FishingZones,
+  FishingDepthMtr,
+  CpueKGHr)
+
+# Converting variables to factors
+factor.var <- c("Company",
+  "Month",
+  "TimePeriods",
+  "FishingZones")
+
+target.catch.cpue[,factor.var] <- lapply(target.catch.cpue[,factor.var], factor)
+
+# Removing fishing zones 2 and 5
+
+drop.zones <- c(2, 5)
+target.catch.cpue.2 <- target.catch.cpue %>% 
+  filter(!FishingZones %in% drop.zones)
+```
+
+### Qucik glance at response variable
+
+```{r 5.2}
+# Table
+table(target.catch.cpue$CpueKGHr) 
+
+# Histogram
+hist(target.catch.cpue$CpueKGHr)
+```
+
+#### 2 Predictors
+
+```{r 5.3}
+cpue.model.1 <- glm(CpueKGHr ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = target.catch.cpue)
+# Print summary
+summary(cpue.model.1)
+```
+
+#### 2 Predictors with 1 interaction term
+
+```{r 5.4}
+cpue.model.2 <- glm(CpueKGHr ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = target.catch.cpue)
+
+# Print summary
+summary(cpue.model.2)
+```
+
+#### 3 Predictors
+
+```{r 5.5}
+cpue.model.3 <- glm(CpueKGHr ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = target.catch.cpue.2)
+
+# Print summary
+summary(cpue.model.3)
+```
+
+#### 3 Predictors and 1 interaction term
+
+```{r 5.6}
+cpue.model.4 <- glm(CpueKGHr ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = target.catch.cpue.2)
+
+# Print summary
+summary(cpue.model.4)
+```
+
+#### 3 Predictors with 2 interaction term
+
+```{r 5.7}
+cpue.model.5 <- glm(CpueKGHr ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = target.catch.cpue)
+
+# Print summary
+summary(cpue.model.5)
+```
+
+#### 3 Predictors with 1 interaction term - Dropping Month*TimePeriods
+
+```{r 5.8}
+cpue.model.5 <- glm(CpueKGHr ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    # Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = target.catch.cpue)
+
+# Print summary
+summary(cpue.model.5)
+```
+
+```{r Prof Paulson, echo = FALSE}
+
+# cpue.model.f.5.b <- aov(CpueKGHR ~ Month + TimePeriods + as.factor(FishingZones) + FishingDepthMtr + 
+#       Month:TimePeriods + Month:FishingDepthMtr + TimePeriods:as.factor(FishingZones) + 
+#       TimePeriods:FishingDepthMtr,
+#    data = species.1)
+# 
+# cpue.model.f.5.a <- aov(log(CpueKGHR)  ~ Month + TimePeriods + FishingZones + FishingDepthMtr + 
+#       Month:TimePeriods + Month:FishingDepthMtr + TimePeriods:FishingZones + 
+#       TimePeriods:FishingDepthMtr,
+#    data = species.1)
+# 
+# cpue.model.f.5.c <- lm(log(CpueKGHR)  ~ Month + TimePeriods + FishingZones + FishingDepthMtr + 
+#       Month:TimePeriods + Month:FishingDepthMtr + TimePeriods:FishingZones + 
+#       TimePeriods:FishingDepthMtr,
+#    data = species.1)
+# 
+# plot(cpue.model.f.5.a)
+# plot(cpue.model.f.5.b)
+# plot(cpue.model.f.5.c)
+# # Print summary
+# summary.aov(cpue.model.f.5.a)
+# summary.aov(cpue.model.f.5.b)
+# summary(cpue.model.f.5.c)
+# summary(cpue.model.f.5.b)
+# 
+# table(species.1$FishingZones,species.1$TimePeriods)
+# 
+# sapply(species.1,data.class)
+```
+
+### Model Comparison
+
+```{r 5.8.1}
+rcompanion::compareGLM(cpue.model.1,
+  cpue.model.2,
+  cpue.model.3,
+  cpue.model.4,
+  cpue.model.5) 
+```
+
+## Weight prop. 
+
+### Data modifications
+
+```{r 5.9}
+target.catch.prop <- SummaryTable %>% 
+  ungroup() %>%
+  filter(CatchCategory == "Target catch") %>% 
+  dplyr::select(Company,
+  FishingDepthMtr,
+  FishingZones,
+  Month,
+  TimePeriods,
+  PropWeight)
+
+# Converting variables to factors
+factor.var <- c("Company",
+  "Month",
+  "TimePeriods",
+  "FishingZones")
+
+target.catch.prop[,factor.var] <- lapply(target.catch.prop[,factor.var], factor)
+
+# Removing fishing zones 2 and 5
+drop.zones <- c(2, 5)
+target.catch.prop.2 <- target.catch.prop %>% 
+  filter(!FishingZones %in% drop.zones)
+```
+
+### Qucik glance at response variable
+
+```{r 5.10}
+# Table
+table(target.catch.prop$PropWeight) 
+
+# Histogram
+hist(target.catch.prop$PropWeight)
+```
+
+#### 2 Predictors
+
+```{r 5.11}
+prop.model.1 <- glm(PropWeight ~ Month +
+    TimePeriods,
+  family = gaussian,
+  data = target.catch.prop)
+
+# Print summary
+summary(prop.model.1)
+```
+
+#### 2 Predictors with 1 interaction term
+
+```{r 5.12}
+prop.model.2 <- glm(PropWeight ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian,
+  data = target.catch.prop)
+
+# Print summary
+summary(prop.model.2)
+```
+
+#### 3 Predictors
+
+```{r 5.13}
+prop.model.3 <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr,
+  family = gaussian,
+  data = target.catch.prop)
+
+# Print summary
+summary(prop.model.3)
+```
+
+#### 3 Predictors
+
+```{r 5.14}
+prop.model.4 <- glm(PropWeight ~ Month +
+    FishingDepthMtr +
+    FishingZones,
+    # TimePeriods, Adding time of day does not influence significance. 
+    # Adding Months results in NA values
+  family = gaussian,
+  data = target.catch.prop.2)
+
+# Print summary
+summary(prop.model.4)
+```
+
+#### 3 Predictors and 1 interaction term
+
+```{r 5.15}
+prop.model.5 <- glm(PropWeight ~ TimePeriods +
+  Month +
+  FishingDepthMtr + # Increase significance values
+  TimePeriods*Month, 
+  family = gaussian,
+  data = target.catch.prop)
+
+# Print summary
+summary(prop.model.5)
+```
+
+#### 3 Predictors with 2 interaction term
+
+```{r 5.16}
+prop.model.6 <- glm(PropWeight ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, # Adding fishing zones yields NA values
+  family = gaussian,
+  data = target.catch.prop)
+
+# Print summary
+summary(prop.model.6)
+```
+
+### Model Comparison
+
+```{r 5.17}
+rcompanion::compareGLM(prop.model.1,
+  prop.model.2,
+  prop.model.3,
+  prop.model.4,
+  prop.model.5,
+  prop.model.6) 
+```
+
+

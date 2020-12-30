@@ -1,0 +1,1125 @@
+# Non-parametric Tests 
+
+## Top 10 discard species weight prop 
+
+### Data Modifications 
+
+```{r 7.1}
+# Names to remove 
+Remove <- c("Multiple species finfish", "Multiple species prawns", "Xiphopenaeus kroyeri")
+
+# Data
+Top10Species <- ObserverData %>% 
+  group_by(LatinNames, CommonName) %>% 
+  dplyr::summarise(NoSampled = n(),
+    .groups = 'drop') %>%
+  filter(NoSampled >= 10) %>%
+  filter(!LatinNames %in% Remove) %>%
+  arrange(desc(NoSampled)) %>% 
+  head(10)
+
+# Creating a vector of names
+Top10names <- Top10Species$LatinNames
+
+# Filtering data to keep species
+FilteredSpecies <- ObserverData %>% 
+  filter(LatinNames %in% Top10names) %>% 
+  group_by(DragID2) %>%  
+  mutate(PropWeight = CpueKGHR/sum(CpueKGHR)) %>% 
+  ungroup() %>% 
+  dplyr::select(LatinNames,
+    DragID2,
+    PropWeight,
+    Company,
+    Month,
+    TimePeriods,
+    FishingZones,
+    FishingDepthMtr)
+
+# Converting variables to factors
+factor.var <- c("Company",
+  "Month",
+  "TimePeriods",
+  "FishingZones")
+
+FilteredSpecies[,factor.var] <- lapply(FilteredSpecies[,factor.var], factor)
+
+# Removing fishing zones 2 and 5
+drop.zones <- c(2, 5)
+FilteredSpecies <- FilteredSpecies %>% 
+  filter(!FishingZones %in% drop.zones)
+names(ObserverData)
+```
+
+### Macrodon ancylodon
+
+```{r 7.2}
+species.1 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[1]) %>% 
+  # select(-DragID2) %>% 
+  dplyr::select(-LatinNames)
+
+# Histograms
+bks <- c(10, 30, 50, 100, 500, 1000)
+
+for (i in bks){
+  hist(species.1$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.1) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.1,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(ma.an.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.1))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.1) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.1,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(ma.an.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.1))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.1) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.1,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(ma.an.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.1))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.1) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.1,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(ma.an.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.1))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.1) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.1,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(ma.an.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.1))
+
+# Lowest p-value = Fishing depth (0.07)
+```
+
+### Callinectes ornatus
+
+```{r 7.3}
+species.2 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[2]) %>% 
+  dplyr::select(-LatinNames)
+
+# Histograms
+for (i in bks){
+  hist(species.2$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.2) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.2,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(ca.or.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.2))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.2) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.2,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(ca.or.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.2))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.2) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.2,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(ca.or.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.2))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.2) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.2,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(ca.or.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.2))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.2) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.2,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(ca.or.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.2))
+
+# Lowest p-value = Fishing Zone, Company and Month(< 0.05)
+
+
+```
+
+### Stellifer rastrifer
+
+```{r 7.4}
+species.3 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[3]) %>% 
+  dplyr::select(-LatinNames)
+
+# Histograms
+for (i in bks){
+  hist(species.3$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.3) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.3,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(st.ra.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.3))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.3) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.3,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(st.ra.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.3))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.3) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.3,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(st.ra.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.3))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.3) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.3,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(st.ra.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.3))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.3) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.3,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(st.ra.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.3))
+
+# Lowest p-value = Company (0.03)
+```
+
+### Stellifer microps
+
+```{r 7.5}
+species.4 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[4]) %>% 
+  dplyr::select(-LatinNames)
+
+species.4 <- rbind(species.4, species.1[c(17,41,45),]) # Copying row from species.one
+species.4[c(43,44,45),2] = 0.01 # changing value to '0'
+species.4 <- species.4 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histograms
+for (i in bks){
+  hist(species.4$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.4) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.4,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(st.mi.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.4))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.4) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.4,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(st.mi.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.4))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.4) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.4,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(st.mi.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.4))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.4) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.4,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(st.mi.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.4))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.4) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.4,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(st.mi.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.4))
+
+# Lowest p-value = Company (0.053)
+```
+
+### Cynoscion virescens
+
+```{r 7.6}
+species.5 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[5]) %>% 
+  dplyr::select(-LatinNames)
+
+species.5 <- rbind(species.5, species.1[c(17,21,22,23),]) # Copying row from species.one
+species.5[c(42,43,44,45),2] = 0.01 # changing value to '0'
+species.5 <- species.5 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histograms
+for (i in bks){
+  hist(species.5$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.5) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.5,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(cy.vi.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.5))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.5) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.5,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(cy.vi.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.5))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.5) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.5,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(cy.vi.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.5))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.5) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.5,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(cy.vi.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.5))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.5) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.5,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(cy.vi.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.5))
+
+# Lowest p-values = Fishing Zone and Month(< 0.05)
+```
+
+### Symphurus plagusia
+
+```{r 7.7}
+species.6 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[6]) %>% 
+  dplyr::select(-LatinNames)
+
+species.6 <- rbind(species.6, species.1[c(7,10,18,21),]) # Copying row from species.one
+species.6[c(42,43,44,45),2] = 0.01 # changing value to '0'
+species.6 <- species.6 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histograms
+for (i in bks){
+  hist(species.6$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.6) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.6,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(sy.pl.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.6))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.6) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.6,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(sy.pl.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.6))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.6) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.6,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(sy.pl.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.6))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.6) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.6,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(sy.pl.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.6))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.6) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.6,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(sy.pl.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.6))
+
+# Lowest p-value = Company (0.09)
+```
+
+### Bagre bagre
+
+```{r 7.8}
+species.7 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[7]) %>% 
+  dplyr::select(-LatinNames)
+
+species.7 <- rbind(species.7, species.1[c(18,21,24,27,45),]) # Copying row from species.one
+species.7[c(41,42,43,44,45),2] = 0.01 # changing value to '0'
+species.7 <- species.7 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histograms
+for (i in bks){
+  hist(species.7$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.7) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.7,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(ba.ba.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.7))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.7) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.7,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(ba.ba.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.7))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.7) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.7,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(ba.ba.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.7))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.7) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.7,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(ba.ba.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.7))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.7) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.7,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(ba.ba.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.7))
+
+# Lowest p-value = Fishing depth (0.13)
+```
+
+### Trichiurus lepturus
+
+```{r 7.9}
+species.8 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[8]) %>% 
+  dplyr::select(-LatinNames)
+
+species.8 <- rbind(species.8, species.1[c(6,7,35,37,41,45),]) # Copying row from species.one
+species.8[c(40,41,42,43,44,45),2] = 0.01 # changing value to '0'
+species.8 <- species.8 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histograms
+for (i in bks){
+  hist(species.8$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.8) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.8,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(tr.le.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.8))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.8) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.8,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(tr.le.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.8))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.8) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.8,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(tr.le.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.8))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.8) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.8,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(tr.le.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.8))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.8) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.8,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(tr.le.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.8))
+
+# Lowest p-value = Month (< 0.05)
+```
+
+### Achirus achirus
+
+```{r 7.10}
+species.9 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[9]) %>% 
+  dplyr::select(-LatinNames)
+
+species.9 <- rbind(species.9, species.1[c(10,11,13,15,18,21,24,25),]) # Copying row from species.one
+species.9[c(38,39,40,41,42,43,44,45),2] = 0.01 # changing value to '0'
+species.9 <- species.9 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histograms
+for (i in bks){
+  hist(species.9$PropWeight, breaks = i)
+} 
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.9) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.9,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(ac.ac.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.9))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.9) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.9,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(ac.ac.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.9))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.9) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.9,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(ac.ac.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.9))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.9) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.9,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(ac.ac.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.9))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.9) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.9,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(ac.ac.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.9))
+
+# Lowest p-value = Fishing depth (0.03)
+```
+
+### Paralonchurus brasiliensis
+
+```{r 7.11}
+species.10 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[10]) %>% 
+  dplyr::select(-LatinNames)
+
+species.10 <- rbind(species.10, species.1[c(7,17,20,22,23,28,35,39,43,45),]) # Copying row from species.one
+species.10[c(36,37,38,39,40,41,42,43,44,45),2] = 0.01 # changing value to '0'
+species.10 <- species.10 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histograms
+for (i in bks){
+  hist(species.10$PropWeight, breaks = i)
+} 
+ 
+# ## Manually check for mismatches
+# dim(species.4)
+# unique(species.1$DragID2) #######data have 45 rows rows 10, 28, 36
+# 
+# vec1 <- unique(species.1$DragID2)
+# vec2 <- unique(species.10$DragID2)
+# 
+# vec1[!(vec1 %in% vec2)]
+
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = species.10) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = species.10,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(pa.br.1 <- kruskal.test(PropWeight ~ Company,
+  data = species.10))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = species.10) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = species.10,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(pa.br.2 <- kruskal.test(PropWeight ~ TimePeriods,
+  data = species.10))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = species.10) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = species.10,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(pa.br.3 <- kruskal.test(PropWeight ~ Month,
+  data = species.10))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = species.10) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = species.10,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(pa.br.4 <- kruskal.test(PropWeight ~ FishingZones,
+  data = species.10))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.10) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = species.10,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(pa.br.5 <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = species.10))
+
+# Lowest p-value = Month (0.33)
+```
+
+## Model Comparison
+
+```{r 7.12}
+
+Species <- Top10names
+
+Company <- c(ma.an.1$p.value, ca.or.1$p.value, st.ra.1$p.value, st.mi.1$p.value, cy.vi.1$p.value, sy.pl.1$p.value, ba.ba.1$p.value, tr.le.1$p.value, ac.ac.1$p.value, pa.br.1$p.value)
+
+
+TimePeriods <- c(ma.an.2$p.value, ca.or.2$p.value, st.ra.2$p.value, st.mi.2$p.value, cy.vi.2$p.value, sy.pl.2$p.value, ba.ba.2$p.value, tr.le.2$p.value, ac.ac.2$p.value, pa.br.2$p.value)
+
+Month <- c(ma.an.3$p.value, ca.or.3$p.value, st.ra.3$p.value, st.mi.3$p.value, cy.vi.3$p.value, sy.pl.3$p.value, ba.ba.3$p.value, tr.le.3$p.value, ac.ac.3$p.value, pa.br.3$p.value)
+
+FishingZones <- c(ma.an.4$p.value, ca.or.4$p.value, st.ra.4$p.value, st.mi.4$p.value, cy.vi.4$p.value, sy.pl.4$p.value, ba.ba.4$p.value, tr.le.4$p.value, ac.ac.4$p.value, pa.br.4$p.value)
+
+FishingDepthMtr <- c(ma.an.5$p.value, ca.or.5$p.value, st.ra.5$p.value, st.mi.5$p.value, cy.vi.5$p.value, sy.pl.5$p.value, ba.ba.5$p.value, tr.le.5$p.value, ac.ac.5$p.value, pa.br.5$p.value)
+
+
+kw.comparison.table <- data.frame(Species, Company, TimePeriods, Month, FishingZones, FishingDepthMtr) %>% 
+  mutate_if(is.numeric, round, 3) 
+
+kw.comparison.table[1:10, 1:6] %>%
+  mutate(Company = cell_spec(Company, background = ifelse(Company < 0.05, "yellow", " "))) %>% 
+  mutate(Month = cell_spec(Month, background = ifelse(Month < 0.05, "yellow", " "))) %>%
+  mutate(TimePeriods = cell_spec(TimePeriods, background = ifelse(TimePeriods < 0.05, "yellow", " "))) %>%
+  mutate(FishingZones = cell_spec(FishingZones, background = ifelse(FishingZones < 0.05, "yellow", " "))) %>%
+  mutate(FishingDepthMtr = cell_spec(FishingDepthMtr, background = ifelse(FishingDepthMtr < 0.05, "yellow", " "))) %>%
+  kbl(caption = "Comparison of Kruskal-wallis Test Results for the Top 10 bycatch species",
+    booktabs = T, linesep = "", escape = FALSE) %>% 
+  add_header_above(c(" " = 1, "P-values" = 5)) %>% 
+  kable_paper(full_width = F) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped", "condensed")) %>% 
+  column_spec(2:6, color = "black") %>% 
+  footnote(general = "The p-values < 0.05 are colored yellow.")
+```
+
+## All species across bottom trawl tows
+
+### Data Modifications 
+
+```{r 7.13}
+discards.prop <- SummaryTable %>% 
+  ungroup() %>%
+  filter(CatchCategory == "Discarded catch") %>% 
+  dplyr::select(Company,
+  Month,
+  TimePeriods,
+  FishingZones,
+  FishingDepthMtr,
+  PropWeight)
+
+# Converting variables to factors
+factor.var <- c("Company",
+  "Month",
+  "TimePeriods",
+  "FishingZones")
+
+discards.prop[,factor.var] <- lapply(discards.prop[,factor.var], factor)
+
+# Removing fishing zones 2 and 5
+drop.zones <- c(2, 5)
+discards.prop.2 <- discards.prop %>% 
+  filter(!FishingZones %in% drop.zones)
+
+# Histogram
+hist(discards.prop$PropWeight, breaks = 10)
+```
+
+```{r 7.14}
+# Independent variable 1
+# Summary statistics 
+Summarize(PropWeight ~ Company,
+  data = discards.prop) 
+
+# Plotting data
+histogram(~ PropWeight | Company,
+          data = discards.prop,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(com.model <- kruskal.test(PropWeight ~ Company,
+  data = discards.prop))
+
+# Independent variable 2
+## Summary statistics 
+Summarize(PropWeight ~ TimePeriods,
+  data = discards.prop) 
+
+# Plotting data
+histogram(~ PropWeight | TimePeriods,
+          data = discards.prop,
+          layout=c(1,2)) 
+
+## Non-parametric test
+(tod.model <- kruskal.test(PropWeight ~ TimePeriods,
+  data = discards.prop))
+
+# Independent variable 3
+## Summary statistics 
+Summarize(PropWeight ~ Month,
+  data = discards.prop) 
+
+# Plotting data
+histogram(~ PropWeight | Month,
+          data = discards.prop,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(mon.model <- kruskal.test(PropWeight ~ Month,
+  data = discards.prop))
+
+# Independent variable 4
+## Summary statistics 
+Summarize(PropWeight ~ FishingZones,
+  data = discards.prop) 
+
+# Plotting data
+histogram(~ PropWeight | FishingZones,
+          data = discards.prop,
+          layout=c(2,2)) 
+
+## Non-parametric test
+(fzon.model <- kruskal.test(PropWeight ~ FishingZones,
+  data = discards.prop))
+
+# Independent variable 5
+## Summary statistics 
+Summarize(PropWeight ~ as.factor(FishingDepthMtr),
+  data = discards.prop) 
+
+# Plotting data
+histogram(~ PropWeight | as.factor(FishingDepthMtr),
+          data = discards.prop,
+          layout=c(3,3)) 
+
+## Non-parametric test
+(fdep.model <- kruskal.test(PropWeight ~ as.factor(FishingDepthMtr),
+  data = discards.prop))
+
+# Lowest p-value = Month (0.002)
+```
+
+## Model Comparison
+
+```{r 7.15}
+Factors <- c("Company", "TimePeriods", "Month", "FishingZones", "FishingDepthMtr")
+
+P.values <- c(com.model$p.value, tod.model$p.value, mon.model$p.value, fzon.model$p.value, fdep.model$p.value)
+  
+kw.comparison.table.2 <- data.frame(Factors, P.values) %>% 
+  mutate_if(is.numeric, round, 3) 
+
+kw.comparison.table.2[1:5, 1:2] %>%
+  mutate(P.values = cell_spec(P.values, background = ifelse(P.values < 0.05, "yellow", " "))) %>%
+  kbl(caption = "Comparison of Kruskal-wallis Test Results - proportions for all bycatch species",
+    booktabs = T,
+    linesep = "", 
+    escape = FALSE,
+    align = "l") %>% 
+  kable_paper(full_width = T) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped", "condensed")) %>% 
+  column_spec(2, color = "black") %>% 
+  footnote(general = "The p-values < 0.05 are colored yellow.")
+```

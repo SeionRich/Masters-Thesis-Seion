@@ -1,0 +1,189 @@
+# Cpue by species
+
+<!-- **FREQUENCY HISTOGRAMS** -->
+
+<!-- ```{r, fig.width = 7, fig.height = 65} -->
+
+<!-- Species <- ObserverData %>%  -->
+<!--   group_by(LatinNames, CommonName) %>%  -->
+<!--   dplyr::summarise(NoSampled = n(), -->
+<!--     .groups = 'drop') %>% -->
+<!--   filter(NoSampled >= 10) %>%  -->
+<!--   arrange(desc(NoSampled))  -->
+
+<!-- Species.names <- Species$LatinNames -->
+<!-- Remove <- c("Multiple species finfish", "Multiple species prawns", "Xiphopenaeus kroyeri") -->
+
+
+<!-- Plot.species <- ObserverData %>%  -->
+<!--   filter(LatinNames %in% Species.names) -->
+
+
+<!-- Plot.species <- Plot.species %>%  -->
+<!--   mutate(LatinNames = fct_relevel(LatinNames, Species.names)) %>% -->
+<!--   filter(!LatinNames %in% Remove) -->
+
+<!-- Plot.species %>%  -->
+<!--   ggplot(aes(x = CpueKGHR, -->
+<!--     fill = LatinNames)) +  -->
+<!--   geom_histogram(bins = 20) + -->
+<!--   theme_bw() + -->
+<!--   theme(panel.background = element_rect(fill = "white", -->
+<!--     colour = "grey50"), -->
+<!--     legend.position = "none") + -->
+<!--   labs(x = "CPUE (kgs/hr)", -->
+<!--     y = "Count", -->
+<!--     title = "Histograms of CPUE for all species observations", -->
+<!--     subtitle = "Colour is used to represent the different catch groups") + -->
+<!--   facet_wrap(~LatinNames, -->
+<!--     scales = "free",  -->
+<!--     ncol = 2)  -->
+<!-- ``` -->
+
+<!-- ## Company -->
+
+<!-- ```{r, fig.width = 6, fig.height = 6} -->
+<!-- names <- unique(Plot.species$LatinNames) -->
+
+<!-- for(i in names){ -->
+
+<!--   Plots.1 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = Company)) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different fishing companies") + -->
+<!--     facet_wrap(~Company, -->
+<!--       scales = "free",  -->
+<!--       ncol = 1) -->
+
+<!--   print(Plots.1) -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+
+<!-- ## Fishing Depths -->
+
+<!-- ```{r, fig.width = 7, fig.height = 9, warning = FALSE} -->
+
+<!-- for(i in names){ -->
+
+<!--   Plots.2 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = as.factor(FishingDepthMtr))) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different fishing depths") + -->
+<!--     facet_wrap(~FishingDepthMtr, -->
+<!--       scales = "free", -->
+<!--       ncol = 2) -->
+
+<!--   print(Plots.2) -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+
+<!-- ## Time of day -->
+
+<!-- ```{r, fig.width = 6, fig.height = 6} -->
+
+<!-- for(i in names){ -->
+
+<!--   Plots.3 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = TimePeriods)) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different time of day") + -->
+<!--     facet_wrap(~TimePeriods, -->
+<!--       scales = "free",  -->
+<!--       ncol = 1)  -->
+
+<!--   print(Plots.3) -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ## Months -->
+
+<!-- ```{r, fig.width = 7, fig.height = 9} -->
+
+<!-- for(i in names){ -->
+
+<!--   Plots.4 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = as.factor(Month))) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different fishing depths") + -->
+<!--     facet_wrap(~Month, -->
+<!--       scales = "free", -->
+<!--       ncol = 2) -->
+
+<!--   print(Plots.4) -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ## Fishing Zones -->
+
+<!-- ```{r, fig.width = 7, fig.height = 8} -->
+
+<!-- for(i in names){ -->
+
+<!--   Plots.5 <- ggplot(Plot.species %>%  -->
+<!--       filter(LatinNames == i), -->
+<!--     aes(x = CpueKGHR, -->
+<!--       fill = as.factor(FishingZones))) +  -->
+<!--     geom_histogram(bins = 20) + -->
+<!--     theme_bw() + -->
+<!--     theme(panel.background = element_rect(fill = "white", -->
+<!--       colour = "grey50"), -->
+<!--       legend.position = "none") + -->
+<!--     labs(x = "CPUE (kgs/hr)", -->
+<!--       y = "Count", -->
+<!--       title = paste0("Histogram of ", i, " CPUE - all observations"), -->
+<!--       subtitle = "Colour is used to represent the different fishing depths") + -->
+<!--     facet_wrap(~FishingZones, -->
+<!--       scales = "free", -->
+<!--       ncol = 2) -->
+
+<!--   print(Plots.5) -->
+<!-- } -->
+<!-- ``` -->
+
+

@@ -1,0 +1,293 @@
+# CLUSTER ANALYSIS{#id.111} 
+
+K-means finds fixed cluster points (means) in the dataset and compares the distance between each observations and those fixed points. While hierarchical clustering starts by placing each observation in their own cluster (i.e. cluster of 1) and step-wise merges by looking at the differences between the different adjacent points. Thus adding information about structure of the data, unlike K-means. Thus hierarchical clustering looks at both similarity of points and clusters. 
+
+## Prop.Weight - Scaled Data
+
+```{r 11.1}
+species.kmeans <- species.pca
+
+prop.wt.kmeans <- t(scale(species.kmeans))
+```
+
+## K-Means Clustering 
+
+### K-means Clustering 
+
+```{r 11.2}
+# Fitting models
+# # K-means = 3
+kmeans.3 <- kmeans(prop.wt.kmeans,
+  centers = 3,
+  nstart = 25)
+# K-means = 4
+kmeans.4 <- kmeans(prop.wt.kmeans,
+  centers = 4,
+  nstart = 25)
+# K-means = 5
+kmeans.5 <- kmeans(prop.wt.kmeans,
+  centers = 5,
+  nstart = 25)
+# K-means = 6
+kmeans.6 <- kmeans(prop.wt.kmeans,
+  centers = 6,
+  nstart = 25)
+# K-means = 7
+kmeans.7 <- kmeans(prop.wt.kmeans,
+  centers = 7,
+  nstart = 25)
+# K-means = 8
+kmeans.8 <- kmeans(prop.wt.kmeans,
+  centers = 8,
+  nstart = 25)
+
+# Printing k-means = 8 & 11
+kmeans.5; kmeans.8
+```
+
+
+### Plotting results
+
+```{r 11.3}
+# Plotting 
+# K-means = 3
+fviz_cluster(kmeans.3,
+  data = prop.wt.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 3")
+# K-means = 4
+fviz_cluster(kmeans.4,
+  data = prop.wt.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 4")
+# K-means = 5
+fviz_cluster(kmeans.5,
+  data = prop.wt.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 5")
+# K-means = 6
+fviz_cluster(kmeans.6,
+  data = prop.wt.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 6")
+# K-means = 7
+fviz_cluster(kmeans.7,
+  data = prop.wt.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 7")
+# K-means = 8
+fviz_cluster(kmeans.8,
+  data = prop.wt.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 8")
+
+```
+
+### Determining Optimal Clusters
+
+```{r 11.4}
+set.seed(123)
+
+fviz_nbclust(prop.wt.kmeans, kmeans, k.max = 8, method = "wss")
+```
+
+## Hierachical Clustering (HC)
+
+```{r 11.5}
+# Creating the distance matrix (matrix of the distance between between every point in dataframe)
+prop.wt.hc <- prop.wt.kmeans
+
+dist.mtx <- dist(prop.wt.hc)
+
+# Fitting model
+fit.hc <- hclust(dist.mtx) # different methods/search algorithms...no wrong or right...default complete linkage...?hclust to list of other options 
+
+# Plot model (dendrogram) and selecting clusters
+
+# k = 3
+plot(fit.hc);rect.hclust(fit.hc,
+  k = 3,
+  border = "red")
+
+# k = 4
+plot(fit.hc);rect.hclust(fit.hc,
+  k = 4,
+  border = "blue") 
+
+# k = 5
+plot(fit.hc);rect.hclust(fit.hc,
+  k = 5,
+  border = "green") 
+
+# k = 6
+plot(fit.hc);rect.hclust(fit.hc,
+  k = 6,
+  border = "purple") 
+```
+
+### Determining Optimal Groups
+
+```{r}
+ggplot(fit.hc$height %>%
+    as.tibble() %>%
+    add_column(Groups = length(fit.hc$height):1) %>%
+    rename(Height=value),
+  aes(x = Groups, y = Height)) +
+  scale_x_continuous(breaks = seq(from = 1, to = 10)) +
+  geom_point() +
+  geom_line() +
+  labs(title = "Scree plot - Weight Proportions") +
+  theme_bw()
+```
+
+
+
+## CPUE - Scaled Data
+
+```{r 11.6}
+species.kmeans <- species.pca.2
+
+cpue.kmeans <- t(scale(species.kmeans))
+```
+
+## K-Means Clustering 
+
+### K-means Clustering 
+
+```{r 11.7}
+# Fitting models
+# K-means = 3
+kmeans.3 <- kmeans(cpue.kmeans,
+  centers = 3,
+  nstart = 25)
+
+# K-means = 4
+kmeans.4 <- kmeans(cpue.kmeans,
+  centers = 4,
+  nstart = 25)
+
+# K-means = 5
+kmeans.5 <- kmeans(cpue.kmeans,
+  centers = 5,
+  nstart = 25)
+
+# K-means = 6
+kmeans.6 <- kmeans(cpue.kmeans,
+  centers = 6,
+  nstart = 25)
+
+# K-means = 7
+kmeans.7 <- kmeans(cpue.kmeans,
+  centers = 7,
+  nstart = 25)
+
+# K-means = 8
+kmeans.8 <- kmeans(cpue.kmeans,
+  centers = 8,
+  nstart = 25)
+
+# Printing k-means = 8 & 11
+kmeans.3; kmeans.8
+```
+
+
+### Plotting results
+
+```{r 11.8}
+# Plotting 
+# K-means = 3
+fviz_cluster(kmeans.3,
+  data = cpue.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 3")
+
+# K-means = 4
+fviz_cluster(kmeans.4,
+  data = cpue.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 4")
+
+# K-means = 5
+fviz_cluster(kmeans.5,
+  data = cpue.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 5")
+
+# K-means = 6
+fviz_cluster(kmeans.6,
+  data = cpue.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 6")
+
+# K-means = 7
+fviz_cluster(kmeans.7,
+  data = cpue.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 7")
+
+# K-means = 8
+fviz_cluster(kmeans.8,
+  data = cpue.kmeans,
+  ggtheme = theme_bw(),
+  main = "Clusters = 8")
+
+```
+
+### Determining Optimal Clusters
+
+```{r 11.9}
+set.seed(123)
+
+fviz_nbclust(cpue.kmeans, kmeans, k.max = 8, method = "wss")
+```
+
+## Hierachical Clustering (HC)
+
+```{r 11.10}
+# Creating the distance matrix (matrix of the distance between between every point in dataframe)
+cpue.hc <- cpue.kmeans
+
+dist.mtx <- dist(cpue.hc)
+
+# Fitting model
+fit.hc.2 <- hclust(dist.mtx) # different methods/search algorithms...no wrong or right...default complete linkage...?hclust to list of other options 
+
+# Plot model (dendrogram) and selecting clusters
+
+
+# k = 3
+plot(fit.hc.2);rect.hclust(fit.hc.2,
+  k = 3,
+  border = "red")
+
+# k = 4
+plot(fit.hc.2);rect.hclust(fit.hc.2,
+  k = 4,
+  border = "blue") 
+
+# k = 5
+plot(fit.hc.2);rect.hclust(fit.hc.2,
+  k = 5,
+  border = "green") 
+
+# k = 6
+plot(fit.hc.2);rect.hclust(fit.hc.2,
+  k = 6,
+  border = "purple") 
+```
+
+### Determining Optimal Groups
+
+```{r}
+ggplot(fit.hc.2$height %>%
+    as.tibble() %>%
+    add_column(Groups = length(fit.hc.2$height):1) %>%
+    rename(Height=value),
+  aes(x = Groups, y = Height)) +
+  scale_x_continuous(breaks = seq(from = 1, to = 10)) +
+  geom_point() +
+  geom_line() +
+  labs(title = "Scree plot - CPUE") +
+  theme_bw()
+```
+

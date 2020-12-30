@@ -1,0 +1,936 @@
+#  Best CPUE Models - Top 10 Bycatch Species
+
+## Data Modifications 
+
+```{r 6.1}
+# Names to remove 
+Remove <- c("Multiple species finfish", "Multiple species prawns", "Xiphopenaeus kroyeri")
+
+# Data
+Top10Species <- ObserverData %>% 
+  group_by(LatinNames, CommonName) %>% 
+  dplyr::summarise(NoSampled = n(),
+    .groups = 'drop') %>%
+  filter(NoSampled >= 10) %>%
+  filter(!LatinNames %in% Remove) %>%
+  arrange(desc(NoSampled)) %>% 
+  head(10)
+
+# Creating a vector of names
+Top10names <- Top10Species$LatinNames
+
+
+# Filtering data to keep species
+FilteredSpecies <- ObserverData %>% 
+  filter(LatinNames %in% Top10names) %>% 
+  group_by(DragID2) %>%  
+  mutate(PropWeight = CpueKGHR/sum(CpueKGHR)) %>% 
+  ungroup() %>% 
+  dplyr::select(LatinNames,
+    DragID2,
+    CpueKGHR,
+    Company,
+    Month,
+    TimePeriods,
+    FishingZones,
+    FishingDepthMtr)
+
+# Converting variables to factors
+factor.var <- c("Company",
+  "Month",
+  "TimePeriods",
+  "FishingZones")
+
+FilteredSpecies[,factor.var] <- lapply(FilteredSpecies[,factor.var], factor)
+
+# Removing fishing zones 2 and 5
+drop.zones <- c(2, 5)
+FilteredSpecies <- FilteredSpecies %>% 
+  filter(!FishingZones %in% drop.zones) %>% 
+  droplevels()
+```
+
+## CPUE Model Selection
+
+### Macrodon ancylodon
+
+```{r 6.2}
+species.1 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[1]) %>% 
+  # select(-DragID2) %>% 
+  dplyr::select(-LatinNames)
+
+# Histogram
+hist(species.1$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+ma.an.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.1)
+
+summary(ma.an.1) # print summary
+
+# 2 Predictors with 1 interaction term
+ma.an.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.1)
+
+summary(ma.an.2) # print summary
+
+# 3 Predictors
+ma.an.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.1)
+
+summary(ma.an.3) # print summary
+
+# 3 Predictors and 1 interaction term
+ma.an.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.1)
+
+summary(ma.an.4) # print summary
+
+# 3 Predictors with 2 interaction term
+ma.an.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.1)
+
+summary(ma.an.5) # print summary
+
+# 2 Predictors
+ma.an.1.log <- glm(log(CpueKGHR) ~ Month +
+    TimePeriods,
+  family = gaussian,
+  data = species.1)
+
+summary(ma.an.1.log) # print summary
+
+# 2 Predictors with 1 interaction term
+ma.an.2.log <- glm(log(CpueKGHR) ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian,
+  data = species.1)
+
+summary(ma.an.2.log) # print summary
+
+# 3 Predictors
+ma.an.3.log <- glm(log(CpueKGHR) ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian,
+  data = species.1)
+
+summary(ma.an.3.log) # print summary
+
+# 3 Predictors and 1 interaction term
+ma.an.4.log <- glm(log(CpueKGHR) ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian,
+  data = species.1)
+
+summary(ma.an.4.log) # print summary
+
+# 3 Predictors with 2 interaction term
+ma.an.5.log <- glm(log(CpueKGHR) ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian,
+  data = species.1)
+
+summary(ma.an.5.log)
+
+# interaction.plot(species.1$Month, species.1$TimePeriods, species.1$CpueKGHR)
+```
+
+#### Model Comparison
+
+```{r 6.3}
+rcompanion::compareGLM(ma.an.1,
+  ma.an.2,
+  ma.an.3,
+  ma.an.4,
+  ma.an.5,
+  ma.an.1.log,
+  ma.an.2.log,
+  ma.an.3.log,
+  ma.an.4.log,
+  ma.an.5.log)
+
+# Best model = 6
+```
+
+### Callinectes ornatus
+
+```{r 6.4}
+species.2 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[2]) %>% 
+  dplyr::select(-LatinNames)
+
+# Histogram
+hist(species.2$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+ca.or.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.2)
+
+summary(ca.or.1) # print summary
+
+# 2 Predictors with 1 interaction term
+ca.or.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.2)
+
+summary(ca.or.2) # print summary
+
+# 3 Predictors
+ca.or.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.2)
+
+summary(ca.or.3) # print summary
+
+# 3 Predictors and 1 interaction term
+ca.or.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.2)
+
+summary(ca.or.4) # print summary
+
+# 3 Predictors with 2 interaction term
+ca.or.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.2)
+
+summary(ca.or.5) # print summary
+
+# 2 Predictors
+ca.or.1.log <- glm(log(CpueKGHR) ~ Month +
+    TimePeriods,
+  family = gaussian,
+  data = species.2)
+
+summary(ca.or.1.log) # print summary
+
+# 2 Predictors with 1 interaction term
+ca.or.2.log <- glm(log(CpueKGHR) ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian,
+  data = species.2)
+
+summary(ca.or.2.log) # print summary
+
+# 3 Predictors
+ca.or.3.log <- glm(log(CpueKGHR) ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian,
+  data = species.2)
+
+summary(ca.or.3.log) # print summary
+
+# 3 Predictors and 1 interaction term
+ca.or.4.log <- glm(log(CpueKGHR) ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian,
+  data = species.2)
+
+summary(ca.or.4.log) # print summary
+
+# 3 Predictors with 2 interaction term
+ca.or.5.log <- glm(log(CpueKGHR) ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian,
+  data = species.2)
+
+summary(ca.or.5.log) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.5}
+rcompanion::compareGLM(ca.or.1,
+  ca.or.2,
+  ca.or.3,
+  ca.or.4,
+  ca.or.5,
+  ca.or.1.log,
+  ca.or.2.log,
+  ca.or.3.log,
+  ca.or.4.log,
+  ca.or.5.log) 
+
+# Best model = 8
+```
+
+### Stellifer rastrifer
+
+```{r 6.6}
+species.3 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[3]) %>% 
+  dplyr::select(-LatinNames)
+
+# Histogram
+hist(species.3$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+st.ra.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.3)
+
+summary(st.ra.1) # print summary
+
+# 2 Predictors with 1 interaction term
+st.ra.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.3)
+
+summary(st.ra.2) # print summary
+
+# 3 Predictors
+st.ra.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.3)
+
+summary(st.ra.3) # print summary
+
+# 3 Predictors and 1 interaction term
+st.ra.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.3)
+
+summary(st.ra.4) # print summary
+
+# 3 Predictors with 2 interaction term
+st.ra.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.3)
+
+summary(st.ra.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.7}
+rcompanion::compareGLM(st.ra.1,
+  st.ra.2,
+  st.ra.3,
+  st.ra.4,
+  st.ra.5) 
+
+# Best model = 4
+```
+
+### Stellifer microps
+
+```{r 6.8}
+species.4 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[4]) %>% 
+  dplyr::select(-LatinNames)
+
+species.4 <- rbind(species.4, species.1[c(17,41,45),]) # Copying row from species.one
+species.4[c(43,44,45),2] = 0.01 # changing value to '0'
+species.4 <- species.4 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histogram
+hist(species.4$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+st.mi.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.4)
+
+summary(st.mi.1) # print summary
+
+# 2 Predictors with 1 interaction term
+st.mi.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.4)
+
+summary(st.mi.2) # print summary
+
+# 3 Predictors
+st.mi.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.4)
+
+summary(st.mi.3) # print summary
+
+# 3 Predictors and 1 interaction term
+st.mi.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.4)
+
+summary(st.mi.4) # print summary
+
+# 3 Predictors with 2 interaction term
+st.mi.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.4)
+
+summary(st.mi.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.9}
+rcompanion::compareGLM(st.mi.1,
+  st.mi.2,
+  st.mi.3,
+  st.mi.4,
+  st.mi.5) 
+
+# Best model = 1
+```
+
+### Cynoscion virescens
+
+```{r 6.10}
+species.5 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[5]) %>% 
+  dplyr::select(-LatinNames)
+
+species.5 <- rbind(species.5, species.1[c(17,21,22,23),]) # Copying row from species.one
+species.5[c(42,43,44,45),2] = 0.01 # changing value to '0'
+species.5 <- species.5 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histogram
+hist(species.5$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+cy.vi.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.5)
+
+summary(cy.vi.1) # print summary
+
+# 2 Predictors with 1 interaction term
+cy.vi.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.5)
+
+summary(cy.vi.2) # print summary
+
+# 3 Predictors
+cy.vi.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.5)
+
+summary(cy.vi.3) # print summary
+
+# 3 Predictors and 1 interaction term
+cy.vi.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.5)
+
+summary(cy.vi.4) # print summary
+
+# 3 Predictors with 2 interaction term
+cy.vi.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.5)
+
+summary(cy.vi.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.11}
+rcompanion::compareGLM(cy.vi.1,
+  cy.vi.2,
+  cy.vi.3,
+  cy.vi.4,
+  cy.vi.5) 
+
+# Best model = 3
+```
+
+### Symphurus plagusia
+
+```{r 6.12}
+species.6 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[6]) %>% 
+  dplyr::select(-LatinNames)
+
+species.6 <- rbind(species.6, species.1[c(7,10,18,21),]) # Copying row from species.one
+species.6[c(42,43,44,45),2] = 0.01 # changing value to '0'
+species.6 <- species.6 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histogram
+hist(species.6$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+sy.pl.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.6)
+
+summary(sy.pl.1) # print summary
+
+# 2 Predictors with 1 interaction term
+sy.pl.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.6)
+
+summary(sy.pl.2) # print summary
+
+# 3 Predictors
+sy.pl.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.6)
+
+summary(sy.pl.3) # print summary
+
+# 3 Predictors and 1 interaction term
+sy.pl.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.6)
+
+summary(sy.pl.4) # print summary
+
+# 3 Predictors with 2 interaction term
+sy.pl.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.6)
+
+summary(sy.pl.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.13}
+rcompanion::compareGLM(sy.pl.1,
+  sy.pl.2,
+  sy.pl.3,
+  sy.pl.4,
+  sy.pl.5) 
+
+# Best model = 5
+```
+
+### Bagre bagre
+
+```{r 6.14}
+species.7 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[7]) %>% 
+  dplyr::select(-LatinNames)
+
+species.7 <- rbind(species.7, species.1[c(18,21,24,27,45),]) # Copying row from species.one
+species.7[c(41,42,43,44,45),2] = 0.01 # changing value to '0'
+species.7 <- species.7 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histogram
+hist(species.7$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+ba.ba.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.7)
+
+summary(ba.ba.1) # print summary
+
+# 2 Predictors with 1 interaction term
+ba.ba.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.7)
+
+summary(ba.ba.2) # print summary
+
+# 3 Predictors
+ba.ba.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.7)
+
+summary(ba.ba.3) # print summary
+
+# 3 Predictors and 1 interaction term
+ba.ba.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.7)
+
+summary(ba.ba.4) # print summary
+
+# 3 Predictors with 2 interaction term
+ba.ba.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.7)
+
+summary(ba.ba.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.15}
+rcompanion::compareGLM(ba.ba.1,
+  ba.ba.2,
+  ba.ba.3,
+  ba.ba.4,
+  ba.ba.5)
+
+# Best model = 1
+```
+
+### Trichiurus lepturus
+
+```{r 6.16}
+species.8 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[8]) %>% 
+  dplyr::select(-LatinNames)
+
+species.8 <- rbind(species.8, species.1[c(6,7,35,37,41,45),]) # Copying row from species.one
+species.8[c(40,41,42,43,44,45),2] = 0.01 # changing value to '0'
+species.8 <- species.8 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histogram
+hist(species.8$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+tr.le.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.8)
+
+summary(tr.le.1) # print summary
+
+# 2 Predictors with 1 interaction term
+tr.le.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.8)
+
+summary(tr.le.2) # print summary
+
+# 3 Predictors
+tr.le.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.8)
+
+summary(tr.le.3) # print summary
+
+# 3 Predictors and 1 interaction term
+tr.le.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.8)
+
+summary(tr.le.4) # print summary
+
+# 3 Predictors with 2 interaction term
+tr.le.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.8)
+
+summary(tr.le.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.17}
+rcompanion::compareGLM(tr.le.1,
+  tr.le.2,
+  tr.le.3,
+  tr.le.4,
+  tr.le.5) 
+
+# Best model = 1
+```
+
+### Achirus achirus
+
+```{r 6.18}
+species.9 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[9]) %>% 
+  dplyr::select(-LatinNames)
+
+species.9 <- rbind(species.9, species.1[c(10,11,13,15,18,21,24,25),]) # Copying row from species.one
+species.9[c(38,39,40,41,42,43,44,45),2] = 0.01 # changing value to '0'
+species.9 <- species.9 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histogram
+hist(species.9$CpueKGHR, breaks = 10)
+
+# Running models
+# 2 Predictors
+ac.ac.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.9)
+
+summary(ac.ac.1) # print summary
+
+# 2 Predictors with 1 interaction term
+ac.ac.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.9)
+
+summary(ac.ac.2) # print summary
+
+# 3 Predictors
+ac.ac.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.9)
+
+summary(ac.ac.3) # print summary
+
+# 3 Predictors and 1 interaction term
+ac.ac.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.9)
+
+summary(ac.ac.4) # print summary
+
+# 3 Predictors with 2 interaction term
+ac.ac.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.9)
+
+summary(ac.ac.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.19}
+rcompanion::compareGLM(ac.ac.1,
+  ac.ac.2,
+  ac.ac.3,
+  ac.ac.4,
+  ac.ac.5) 
+
+# Best model = 3
+```
+
+### Paralonchurus brasiliensis
+
+```{r 6.20}
+species.10 <- FilteredSpecies %>% 
+  filter(LatinNames == Top10names[10]) %>% 
+  dplyr::select(-LatinNames)
+
+species.10 <- rbind(species.10, species.1[c(7,17,20,22,23,28,35,39,43,45),]) # Copying row from species.one
+species.10[c(36,37,38,39,40,41,42,43,44,45),2] = 0.01 # changing value to '0'
+species.10 <- species.10 %>% 
+  arrange(DragID2) %>% 
+  dplyr::select(-DragID2)
+
+# Histogram
+hist(species.10$CpueKGHR, breaks = 10)
+ 
+# ## Manually check for mismatches
+# dim(species.4)
+# unique(species.1$DragID2) #######data have 45 rows rows 10, 28, 36
+# 
+# vec1 <- unique(species.1$DragID2)
+# vec2 <- unique(species.10$DragID2)
+# 
+# vec1[!(vec1 %in% vec2)]
+
+# Running models
+# 2 Predictors
+pa.br.1 <- glm(CpueKGHR ~ Month +
+    TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.10)
+
+summary(pa.br.1) # print summary
+
+# 2 Predictors with 1 interaction term
+pa.br.2 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    Month*TimePeriods,
+  family = gaussian(link = "log"),
+  data = species.10)
+
+summary(pa.br.2) # print summary
+
+# 3 Predictors
+pa.br.3 <- glm(CpueKGHR ~ TimePeriods +
+    FishingDepthMtr +
+    FishingZones,
+  family = gaussian(link = "log"),
+  data = species.10)
+
+summary(pa.br.3) # print summary
+
+# 3 Predictors and 1 interaction term
+pa.br.4 <- glm(CpueKGHR ~ FishingDepthMtr +
+  FishingZones +
+  TimePeriods +
+  TimePeriods*FishingZones, # Yields a low AIC
+  family = gaussian(link = "log"),
+  data = species.10)
+
+summary(pa.br.4) # print summary
+
+# 3 Predictors with 2 interaction term
+pa.br.5 <- glm(CpueKGHR ~ Month +
+    TimePeriods +
+    FishingDepthMtr +
+    Month*TimePeriods +
+    FishingDepthMtr*TimePeriods, 
+    # FishingDepthMtr*Month, Gives some NA values
+  family = gaussian(link = "log"),
+  data = species.10)
+
+summary(pa.br.5) # print summary
+```
+
+#### Model Comparison
+
+```{r 6.21}
+rcompanion::compareGLM(pa.br.1,
+  pa.br.2,
+  pa.br.3,
+  pa.br.4,
+  pa.br.5) 
+
+# Best model = 3
+```
+
+### Summary
+Models 1, 3 and 5 were often selected at the best model. 
