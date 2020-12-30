@@ -380,42 +380,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>K-means finds fixed cluster points (means) in the dataset and compares the distance between each observations and those fixed points. While hierarchical clustering starts by placing each observation in their own cluster (i.e. cluster of 1) and step-wise merges by looking at the differences between the different adjacent points. Thus adding information about structure of the data, unlike K-means. Thus hierarchical clustering looks at both similarity of points and clusters.</p>
 <div id="prop.weight---scaled-data" class="section level2">
 <h2><span class="header-section-number">12.1</span> Prop.Weight - Scaled Data</h2>
-<div class="sourceCode" id="cb955"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb955-1" title="1">species.kmeans &lt;-<span class="st"> </span>species.pca</a>
-<a class="sourceLine" id="cb955-2" title="2"></a>
-<a class="sourceLine" id="cb955-3" title="3">prop.wt.kmeans &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">scale</span>(species.kmeans))</a></code></pre></div>
+<div class="sourceCode" id="cb964"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb964-1" title="1">species.kmeans &lt;-<span class="st"> </span>species.pca</a>
+<a class="sourceLine" id="cb964-2" title="2"></a>
+<a class="sourceLine" id="cb964-3" title="3">prop.wt.kmeans &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">scale</span>(species.kmeans))</a></code></pre></div>
 </div>
 <div id="k-means-clustering" class="section level2">
 <h2><span class="header-section-number">12.2</span> K-Means Clustering</h2>
 <div id="k-means-clustering-1" class="section level3">
 <h3><span class="header-section-number">12.2.1</span> K-means Clustering</h3>
-<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb956-1" title="1"><span class="co"># Fitting models</span></a>
-<a class="sourceLine" id="cb956-2" title="2"><span class="co"># # K-means = 3</span></a>
-<a class="sourceLine" id="cb956-3" title="3">kmeans<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb956-4" title="4">  <span class="dt">centers =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb956-5" title="5">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb956-6" title="6"><span class="co"># K-means = 4</span></a>
-<a class="sourceLine" id="cb956-7" title="7">kmeans<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb956-8" title="8">  <span class="dt">centers =</span> <span class="dv">4</span>,</a>
-<a class="sourceLine" id="cb956-9" title="9">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb956-10" title="10"><span class="co"># K-means = 5</span></a>
-<a class="sourceLine" id="cb956-11" title="11">kmeans<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb956-12" title="12">  <span class="dt">centers =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb956-13" title="13">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb956-14" title="14"><span class="co"># K-means = 6</span></a>
-<a class="sourceLine" id="cb956-15" title="15">kmeans<span class="fl">.6</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb956-16" title="16">  <span class="dt">centers =</span> <span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb956-17" title="17">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb956-18" title="18"><span class="co"># K-means = 7</span></a>
-<a class="sourceLine" id="cb956-19" title="19">kmeans<span class="fl">.7</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb956-20" title="20">  <span class="dt">centers =</span> <span class="dv">7</span>,</a>
-<a class="sourceLine" id="cb956-21" title="21">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb956-22" title="22"><span class="co"># K-means = 8</span></a>
-<a class="sourceLine" id="cb956-23" title="23">kmeans<span class="fl">.8</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb956-24" title="24">  <span class="dt">centers =</span> <span class="dv">8</span>,</a>
-<a class="sourceLine" id="cb956-25" title="25">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb956-26" title="26"></a>
-<a class="sourceLine" id="cb956-27" title="27"><span class="co"># Printing k-means = 8 &amp; 11</span></a>
-<a class="sourceLine" id="cb956-28" title="28">kmeans<span class="fl">.5</span>; kmeans<span class="fl">.8</span></a></code></pre></div>
+<div class="sourceCode" id="cb965"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb965-1" title="1"><span class="co"># Fitting models</span></a>
+<a class="sourceLine" id="cb965-2" title="2"><span class="co"># # K-means = 3</span></a>
+<a class="sourceLine" id="cb965-3" title="3">kmeans<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb965-4" title="4">  <span class="dt">centers =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb965-5" title="5">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb965-6" title="6"><span class="co"># K-means = 4</span></a>
+<a class="sourceLine" id="cb965-7" title="7">kmeans<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb965-8" title="8">  <span class="dt">centers =</span> <span class="dv">4</span>,</a>
+<a class="sourceLine" id="cb965-9" title="9">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb965-10" title="10"><span class="co"># K-means = 5</span></a>
+<a class="sourceLine" id="cb965-11" title="11">kmeans<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb965-12" title="12">  <span class="dt">centers =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb965-13" title="13">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb965-14" title="14"><span class="co"># K-means = 6</span></a>
+<a class="sourceLine" id="cb965-15" title="15">kmeans<span class="fl">.6</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb965-16" title="16">  <span class="dt">centers =</span> <span class="dv">6</span>,</a>
+<a class="sourceLine" id="cb965-17" title="17">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb965-18" title="18"><span class="co"># K-means = 7</span></a>
+<a class="sourceLine" id="cb965-19" title="19">kmeans<span class="fl">.7</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb965-20" title="20">  <span class="dt">centers =</span> <span class="dv">7</span>,</a>
+<a class="sourceLine" id="cb965-21" title="21">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb965-22" title="22"><span class="co"># K-means = 8</span></a>
+<a class="sourceLine" id="cb965-23" title="23">kmeans<span class="fl">.8</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb965-24" title="24">  <span class="dt">centers =</span> <span class="dv">8</span>,</a>
+<a class="sourceLine" id="cb965-25" title="25">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb965-26" title="26"></a>
+<a class="sourceLine" id="cb965-27" title="27"><span class="co"># Printing k-means = 8 &amp; 11</span></a>
+<a class="sourceLine" id="cb965-28" title="28">kmeans<span class="fl">.5</span>; kmeans<span class="fl">.8</span></a></code></pre></div>
 <pre><code>  K-means clustering with 5 clusters of sizes 2, 2, 2, 2, 3
   
   Cluster means:
@@ -591,96 +591,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="plotting-results" class="section level3">
 <h3><span class="header-section-number">12.2.2</span> Plotting results</h3>
-<div class="sourceCode" id="cb959"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb959-1" title="1"><span class="co"># Plotting </span></a>
-<a class="sourceLine" id="cb959-2" title="2"><span class="co"># K-means = 3</span></a>
-<a class="sourceLine" id="cb959-3" title="3"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.3</span>,</a>
-<a class="sourceLine" id="cb959-4" title="4">  <span class="dt">data =</span> prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb959-5" title="5">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb959-6" title="6">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 3&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb968"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb968-1" title="1"><span class="co"># Plotting </span></a>
+<a class="sourceLine" id="cb968-2" title="2"><span class="co"># K-means = 3</span></a>
+<a class="sourceLine" id="cb968-3" title="3"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.3</span>,</a>
+<a class="sourceLine" id="cb968-4" title="4">  <span class="dt">data =</span> prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb968-5" title="5">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb968-6" title="6">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 3&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb960"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb960-1" title="1"><span class="co"># K-means = 4</span></a>
-<a class="sourceLine" id="cb960-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.4</span>,</a>
-<a class="sourceLine" id="cb960-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb960-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb960-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 4&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb969"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb969-1" title="1"><span class="co"># K-means = 4</span></a>
+<a class="sourceLine" id="cb969-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.4</span>,</a>
+<a class="sourceLine" id="cb969-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb969-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb969-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 4&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.3-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb961"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb961-1" title="1"><span class="co"># K-means = 5</span></a>
-<a class="sourceLine" id="cb961-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.5</span>,</a>
-<a class="sourceLine" id="cb961-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb961-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb961-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 5&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb970"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb970-1" title="1"><span class="co"># K-means = 5</span></a>
+<a class="sourceLine" id="cb970-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.5</span>,</a>
+<a class="sourceLine" id="cb970-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb970-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb970-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 5&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.3-3.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb962"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb962-1" title="1"><span class="co"># K-means = 6</span></a>
-<a class="sourceLine" id="cb962-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.6</span>,</a>
-<a class="sourceLine" id="cb962-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb962-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb962-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 6&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb971"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb971-1" title="1"><span class="co"># K-means = 6</span></a>
+<a class="sourceLine" id="cb971-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.6</span>,</a>
+<a class="sourceLine" id="cb971-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb971-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb971-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 6&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.3-4.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb963"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb963-1" title="1"><span class="co"># K-means = 7</span></a>
-<a class="sourceLine" id="cb963-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.7</span>,</a>
-<a class="sourceLine" id="cb963-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb963-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb963-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 7&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb972"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb972-1" title="1"><span class="co"># K-means = 7</span></a>
+<a class="sourceLine" id="cb972-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.7</span>,</a>
+<a class="sourceLine" id="cb972-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb972-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb972-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 7&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.3-5.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb964"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb964-1" title="1"><span class="co"># K-means = 8</span></a>
-<a class="sourceLine" id="cb964-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.8</span>,</a>
-<a class="sourceLine" id="cb964-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
-<a class="sourceLine" id="cb964-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb964-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 8&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb973"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb973-1" title="1"><span class="co"># K-means = 8</span></a>
+<a class="sourceLine" id="cb973-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.8</span>,</a>
+<a class="sourceLine" id="cb973-3" title="3">  <span class="dt">data =</span> prop.wt.kmeans,</a>
+<a class="sourceLine" id="cb973-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb973-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 8&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.3-6.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="determining-optimal-clusters" class="section level3">
 <h3><span class="header-section-number">12.2.3</span> Determining Optimal Clusters</h3>
-<div class="sourceCode" id="cb965"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb965-1" title="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb965-2" title="2"></a>
-<a class="sourceLine" id="cb965-3" title="3"><span class="kw">fviz_nbclust</span>(prop.wt.kmeans, kmeans, <span class="dt">k.max =</span> <span class="dv">8</span>, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb974"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb974-1" title="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb974-2" title="2"></a>
+<a class="sourceLine" id="cb974-3" title="3"><span class="kw">fviz_nbclust</span>(prop.wt.kmeans, kmeans, <span class="dt">k.max =</span> <span class="dv">8</span>, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.4-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="hierachical-clustering-hc" class="section level2">
 <h2><span class="header-section-number">12.3</span> Hierachical Clustering (HC)</h2>
-<div class="sourceCode" id="cb966"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb966-1" title="1"><span class="co"># Creating the distance matrix (matrix of the distance between between every point in dataframe)</span></a>
-<a class="sourceLine" id="cb966-2" title="2">prop.wt.hc &lt;-<span class="st"> </span>prop.wt.kmeans</a>
-<a class="sourceLine" id="cb966-3" title="3"></a>
-<a class="sourceLine" id="cb966-4" title="4">dist.mtx &lt;-<span class="st"> </span><span class="kw">dist</span>(prop.wt.hc)</a>
-<a class="sourceLine" id="cb966-5" title="5"></a>
-<a class="sourceLine" id="cb966-6" title="6"><span class="co"># Fitting model</span></a>
-<a class="sourceLine" id="cb966-7" title="7">fit.hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist.mtx) <span class="co"># different methods/search algorithms...no wrong or right...default complete linkage...?hclust to list of other options </span></a>
-<a class="sourceLine" id="cb966-8" title="8"></a>
-<a class="sourceLine" id="cb966-9" title="9"><span class="co"># Plot model (dendrogram) and selecting clusters</span></a>
-<a class="sourceLine" id="cb966-10" title="10"></a>
-<a class="sourceLine" id="cb966-11" title="11"><span class="co"># k = 3</span></a>
-<a class="sourceLine" id="cb966-12" title="12"><span class="kw">plot</span>(fit.hc);<span class="kw">rect.hclust</span>(fit.hc,</a>
-<a class="sourceLine" id="cb966-13" title="13">  <span class="dt">k =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb966-14" title="14">  <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb975"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb975-1" title="1"><span class="co"># Creating the distance matrix (matrix of the distance between between every point in dataframe)</span></a>
+<a class="sourceLine" id="cb975-2" title="2">prop.wt.hc &lt;-<span class="st"> </span>prop.wt.kmeans</a>
+<a class="sourceLine" id="cb975-3" title="3"></a>
+<a class="sourceLine" id="cb975-4" title="4">dist.mtx &lt;-<span class="st"> </span><span class="kw">dist</span>(prop.wt.hc)</a>
+<a class="sourceLine" id="cb975-5" title="5"></a>
+<a class="sourceLine" id="cb975-6" title="6"><span class="co"># Fitting model</span></a>
+<a class="sourceLine" id="cb975-7" title="7">fit.hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist.mtx) <span class="co"># different methods/search algorithms...no wrong or right...default complete linkage...?hclust to list of other options </span></a>
+<a class="sourceLine" id="cb975-8" title="8"></a>
+<a class="sourceLine" id="cb975-9" title="9"><span class="co"># Plot model (dendrogram) and selecting clusters</span></a>
+<a class="sourceLine" id="cb975-10" title="10"></a>
+<a class="sourceLine" id="cb975-11" title="11"><span class="co"># k = 3</span></a>
+<a class="sourceLine" id="cb975-12" title="12"><span class="kw">plot</span>(fit.hc);<span class="kw">rect.hclust</span>(fit.hc,</a>
+<a class="sourceLine" id="cb975-13" title="13">  <span class="dt">k =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb975-14" title="14">  <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb967-1" title="1"><span class="co"># k = 4</span></a>
-<a class="sourceLine" id="cb967-2" title="2"><span class="kw">plot</span>(fit.hc);<span class="kw">rect.hclust</span>(fit.hc,</a>
-<a class="sourceLine" id="cb967-3" title="3">  <span class="dt">k =</span> <span class="dv">4</span>,</a>
-<a class="sourceLine" id="cb967-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;blue&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb976"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb976-1" title="1"><span class="co"># k = 4</span></a>
+<a class="sourceLine" id="cb976-2" title="2"><span class="kw">plot</span>(fit.hc);<span class="kw">rect.hclust</span>(fit.hc,</a>
+<a class="sourceLine" id="cb976-3" title="3">  <span class="dt">k =</span> <span class="dv">4</span>,</a>
+<a class="sourceLine" id="cb976-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;blue&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb968"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb968-1" title="1"><span class="co"># k = 5</span></a>
-<a class="sourceLine" id="cb968-2" title="2"><span class="kw">plot</span>(fit.hc);<span class="kw">rect.hclust</span>(fit.hc,</a>
-<a class="sourceLine" id="cb968-3" title="3">  <span class="dt">k =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb968-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;green&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb977"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb977-1" title="1"><span class="co"># k = 5</span></a>
+<a class="sourceLine" id="cb977-2" title="2"><span class="kw">plot</span>(fit.hc);<span class="kw">rect.hclust</span>(fit.hc,</a>
+<a class="sourceLine" id="cb977-3" title="3">  <span class="dt">k =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb977-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;green&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb969"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb969-1" title="1"><span class="co"># k = 6</span></a>
-<a class="sourceLine" id="cb969-2" title="2"><span class="kw">plot</span>(fit.hc);<span class="kw">rect.hclust</span>(fit.hc,</a>
-<a class="sourceLine" id="cb969-3" title="3">  <span class="dt">k =</span> <span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb969-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;purple&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb978"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb978-1" title="1"><span class="co"># k = 6</span></a>
+<a class="sourceLine" id="cb978-2" title="2"><span class="kw">plot</span>(fit.hc);<span class="kw">rect.hclust</span>(fit.hc,</a>
+<a class="sourceLine" id="cb978-3" title="3">  <span class="dt">k =</span> <span class="dv">6</span>,</a>
+<a class="sourceLine" id="cb978-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;purple&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.5-4.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="determining-optimal-groups" class="section level3">
 <h3><span class="header-section-number">12.3.1</span> Determining Optimal Groups</h3>
-<div class="sourceCode" id="cb970"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb970-1" title="1"><span class="kw">ggplot</span>(fit.hc<span class="op">$</span>height <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb970-2" title="2"><span class="st">    </span><span class="kw">as.tibble</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb970-3" title="3"><span class="st">    </span><span class="kw">add_column</span>(<span class="dt">Groups =</span> <span class="kw">length</span>(fit.hc<span class="op">$</span>height)<span class="op">:</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb970-4" title="4"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">Height=</span>value),</a>
-<a class="sourceLine" id="cb970-5" title="5">  <span class="kw">aes</span>(<span class="dt">x =</span> Groups, <span class="dt">y =</span> Height)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb970-6" title="6"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">10</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb970-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb970-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb970-9" title="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Scree plot - Weight Proportions&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb970-10" title="10"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb979-1" title="1"><span class="kw">ggplot</span>(fit.hc<span class="op">$</span>height <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb979-2" title="2"><span class="st">    </span><span class="kw">as.tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb979-3" title="3"><span class="st">    </span><span class="kw">add_column</span>(<span class="dt">Groups =</span> <span class="kw">length</span>(fit.hc<span class="op">$</span>height)<span class="op">:</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb979-4" title="4"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">Height=</span>value),</a>
+<a class="sourceLine" id="cb979-5" title="5">  <span class="kw">aes</span>(<span class="dt">x =</span> Groups, <span class="dt">y =</span> Height)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb979-6" title="6"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">10</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb979-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb979-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb979-9" title="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Scree plot - Weight Proportions&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb979-10" title="10"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
 <pre><code>  Warning: `as.tibble()` is deprecated as of tibble 2.0.0.
   Please use `as_tibble()` instead.
   The signature and semantics have changed, see `?as_tibble`.
@@ -691,47 +691,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="cpue---scaled-data" class="section level2">
 <h2><span class="header-section-number">12.4</span> CPUE - Scaled Data</h2>
-<div class="sourceCode" id="cb972"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb972-1" title="1">species.kmeans &lt;-<span class="st"> </span>species.pca<span class="fl">.2</span></a>
-<a class="sourceLine" id="cb972-2" title="2"></a>
-<a class="sourceLine" id="cb972-3" title="3">cpue.kmeans &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">scale</span>(species.kmeans))</a></code></pre></div>
+<div class="sourceCode" id="cb981"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb981-1" title="1">species.kmeans &lt;-<span class="st"> </span>species.pca<span class="fl">.2</span></a>
+<a class="sourceLine" id="cb981-2" title="2"></a>
+<a class="sourceLine" id="cb981-3" title="3">cpue.kmeans &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">scale</span>(species.kmeans))</a></code></pre></div>
 </div>
 <div id="k-means-clustering-2" class="section level2">
 <h2><span class="header-section-number">12.5</span> K-Means Clustering</h2>
 <div id="k-means-clustering-3" class="section level3">
 <h3><span class="header-section-number">12.5.1</span> K-means Clustering</h3>
-<div class="sourceCode" id="cb973"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb973-1" title="1"><span class="co"># Fitting models</span></a>
-<a class="sourceLine" id="cb973-2" title="2"><span class="co"># K-means = 3</span></a>
-<a class="sourceLine" id="cb973-3" title="3">kmeans<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
-<a class="sourceLine" id="cb973-4" title="4">  <span class="dt">centers =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb973-5" title="5">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb973-6" title="6"></a>
-<a class="sourceLine" id="cb973-7" title="7"><span class="co"># K-means = 4</span></a>
-<a class="sourceLine" id="cb973-8" title="8">kmeans<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
-<a class="sourceLine" id="cb973-9" title="9">  <span class="dt">centers =</span> <span class="dv">4</span>,</a>
-<a class="sourceLine" id="cb973-10" title="10">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb973-11" title="11"></a>
-<a class="sourceLine" id="cb973-12" title="12"><span class="co"># K-means = 5</span></a>
-<a class="sourceLine" id="cb973-13" title="13">kmeans<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
-<a class="sourceLine" id="cb973-14" title="14">  <span class="dt">centers =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb973-15" title="15">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb973-16" title="16"></a>
-<a class="sourceLine" id="cb973-17" title="17"><span class="co"># K-means = 6</span></a>
-<a class="sourceLine" id="cb973-18" title="18">kmeans<span class="fl">.6</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
-<a class="sourceLine" id="cb973-19" title="19">  <span class="dt">centers =</span> <span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb973-20" title="20">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb973-21" title="21"></a>
-<a class="sourceLine" id="cb973-22" title="22"><span class="co"># K-means = 7</span></a>
-<a class="sourceLine" id="cb973-23" title="23">kmeans<span class="fl">.7</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
-<a class="sourceLine" id="cb973-24" title="24">  <span class="dt">centers =</span> <span class="dv">7</span>,</a>
-<a class="sourceLine" id="cb973-25" title="25">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb973-26" title="26"></a>
-<a class="sourceLine" id="cb973-27" title="27"><span class="co"># K-means = 8</span></a>
-<a class="sourceLine" id="cb973-28" title="28">kmeans<span class="fl">.8</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
-<a class="sourceLine" id="cb973-29" title="29">  <span class="dt">centers =</span> <span class="dv">8</span>,</a>
-<a class="sourceLine" id="cb973-30" title="30">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb973-31" title="31"></a>
-<a class="sourceLine" id="cb973-32" title="32"><span class="co"># Printing k-means = 8 &amp; 11</span></a>
-<a class="sourceLine" id="cb973-33" title="33">kmeans<span class="fl">.3</span>; kmeans<span class="fl">.8</span></a></code></pre></div>
+<div class="sourceCode" id="cb982"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb982-1" title="1"><span class="co"># Fitting models</span></a>
+<a class="sourceLine" id="cb982-2" title="2"><span class="co"># K-means = 3</span></a>
+<a class="sourceLine" id="cb982-3" title="3">kmeans<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
+<a class="sourceLine" id="cb982-4" title="4">  <span class="dt">centers =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb982-5" title="5">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb982-6" title="6"></a>
+<a class="sourceLine" id="cb982-7" title="7"><span class="co"># K-means = 4</span></a>
+<a class="sourceLine" id="cb982-8" title="8">kmeans<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
+<a class="sourceLine" id="cb982-9" title="9">  <span class="dt">centers =</span> <span class="dv">4</span>,</a>
+<a class="sourceLine" id="cb982-10" title="10">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb982-11" title="11"></a>
+<a class="sourceLine" id="cb982-12" title="12"><span class="co"># K-means = 5</span></a>
+<a class="sourceLine" id="cb982-13" title="13">kmeans<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
+<a class="sourceLine" id="cb982-14" title="14">  <span class="dt">centers =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb982-15" title="15">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb982-16" title="16"></a>
+<a class="sourceLine" id="cb982-17" title="17"><span class="co"># K-means = 6</span></a>
+<a class="sourceLine" id="cb982-18" title="18">kmeans<span class="fl">.6</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
+<a class="sourceLine" id="cb982-19" title="19">  <span class="dt">centers =</span> <span class="dv">6</span>,</a>
+<a class="sourceLine" id="cb982-20" title="20">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb982-21" title="21"></a>
+<a class="sourceLine" id="cb982-22" title="22"><span class="co"># K-means = 7</span></a>
+<a class="sourceLine" id="cb982-23" title="23">kmeans<span class="fl">.7</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
+<a class="sourceLine" id="cb982-24" title="24">  <span class="dt">centers =</span> <span class="dv">7</span>,</a>
+<a class="sourceLine" id="cb982-25" title="25">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb982-26" title="26"></a>
+<a class="sourceLine" id="cb982-27" title="27"><span class="co"># K-means = 8</span></a>
+<a class="sourceLine" id="cb982-28" title="28">kmeans<span class="fl">.8</span> &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cpue.kmeans,</a>
+<a class="sourceLine" id="cb982-29" title="29">  <span class="dt">centers =</span> <span class="dv">8</span>,</a>
+<a class="sourceLine" id="cb982-30" title="30">  <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb982-31" title="31"></a>
+<a class="sourceLine" id="cb982-32" title="32"><span class="co"># Printing k-means = 8 &amp; 11</span></a>
+<a class="sourceLine" id="cb982-33" title="33">kmeans<span class="fl">.3</span>; kmeans<span class="fl">.8</span></a></code></pre></div>
 <pre><code>  K-means clustering with 3 clusters of sizes 4, 4, 3
   
   Cluster means:
@@ -891,97 +891,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="plotting-results-1" class="section level3">
 <h3><span class="header-section-number">12.5.2</span> Plotting results</h3>
-<div class="sourceCode" id="cb976"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb976-1" title="1"><span class="co"># Plotting </span></a>
-<a class="sourceLine" id="cb976-2" title="2"><span class="co"># K-means = 3</span></a>
-<a class="sourceLine" id="cb976-3" title="3"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.3</span>,</a>
-<a class="sourceLine" id="cb976-4" title="4">  <span class="dt">data =</span> cpue.kmeans,</a>
-<a class="sourceLine" id="cb976-5" title="5">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb976-6" title="6">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 3&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb985-1" title="1"><span class="co"># Plotting </span></a>
+<a class="sourceLine" id="cb985-2" title="2"><span class="co"># K-means = 3</span></a>
+<a class="sourceLine" id="cb985-3" title="3"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.3</span>,</a>
+<a class="sourceLine" id="cb985-4" title="4">  <span class="dt">data =</span> cpue.kmeans,</a>
+<a class="sourceLine" id="cb985-5" title="5">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb985-6" title="6">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 3&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.8-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb977"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb977-1" title="1"><span class="co"># K-means = 4</span></a>
-<a class="sourceLine" id="cb977-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.4</span>,</a>
-<a class="sourceLine" id="cb977-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
-<a class="sourceLine" id="cb977-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb977-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 4&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb986-1" title="1"><span class="co"># K-means = 4</span></a>
+<a class="sourceLine" id="cb986-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.4</span>,</a>
+<a class="sourceLine" id="cb986-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
+<a class="sourceLine" id="cb986-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb986-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 4&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.8-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb978"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb978-1" title="1"><span class="co"># K-means = 5</span></a>
-<a class="sourceLine" id="cb978-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.5</span>,</a>
-<a class="sourceLine" id="cb978-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
-<a class="sourceLine" id="cb978-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb978-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 5&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb987-1" title="1"><span class="co"># K-means = 5</span></a>
+<a class="sourceLine" id="cb987-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.5</span>,</a>
+<a class="sourceLine" id="cb987-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
+<a class="sourceLine" id="cb987-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb987-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 5&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.8-3.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb979-1" title="1"><span class="co"># K-means = 6</span></a>
-<a class="sourceLine" id="cb979-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.6</span>,</a>
-<a class="sourceLine" id="cb979-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
-<a class="sourceLine" id="cb979-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb979-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 6&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb988"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb988-1" title="1"><span class="co"># K-means = 6</span></a>
+<a class="sourceLine" id="cb988-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.6</span>,</a>
+<a class="sourceLine" id="cb988-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
+<a class="sourceLine" id="cb988-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb988-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 6&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.8-4.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb980"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb980-1" title="1"><span class="co"># K-means = 7</span></a>
-<a class="sourceLine" id="cb980-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.7</span>,</a>
-<a class="sourceLine" id="cb980-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
-<a class="sourceLine" id="cb980-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb980-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 7&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb989"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb989-1" title="1"><span class="co"># K-means = 7</span></a>
+<a class="sourceLine" id="cb989-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.7</span>,</a>
+<a class="sourceLine" id="cb989-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
+<a class="sourceLine" id="cb989-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb989-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 7&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.8-5.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb981"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb981-1" title="1"><span class="co"># K-means = 8</span></a>
-<a class="sourceLine" id="cb981-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.8</span>,</a>
-<a class="sourceLine" id="cb981-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
-<a class="sourceLine" id="cb981-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
-<a class="sourceLine" id="cb981-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 8&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb990"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb990-1" title="1"><span class="co"># K-means = 8</span></a>
+<a class="sourceLine" id="cb990-2" title="2"><span class="kw">fviz_cluster</span>(kmeans<span class="fl">.8</span>,</a>
+<a class="sourceLine" id="cb990-3" title="3">  <span class="dt">data =</span> cpue.kmeans,</a>
+<a class="sourceLine" id="cb990-4" title="4">  <span class="dt">ggtheme =</span> <span class="kw">theme_bw</span>(),</a>
+<a class="sourceLine" id="cb990-5" title="5">  <span class="dt">main =</span> <span class="st">&quot;Clusters = 8&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.8-6.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="determining-optimal-clusters-1" class="section level3">
 <h3><span class="header-section-number">12.5.3</span> Determining Optimal Clusters</h3>
-<div class="sourceCode" id="cb982"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb982-1" title="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb982-2" title="2"></a>
-<a class="sourceLine" id="cb982-3" title="3"><span class="kw">fviz_nbclust</span>(cpue.kmeans, kmeans, <span class="dt">k.max =</span> <span class="dv">8</span>, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb991"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb991-1" title="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb991-2" title="2"></a>
+<a class="sourceLine" id="cb991-3" title="3"><span class="kw">fviz_nbclust</span>(cpue.kmeans, kmeans, <span class="dt">k.max =</span> <span class="dv">8</span>, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.9-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="hierachical-clustering-hc-1" class="section level2">
 <h2><span class="header-section-number">12.6</span> Hierachical Clustering (HC)</h2>
-<div class="sourceCode" id="cb983"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb983-1" title="1"><span class="co"># Creating the distance matrix (matrix of the distance between between every point in dataframe)</span></a>
-<a class="sourceLine" id="cb983-2" title="2">cpue.hc &lt;-<span class="st"> </span>cpue.kmeans</a>
-<a class="sourceLine" id="cb983-3" title="3"></a>
-<a class="sourceLine" id="cb983-4" title="4">dist.mtx &lt;-<span class="st"> </span><span class="kw">dist</span>(cpue.hc)</a>
-<a class="sourceLine" id="cb983-5" title="5"></a>
-<a class="sourceLine" id="cb983-6" title="6"><span class="co"># Fitting model</span></a>
-<a class="sourceLine" id="cb983-7" title="7">fit.hc<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist.mtx) <span class="co"># different methods/search algorithms...no wrong or right...default complete linkage...?hclust to list of other options </span></a>
-<a class="sourceLine" id="cb983-8" title="8"></a>
-<a class="sourceLine" id="cb983-9" title="9"><span class="co"># Plot model (dendrogram) and selecting clusters</span></a>
-<a class="sourceLine" id="cb983-10" title="10"></a>
-<a class="sourceLine" id="cb983-11" title="11"></a>
-<a class="sourceLine" id="cb983-12" title="12"><span class="co"># k = 3</span></a>
-<a class="sourceLine" id="cb983-13" title="13"><span class="kw">plot</span>(fit.hc<span class="fl">.2</span>);<span class="kw">rect.hclust</span>(fit.hc<span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb983-14" title="14">  <span class="dt">k =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb983-15" title="15">  <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb992-1" title="1"><span class="co"># Creating the distance matrix (matrix of the distance between between every point in dataframe)</span></a>
+<a class="sourceLine" id="cb992-2" title="2">cpue.hc &lt;-<span class="st"> </span>cpue.kmeans</a>
+<a class="sourceLine" id="cb992-3" title="3"></a>
+<a class="sourceLine" id="cb992-4" title="4">dist.mtx &lt;-<span class="st"> </span><span class="kw">dist</span>(cpue.hc)</a>
+<a class="sourceLine" id="cb992-5" title="5"></a>
+<a class="sourceLine" id="cb992-6" title="6"><span class="co"># Fitting model</span></a>
+<a class="sourceLine" id="cb992-7" title="7">fit.hc<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist.mtx) <span class="co"># different methods/search algorithms...no wrong or right...default complete linkage...?hclust to list of other options </span></a>
+<a class="sourceLine" id="cb992-8" title="8"></a>
+<a class="sourceLine" id="cb992-9" title="9"><span class="co"># Plot model (dendrogram) and selecting clusters</span></a>
+<a class="sourceLine" id="cb992-10" title="10"></a>
+<a class="sourceLine" id="cb992-11" title="11"></a>
+<a class="sourceLine" id="cb992-12" title="12"><span class="co"># k = 3</span></a>
+<a class="sourceLine" id="cb992-13" title="13"><span class="kw">plot</span>(fit.hc<span class="fl">.2</span>);<span class="kw">rect.hclust</span>(fit.hc<span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb992-14" title="14">  <span class="dt">k =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb992-15" title="15">  <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb984"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb984-1" title="1"><span class="co"># k = 4</span></a>
-<a class="sourceLine" id="cb984-2" title="2"><span class="kw">plot</span>(fit.hc<span class="fl">.2</span>);<span class="kw">rect.hclust</span>(fit.hc<span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb984-3" title="3">  <span class="dt">k =</span> <span class="dv">4</span>,</a>
-<a class="sourceLine" id="cb984-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;blue&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb993"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb993-1" title="1"><span class="co"># k = 4</span></a>
+<a class="sourceLine" id="cb993-2" title="2"><span class="kw">plot</span>(fit.hc<span class="fl">.2</span>);<span class="kw">rect.hclust</span>(fit.hc<span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb993-3" title="3">  <span class="dt">k =</span> <span class="dv">4</span>,</a>
+<a class="sourceLine" id="cb993-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;blue&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.10-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb985-1" title="1"><span class="co"># k = 5</span></a>
-<a class="sourceLine" id="cb985-2" title="2"><span class="kw">plot</span>(fit.hc<span class="fl">.2</span>);<span class="kw">rect.hclust</span>(fit.hc<span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb985-3" title="3">  <span class="dt">k =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb985-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;green&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb994"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb994-1" title="1"><span class="co"># k = 5</span></a>
+<a class="sourceLine" id="cb994-2" title="2"><span class="kw">plot</span>(fit.hc<span class="fl">.2</span>);<span class="kw">rect.hclust</span>(fit.hc<span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb994-3" title="3">  <span class="dt">k =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb994-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;green&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.10-3.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb986-1" title="1"><span class="co"># k = 6</span></a>
-<a class="sourceLine" id="cb986-2" title="2"><span class="kw">plot</span>(fit.hc<span class="fl">.2</span>);<span class="kw">rect.hclust</span>(fit.hc<span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb986-3" title="3">  <span class="dt">k =</span> <span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb986-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;purple&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb995-1" title="1"><span class="co"># k = 6</span></a>
+<a class="sourceLine" id="cb995-2" title="2"><span class="kw">plot</span>(fit.hc<span class="fl">.2</span>);<span class="kw">rect.hclust</span>(fit.hc<span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb995-3" title="3">  <span class="dt">k =</span> <span class="dv">6</span>,</a>
+<a class="sourceLine" id="cb995-4" title="4">  <span class="dt">border =</span> <span class="st">&quot;purple&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/11.10-4.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="determining-optimal-groups-1" class="section level3">
 <h3><span class="header-section-number">12.6.1</span> Determining Optimal Groups</h3>
-<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb987-1" title="1"><span class="kw">ggplot</span>(fit.hc<span class="fl">.2</span><span class="op">$</span>height <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb987-2" title="2"><span class="st">    </span><span class="kw">as.tibble</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb987-3" title="3"><span class="st">    </span><span class="kw">add_column</span>(<span class="dt">Groups =</span> <span class="kw">length</span>(fit.hc<span class="fl">.2</span><span class="op">$</span>height)<span class="op">:</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb987-4" title="4"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">Height=</span>value),</a>
-<a class="sourceLine" id="cb987-5" title="5">  <span class="kw">aes</span>(<span class="dt">x =</span> Groups, <span class="dt">y =</span> Height)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb987-6" title="6"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">10</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb987-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb987-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb987-9" title="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Scree plot - CPUE&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb987-10" title="10"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb996"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb996-1" title="1"><span class="kw">ggplot</span>(fit.hc<span class="fl">.2</span><span class="op">$</span>height <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb996-2" title="2"><span class="st">    </span><span class="kw">as.tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb996-3" title="3"><span class="st">    </span><span class="kw">add_column</span>(<span class="dt">Groups =</span> <span class="kw">length</span>(fit.hc<span class="fl">.2</span><span class="op">$</span>height)<span class="op">:</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb996-4" title="4"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">Height=</span>value),</a>
+<a class="sourceLine" id="cb996-5" title="5">  <span class="kw">aes</span>(<span class="dt">x =</span> Groups, <span class="dt">y =</span> Height)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb996-6" title="6"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">10</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb996-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb996-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb996-9" title="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Scree plot - CPUE&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb996-10" title="10"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 </div>

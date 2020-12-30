@@ -382,11 +382,11 @@ A PCA converts correlations (or lack thereof) among all of the CPUE and Weight p
 Also the PCA axis are ranked by order of importance such that differences along the first principal component (PC1) are more important than differences along the second principal component (PC2). This means in clusters = 3 and the difference between clusters on both axes were similar, the clusters along PC1 are deem more different than each other than the clusters along PC2.</p>
 <div id="prop.weight-models" class="section level2">
 <h2><span class="header-section-number">11.1</span> Prop.Weight Models</h2>
-<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb902-1" title="1"><span class="co"># Renaming data</span></a>
-<a class="sourceLine" id="cb902-2" title="2">species.pca &lt;-<span class="st"> </span>species.cor<span class="fl">.2</span> </a>
-<a class="sourceLine" id="cb902-3" title="3"></a>
-<a class="sourceLine" id="cb902-4" title="4"><span class="co"># Printing summary of variables</span></a>
-<a class="sourceLine" id="cb902-5" title="5"><span class="kw">summary</span>(species.pca)</a></code></pre></div>
+<div class="sourceCode" id="cb911"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb911-1" title="1"><span class="co"># Renaming data</span></a>
+<a class="sourceLine" id="cb911-2" title="2">species.pca &lt;-<span class="st"> </span>species.cor<span class="fl">.2</span> </a>
+<a class="sourceLine" id="cb911-3" title="3"></a>
+<a class="sourceLine" id="cb911-4" title="4"><span class="co"># Printing summary of variables</span></a>
+<a class="sourceLine" id="cb911-5" title="5"><span class="kw">summary</span>(species.pca)</a></code></pre></div>
 <pre><code>   Paralonchurus brasiliensis Macrodon ancylodon  Bagre bagre      
    Min.   :0.0000000          Min.   :0.002851   Min.   :0.000000  
    1st Qu.:0.0007246          1st Qu.:0.031118   1st Qu.:0.005845  
@@ -408,39 +408,39 @@ Also the PCA axis are ranked by order of importance such that differences along 
    Mean   :0.04366     Mean   :0.015838    Mean   :0.025206    Mean   :0.019168  
    3rd Qu.:0.05992     3rd Qu.:0.010266    3rd Qu.:0.015598    3rd Qu.:0.012541  
    Max.   :0.16724     Max.   :0.396213    Max.   :0.443339    Max.   :0.302415</code></pre>
-<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb904-1" title="1">species.pca<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Row.Names =</span> <span class="kw">rownames</span>(species.pca), species.pca)</a>
-<a class="sourceLine" id="cb904-2" title="2"></a>
-<a class="sourceLine" id="cb904-3" title="3"><span class="kw">ggplot</span>(reshape2<span class="op">::</span><span class="kw">melt</span>(species.pca<span class="fl">.2</span>, <span class="dt">id.vars =</span> <span class="st">&quot;Row.Names&quot;</span>),</a>
-<a class="sourceLine" id="cb904-4" title="4">  <span class="kw">aes</span>(<span class="dt">x =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb904-5" title="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> variable)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb904-6" title="6"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>,</a>
-<a class="sourceLine" id="cb904-7" title="7">                    <span class="dt">name =</span> <span class="st">&quot;Variable&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb904-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
-<a class="sourceLine" id="cb904-9" title="9">    <span class="dt">nrow =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb904-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb904-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, </a>
-<a class="sourceLine" id="cb904-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb904-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb913"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb913-1" title="1">species.pca<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Row.Names =</span> <span class="kw">rownames</span>(species.pca), species.pca)</a>
+<a class="sourceLine" id="cb913-2" title="2"></a>
+<a class="sourceLine" id="cb913-3" title="3"><span class="kw">ggplot</span>(reshape2<span class="op">::</span><span class="kw">melt</span>(species.pca<span class="fl">.2</span>, <span class="dt">id.vars =</span> <span class="st">&quot;Row.Names&quot;</span>),</a>
+<a class="sourceLine" id="cb913-4" title="4">  <span class="kw">aes</span>(<span class="dt">x =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb913-5" title="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> variable)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb913-6" title="6"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>,</a>
+<a class="sourceLine" id="cb913-7" title="7">                    <span class="dt">name =</span> <span class="st">&quot;Variable&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb913-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
+<a class="sourceLine" id="cb913-9" title="9">    <span class="dt">nrow =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb913-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb913-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, </a>
+<a class="sourceLine" id="cb913-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb913-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.2-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="pca" class="section level2">
 <h2><span class="header-section-number">11.2</span> PCA</h2>
-<div class="sourceCode" id="cb905"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb905-1" title="1"><span class="co"># Before</span></a>
-<a class="sourceLine" id="cb905-2" title="2">pca.dat &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca, </a>
-<a class="sourceLine" id="cb905-3" title="3">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb905-4" title="4">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb914"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb914-1" title="1"><span class="co"># Before</span></a>
+<a class="sourceLine" id="cb914-2" title="2">pca.dat &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca, </a>
+<a class="sourceLine" id="cb914-3" title="3">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb914-4" title="4">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.3-1.png" width="672" style="display: block; margin: auto;" /><img src="bookdown-demo_files/figure-html/10.3-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb906-1" title="1"><span class="co"># After </span></a>
-<a class="sourceLine" id="cb906-2" title="2">species.pca.trans &lt;-<span class="st"> </span><span class="kw">t</span>(species.pca)</a>
-<a class="sourceLine" id="cb906-3" title="3">pca.dat.trans &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca.trans, </a>
-<a class="sourceLine" id="cb906-4" title="4">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb906-5" title="5">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb915"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb915-1" title="1"><span class="co"># After </span></a>
+<a class="sourceLine" id="cb915-2" title="2">species.pca.trans &lt;-<span class="st"> </span><span class="kw">t</span>(species.pca)</a>
+<a class="sourceLine" id="cb915-3" title="3">pca.dat.trans &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca.trans, </a>
+<a class="sourceLine" id="cb915-4" title="4">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb915-5" title="5">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.3-3.png" width="672" style="display: block; margin: auto;" /><img src="bookdown-demo_files/figure-html/10.3-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>So what were the PCs generated? How well do they capture the overall variation in the dataset? And how are they stored in the object? Let’s take a look.</p>
-<div class="sourceCode" id="cb907"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb907-1" title="1"><span class="co"># Before</span></a>
-<a class="sourceLine" id="cb907-2" title="2">pca.eig &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb907-3" title="3"></a>
-<a class="sourceLine" id="cb907-4" title="4">pca.eig</a></code></pre></div>
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb916-1" title="1"><span class="co"># Before</span></a>
+<a class="sourceLine" id="cb916-2" title="2">pca.eig &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb916-3" title="3"></a>
+<a class="sourceLine" id="cb916-4" title="4">pca.eig</a></code></pre></div>
 <pre><code>          eigenvalue percentage of variance cumulative percentage of variance
   comp 1       2.044                 18.583                            18.583
   comp 2       1.528                 13.889                            32.472
@@ -453,10 +453,10 @@ Also the PCA axis are ranked by order of importance such that differences along 
   comp 9       0.701                  6.369                            95.421
   comp 10      0.504                  4.579                           100.000
   comp 11      0.000                  0.000                           100.000</code></pre>
-<div class="sourceCode" id="cb909"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb909-1" title="1"><span class="co"># After</span></a>
-<a class="sourceLine" id="cb909-2" title="2">pca.eig.trans &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat.trans<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb909-3" title="3"></a>
-<a class="sourceLine" id="cb909-4" title="4">pca.eig.trans</a></code></pre></div>
+<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb918-1" title="1"><span class="co"># After</span></a>
+<a class="sourceLine" id="cb918-2" title="2">pca.eig.trans &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat.trans<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb918-3" title="3"></a>
+<a class="sourceLine" id="cb918-4" title="4">pca.eig.trans</a></code></pre></div>
 <pre><code>          eigenvalue percentage of variance cumulative percentage of variance
   comp 1      40.882                 86.982                            86.982
   comp 2       2.007                  4.270                            91.253
@@ -468,58 +468,58 @@ Also the PCA axis are ranked by order of importance such that differences along 
   comp 8       0.183                  0.390                            99.646
   comp 9       0.118                  0.251                            99.897
   comp 10      0.048                  0.103                           100.000</code></pre>
-<div class="sourceCode" id="cb911"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb911-1" title="1"><span class="co"># Before</span></a>
-<a class="sourceLine" id="cb911-2" title="2">pca.eig<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig))</a>
-<a class="sourceLine" id="cb911-3" title="3">pca.eig<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig)</a>
-<a class="sourceLine" id="cb911-4" title="4"></a>
-<a class="sourceLine" id="cb911-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">11</span></a>
-<a class="sourceLine" id="cb911-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
-<a class="sourceLine" id="cb911-7" title="7"></a>
-<a class="sourceLine" id="cb911-8" title="8"><span class="co">#Scree plot</span></a>
-<a class="sourceLine" id="cb911-9" title="9"><span class="kw">ggplot</span>(pca.eig, </a>
-<a class="sourceLine" id="cb911-10" title="10">  <span class="kw">aes</span>(<span class="dt">x =</span> index,</a>
-<a class="sourceLine" id="cb911-11" title="11">    <span class="dt">y =</span> <span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb911-12" title="12"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
-<a class="sourceLine" id="cb911-13" title="13">    <span class="kw">aes</span>(<span class="dt">fill =</span> index),</a>
-<a class="sourceLine" id="cb911-14" title="14">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb911-15" title="15"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, </a>
-<a class="sourceLine" id="cb911-16" title="16">    <span class="dt">group =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb911-17" title="17">    <span class="dt">size =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb911-18" title="18">    <span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb911-19" title="19"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb911-20" title="20"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
-<a class="sourceLine" id="cb911-21" title="21">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb911-22" title="22"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
-<a class="sourceLine" id="cb911-23" title="23"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb911-24" title="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb920-1" title="1"><span class="co"># Before</span></a>
+<a class="sourceLine" id="cb920-2" title="2">pca.eig<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig))</a>
+<a class="sourceLine" id="cb920-3" title="3">pca.eig<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig)</a>
+<a class="sourceLine" id="cb920-4" title="4"></a>
+<a class="sourceLine" id="cb920-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">11</span></a>
+<a class="sourceLine" id="cb920-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
+<a class="sourceLine" id="cb920-7" title="7"></a>
+<a class="sourceLine" id="cb920-8" title="8"><span class="co">#Scree plot</span></a>
+<a class="sourceLine" id="cb920-9" title="9"><span class="kw">ggplot</span>(pca.eig, </a>
+<a class="sourceLine" id="cb920-10" title="10">  <span class="kw">aes</span>(<span class="dt">x =</span> index,</a>
+<a class="sourceLine" id="cb920-11" title="11">    <span class="dt">y =</span> <span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-12" title="12"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb920-13" title="13">    <span class="kw">aes</span>(<span class="dt">fill =</span> index),</a>
+<a class="sourceLine" id="cb920-14" title="14">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-15" title="15"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, </a>
+<a class="sourceLine" id="cb920-16" title="16">    <span class="dt">group =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb920-17" title="17">    <span class="dt">size =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb920-18" title="18">    <span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-19" title="19"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-20" title="20"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
+<a class="sourceLine" id="cb920-21" title="21">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-22" title="22"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-23" title="23"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-24" title="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb912"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb912-1" title="1"><span class="co"># After </span></a>
-<a class="sourceLine" id="cb912-2" title="2">pca.eig.trans<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.trans))</a>
-<a class="sourceLine" id="cb912-3" title="3">pca.eig.trans<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.trans)</a>
-<a class="sourceLine" id="cb912-4" title="4"></a>
-<a class="sourceLine" id="cb912-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb912-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
-<a class="sourceLine" id="cb912-7" title="7"></a>
-<a class="sourceLine" id="cb912-8" title="8"><span class="co">#Scree plot</span></a>
-<a class="sourceLine" id="cb912-9" title="9">pca.eig.trans <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb912-10" title="10"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index,</a>
-<a class="sourceLine" id="cb912-11" title="11">  <span class="dt">y =</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb912-12" title="12"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
-<a class="sourceLine" id="cb912-13" title="13">    <span class="kw">aes</span>(<span class="dt">fill =</span> index),</a>
-<a class="sourceLine" id="cb912-14" title="14">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb912-15" title="15"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont,</a>
-<a class="sourceLine" id="cb912-16" title="16">    <span class="dt">group =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb912-17" title="17">    <span class="dt">size =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb912-18" title="18">    <span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb912-19" title="19"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb912-20" title="20"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
-<a class="sourceLine" id="cb912-21" title="21">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb912-22" title="22"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
-<a class="sourceLine" id="cb912-23" title="23"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb912-24" title="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb921-1" title="1"><span class="co"># After </span></a>
+<a class="sourceLine" id="cb921-2" title="2">pca.eig.trans<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.trans))</a>
+<a class="sourceLine" id="cb921-3" title="3">pca.eig.trans<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.trans)</a>
+<a class="sourceLine" id="cb921-4" title="4"></a>
+<a class="sourceLine" id="cb921-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb921-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
+<a class="sourceLine" id="cb921-7" title="7"></a>
+<a class="sourceLine" id="cb921-8" title="8"><span class="co">#Scree plot</span></a>
+<a class="sourceLine" id="cb921-9" title="9">pca.eig.trans <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb921-10" title="10"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index,</a>
+<a class="sourceLine" id="cb921-11" title="11">  <span class="dt">y =</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb921-12" title="12"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb921-13" title="13">    <span class="kw">aes</span>(<span class="dt">fill =</span> index),</a>
+<a class="sourceLine" id="cb921-14" title="14">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb921-15" title="15"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont,</a>
+<a class="sourceLine" id="cb921-16" title="16">    <span class="dt">group =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb921-17" title="17">    <span class="dt">size =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb921-18" title="18">    <span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb921-19" title="19"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb921-20" title="20"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
+<a class="sourceLine" id="cb921-21" title="21">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb921-22" title="22"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
+<a class="sourceLine" id="cb921-23" title="23"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb921-24" title="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb913"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb913-1" title="1">pca.contrib &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>var<span class="op">$</span>contrib, <span class="dv">2</span>))[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a>
-<a class="sourceLine" id="cb913-2" title="2">pca.contrib</a></code></pre></div>
+<div class="sourceCode" id="cb922"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb922-1" title="1">pca.contrib &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>var<span class="op">$</span>contrib, <span class="dv">2</span>))[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb922-2" title="2">pca.contrib</a></code></pre></div>
 <pre><code>                             Dim.1 Dim.2 Dim.3 Dim.4
   Paralonchurus brasiliensis  5.75 10.10  0.22 12.29
   Macrodon ancylodon          6.92 11.45 20.41 11.66
@@ -532,18 +532,18 @@ Also the PCA axis are ranked by order of importance such that differences along 
   Callinectes ornatus         5.95  3.88  1.56 13.12
   Trichiurus lepturus         1.53  0.04 45.38  2.49
   Symphurus plagusia          0.04 27.38  2.26 11.64</code></pre>
-<div class="sourceCode" id="cb915"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb915-1" title="1">pca.contrib<span class="op">$</span>var &lt;-</a>
-<a class="sourceLine" id="cb915-2" title="2"><span class="st">  </span><span class="kw">row.names</span>(pca.contrib) <span class="co">#Turn row names into a variable</span></a>
-<a class="sourceLine" id="cb915-3" title="3"></a>
-<a class="sourceLine" id="cb915-4" title="4">pca.contrib &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(pca.contrib,<span class="dt">id.vars =</span> <span class="st">&quot;var&quot;</span>) <span class="co">#Melt the dataset</span></a>
-<a class="sourceLine" id="cb915-5" title="5">  </a>
-<a class="sourceLine" id="cb915-6" title="6">total.var &lt;-</a>
-<a class="sourceLine" id="cb915-7" title="7"><span class="st">  </span><span class="kw">paste0</span>(<span class="st">&quot;(&quot;</span>,pca.eig<span class="op">$</span><span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],<span class="st">&quot;% of Variance)&quot;</span>,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>) <span class="co">#Extract the % of variance explained by each PC</span></a>
-<a class="sourceLine" id="cb915-8" title="8"></a>
-<a class="sourceLine" id="cb915-9" title="9">pca.contrib<span class="op">$</span>variable &lt;-<span class="st"> </span><span class="kw">factor</span>(pca.contrib<span class="op">$</span>variable,<span class="dt">labels =</span></a>
-<a class="sourceLine" id="cb915-10" title="10">  <span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="st">&quot; &quot;</span>, total.var,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="co">#Append these values to the names of each PC</span></a></code></pre></div>
-<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb916-1" title="1">pca.coord &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>var<span class="op">$</span>coord, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb916-2" title="2">pca.coord</a></code></pre></div>
+<div class="sourceCode" id="cb924"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb924-1" title="1">pca.contrib<span class="op">$</span>var &lt;-</a>
+<a class="sourceLine" id="cb924-2" title="2"><span class="st">  </span><span class="kw">row.names</span>(pca.contrib) <span class="co">#Turn row names into a variable</span></a>
+<a class="sourceLine" id="cb924-3" title="3"></a>
+<a class="sourceLine" id="cb924-4" title="4">pca.contrib &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(pca.contrib,<span class="dt">id.vars =</span> <span class="st">&quot;var&quot;</span>) <span class="co">#Melt the dataset</span></a>
+<a class="sourceLine" id="cb924-5" title="5">  </a>
+<a class="sourceLine" id="cb924-6" title="6">total.var &lt;-</a>
+<a class="sourceLine" id="cb924-7" title="7"><span class="st">  </span><span class="kw">paste0</span>(<span class="st">&quot;(&quot;</span>,pca.eig<span class="op">$</span><span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],<span class="st">&quot;% of Variance)&quot;</span>,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>) <span class="co">#Extract the % of variance explained by each PC</span></a>
+<a class="sourceLine" id="cb924-8" title="8"></a>
+<a class="sourceLine" id="cb924-9" title="9">pca.contrib<span class="op">$</span>variable &lt;-<span class="st"> </span><span class="kw">factor</span>(pca.contrib<span class="op">$</span>variable,<span class="dt">labels =</span></a>
+<a class="sourceLine" id="cb924-10" title="10">  <span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="st">&quot; &quot;</span>, total.var,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="co">#Append these values to the names of each PC</span></a></code></pre></div>
+<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb925-1" title="1">pca.coord &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="op">$</span>var<span class="op">$</span>coord, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb925-2" title="2">pca.coord</a></code></pre></div>
 <pre><code>                              Dim.1  Dim.2  Dim.3  Dim.4  Dim.5
   Paralonchurus brasiliensis  0.343 -0.393 -0.055 -0.373 -0.263
   Macrodon ancylodon          0.376 -0.418  0.529  0.363 -0.055
@@ -556,13 +556,13 @@ Also the PCA axis are ranked by order of importance such that differences along 
   Callinectes ornatus        -0.349  0.244  0.146 -0.386 -0.202
   Trichiurus lepturus         0.177  0.025  0.789 -0.168  0.316
   Symphurus plagusia         -0.027  0.647  0.176  0.363 -0.071</code></pre>
-<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb918-1" title="1"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.contrib))</a>
-<a class="sourceLine" id="cb918-2" title="2">{</a>
-<a class="sourceLine" id="cb918-3" title="3">  pca.contrib<span class="op">$</span>dir[i] &lt;-<span class="st"> </span>pca.coord[<span class="kw">which</span>(<span class="kw">row.names</span>(pca.coord) <span class="op">==</span><span class="st"> </span>pca.contrib<span class="op">$</span>var[i]),</a>
-<a class="sourceLine" id="cb918-4" title="4">                                  <span class="kw">grep</span>(<span class="kw">as.numeric</span>(<span class="kw">substr</span>(pca.contrib<span class="op">$</span>variable[i],<span class="dv">3</span>,<span class="dv">3</span>)),<span class="kw">names</span>(pca.coord))] <span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb918-5" title="5"><span class="st">    </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb918-6" title="6">}</a>
-<a class="sourceLine" id="cb918-7" title="7">pca.contrib</a></code></pre></div>
+<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb927-1" title="1"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.contrib))</a>
+<a class="sourceLine" id="cb927-2" title="2">{</a>
+<a class="sourceLine" id="cb927-3" title="3">  pca.contrib<span class="op">$</span>dir[i] &lt;-<span class="st"> </span>pca.coord[<span class="kw">which</span>(<span class="kw">row.names</span>(pca.coord) <span class="op">==</span><span class="st"> </span>pca.contrib<span class="op">$</span>var[i]),</a>
+<a class="sourceLine" id="cb927-4" title="4">                                  <span class="kw">grep</span>(<span class="kw">as.numeric</span>(<span class="kw">substr</span>(pca.contrib<span class="op">$</span>variable[i],<span class="dv">3</span>,<span class="dv">3</span>)),<span class="kw">names</span>(pca.coord))] <span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb927-5" title="5"><span class="st">    </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb927-6" title="6">}</a>
+<a class="sourceLine" id="cb927-7" title="7">pca.contrib</a></code></pre></div>
 <pre><code>                            var                   variable value   dir
   1  Paralonchurus brasiliensis PC1 ( 18.583% of Variance)  5.75  TRUE
   2          Macrodon ancylodon PC1 ( 18.583% of Variance)  6.92  TRUE
@@ -608,34 +608,34 @@ Also the PCA axis are ranked by order of importance such that differences along 
   42        Callinectes ornatus PC4 ( 10.299% of Variance) 13.12 FALSE
   43        Trichiurus lepturus PC4 ( 10.299% of Variance)  2.49 FALSE
   44         Symphurus plagusia PC4 ( 10.299% of Variance) 11.64  TRUE</code></pre>
-<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb920-1" title="1"><span class="kw">ggplot</span>(pca.contrib,<span class="kw">aes</span>(<span class="dt">x =</span> var,</a>
-<a class="sourceLine" id="cb920-2" title="2">  <span class="dt">y =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb920-3" title="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(pca.contrib<span class="op">$</span>var)),</a>
-<a class="sourceLine" id="cb920-4" title="4">             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb920-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
-<a class="sourceLine" id="cb920-6" title="6">    <span class="kw">aes</span>(<span class="dt">fill =</span> var),</a>
-<a class="sourceLine" id="cb920-7" title="7">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb920-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
-<a class="sourceLine" id="cb920-9" title="9">    <span class="dt">nrow =</span> <span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb920-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb920-11" title="11"><span class="st">  </span><span class="co"># geom_label(aes(label = var,colour = dir)) +</span></a>
-<a class="sourceLine" id="cb920-12" title="12"><span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="op">+</span></a>
-<a class="sourceLine" id="cb920-13" title="13"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb920-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb920-15" title="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">&quot;% Contribution to Principal Component&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot; &quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb920-16" title="16"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</a>
-<a class="sourceLine" id="cb920-17" title="17">    <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb920-18" title="18"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">override.aes =</span></a>
-<a class="sourceLine" id="cb920-19" title="19">      <span class="kw">aes</span>(<span class="dt">label =</span> <span class="st">&quot; &quot;</span>), <span class="dt">nrow =</span> <span class="dv">4</span>)) </a></code></pre></div>
+<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb929-1" title="1"><span class="kw">ggplot</span>(pca.contrib,<span class="kw">aes</span>(<span class="dt">x =</span> var,</a>
+<a class="sourceLine" id="cb929-2" title="2">  <span class="dt">y =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb929-3" title="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(pca.contrib<span class="op">$</span>var)),</a>
+<a class="sourceLine" id="cb929-4" title="4">             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb929-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb929-6" title="6">    <span class="kw">aes</span>(<span class="dt">fill =</span> var),</a>
+<a class="sourceLine" id="cb929-7" title="7">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb929-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
+<a class="sourceLine" id="cb929-9" title="9">    <span class="dt">nrow =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb929-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb929-11" title="11"><span class="st">  </span><span class="co"># geom_label(aes(label = var,colour = dir)) +</span></a>
+<a class="sourceLine" id="cb929-12" title="12"><span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb929-13" title="13"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb929-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb929-15" title="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">&quot;% Contribution to Principal Component&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot; &quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb929-16" title="16"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb929-17" title="17">    <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb929-18" title="18"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">override.aes =</span></a>
+<a class="sourceLine" id="cb929-19" title="19">      <span class="kw">aes</span>(<span class="dt">label =</span> <span class="st">&quot; &quot;</span>), <span class="dt">nrow =</span> <span class="dv">4</span>)) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.10-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="cpue-models" class="section level2">
 <h2><span class="header-section-number">11.3</span> CPUE Models</h2>
-<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb921-1" title="1"><span class="co"># Renaming data</span></a>
-<a class="sourceLine" id="cb921-2" title="2">species.pca<span class="fl">.2</span> &lt;-<span class="st"> </span>species.cor<span class="fl">.3</span> </a>
-<a class="sourceLine" id="cb921-3" title="3"></a>
-<a class="sourceLine" id="cb921-4" title="4"><span class="co"># Printing summary of variables</span></a>
-<a class="sourceLine" id="cb921-5" title="5"><span class="kw">summary</span>(species.pca<span class="fl">.2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb930"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb930-1" title="1"><span class="co"># Renaming data</span></a>
+<a class="sourceLine" id="cb930-2" title="2">species.pca<span class="fl">.2</span> &lt;-<span class="st"> </span>species.cor<span class="fl">.3</span> </a>
+<a class="sourceLine" id="cb930-3" title="3"></a>
+<a class="sourceLine" id="cb930-4" title="4"><span class="co"># Printing summary of variables</span></a>
+<a class="sourceLine" id="cb930-5" title="5"><span class="kw">summary</span>(species.pca<span class="fl">.2</span>)</a></code></pre></div>
 <pre><code>   Paralonchurus brasiliensis Macrodon ancylodon  Bagre bagre     
    Min.   :0.00000            Min.   : 0.1975    Min.   : 0.0000  
    1st Qu.:0.05017            1st Qu.: 2.0452    1st Qu.: 0.4175  
@@ -657,39 +657,39 @@ Also the PCA axis are ranked by order of importance such that differences along 
    Mean   : 3.5052     Mean   : 1.0301     Mean   : 2.4355     Mean   : 1.65960  
    3rd Qu.: 4.7189     3rd Qu.: 0.7879     3rd Qu.: 1.4448     3rd Qu.: 1.05889  
    Max.   :14.1000     Max.   :21.7650     Max.   :50.7136     Max.   :32.36166</code></pre>
-<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb923-1" title="1">species.pca<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Row.Names =</span> <span class="kw">rownames</span>(species.pca<span class="fl">.2</span>), species.pca<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb923-2" title="2"></a>
-<a class="sourceLine" id="cb923-3" title="3"><span class="kw">ggplot</span>(reshape2<span class="op">::</span><span class="kw">melt</span>(species.pca<span class="fl">.3</span>, <span class="dt">id.vars =</span> <span class="st">&quot;Row.Names&quot;</span>),</a>
-<a class="sourceLine" id="cb923-4" title="4">  <span class="kw">aes</span>(<span class="dt">x =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb923-5" title="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> variable)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb923-6" title="6"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>,</a>
-<a class="sourceLine" id="cb923-7" title="7">                    <span class="dt">name =</span> <span class="st">&quot;Variable&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb923-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
-<a class="sourceLine" id="cb923-9" title="9">    <span class="dt">nrow =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb923-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb923-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, </a>
-<a class="sourceLine" id="cb923-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb923-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb932"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb932-1" title="1">species.pca<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Row.Names =</span> <span class="kw">rownames</span>(species.pca<span class="fl">.2</span>), species.pca<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb932-2" title="2"></a>
+<a class="sourceLine" id="cb932-3" title="3"><span class="kw">ggplot</span>(reshape2<span class="op">::</span><span class="kw">melt</span>(species.pca<span class="fl">.3</span>, <span class="dt">id.vars =</span> <span class="st">&quot;Row.Names&quot;</span>),</a>
+<a class="sourceLine" id="cb932-4" title="4">  <span class="kw">aes</span>(<span class="dt">x =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb932-5" title="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> variable)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb932-6" title="6"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>,</a>
+<a class="sourceLine" id="cb932-7" title="7">                    <span class="dt">name =</span> <span class="st">&quot;Variable&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb932-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
+<a class="sourceLine" id="cb932-9" title="9">    <span class="dt">nrow =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb932-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb932-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, </a>
+<a class="sourceLine" id="cb932-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb932-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.12-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="pca-1" class="section level2">
 <h2><span class="header-section-number">11.4</span> PCA</h2>
-<div class="sourceCode" id="cb924"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb924-1" title="1"><span class="co"># Before </span></a>
-<a class="sourceLine" id="cb924-2" title="2">pca.dat<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca<span class="fl">.2</span>, </a>
-<a class="sourceLine" id="cb924-3" title="3">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb924-4" title="4">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb933"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb933-1" title="1"><span class="co"># Before </span></a>
+<a class="sourceLine" id="cb933-2" title="2">pca.dat<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca<span class="fl">.2</span>, </a>
+<a class="sourceLine" id="cb933-3" title="3">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb933-4" title="4">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.13-1.png" width="672" style="display: block; margin: auto;" /><img src="bookdown-demo_files/figure-html/10.13-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb925-1" title="1"><span class="co"># After </span></a>
-<a class="sourceLine" id="cb925-2" title="2">species.pca.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">t</span>(species.pca<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb925-3" title="3">pca.dat.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca.<span class="fl">2.</span>trans, </a>
-<a class="sourceLine" id="cb925-4" title="4">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb925-5" title="5">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb934"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb934-1" title="1"><span class="co"># After </span></a>
+<a class="sourceLine" id="cb934-2" title="2">species.pca.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">t</span>(species.pca<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb934-3" title="3">pca.dat.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">PCA</span>(species.pca.<span class="fl">2.</span>trans, </a>
+<a class="sourceLine" id="cb934-4" title="4">  <span class="dt">graph =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb934-5" title="5">  <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.13-3.png" width="672" style="display: block; margin: auto;" /><img src="bookdown-demo_files/figure-html/10.13-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>So what were the PCs generated? How well do they capture the overall variation in the dataset? And how are they stored in the object? Let’s take a look.</p>
-<div class="sourceCode" id="cb926"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb926-1" title="1"><span class="co"># Before</span></a>
-<a class="sourceLine" id="cb926-2" title="2">pca.eig<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb926-3" title="3"></a>
-<a class="sourceLine" id="cb926-4" title="4">pca.eig<span class="fl">.2</span></a></code></pre></div>
+<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb935-1" title="1"><span class="co"># Before</span></a>
+<a class="sourceLine" id="cb935-2" title="2">pca.eig<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb935-3" title="3"></a>
+<a class="sourceLine" id="cb935-4" title="4">pca.eig<span class="fl">.2</span></a></code></pre></div>
 <pre><code>          eigenvalue percentage of variance cumulative percentage of variance
   comp 1       1.980                 18.000                            18.000
   comp 2       1.344                 12.219                            30.219
@@ -702,10 +702,10 @@ Also the PCA axis are ranked by order of importance such that differences along 
   comp 9       0.656                  5.963                            91.732
   comp 10      0.554                  5.035                            96.767
   comp 11      0.356                  3.233                           100.000</code></pre>
-<div class="sourceCode" id="cb928"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb928-1" title="1"><span class="co"># After</span></a>
-<a class="sourceLine" id="cb928-2" title="2">pca.eig.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat.<span class="fl">2.</span>trans<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb928-3" title="3"></a>
-<a class="sourceLine" id="cb928-4" title="4">pca.eig.<span class="fl">2.</span>trans</a></code></pre></div>
+<div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb937-1" title="1"><span class="co"># After</span></a>
+<a class="sourceLine" id="cb937-2" title="2">pca.eig.<span class="fl">2.</span>trans &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(<span class="kw">round</span>(pca.dat.<span class="fl">2.</span>trans<span class="op">$</span>eig,<span class="dv">3</span>), <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb937-3" title="3"></a>
+<a class="sourceLine" id="cb937-4" title="4">pca.eig.<span class="fl">2.</span>trans</a></code></pre></div>
 <pre><code>          eigenvalue percentage of variance cumulative percentage of variance
   comp 1      40.882                 86.982                            86.982
   comp 2       2.007                  4.270                            91.253
@@ -717,44 +717,44 @@ Also the PCA axis are ranked by order of importance such that differences along 
   comp 8       0.183                  0.390                            99.646
   comp 9       0.118                  0.251                            99.897
   comp 10      0.048                  0.103                           100.000</code></pre>
-<div class="sourceCode" id="cb930"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb930-1" title="1"><span class="co"># Before </span></a>
-<a class="sourceLine" id="cb930-2" title="2">pca.eig<span class="fl">.2</span><span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig<span class="fl">.2</span>))</a>
-<a class="sourceLine" id="cb930-3" title="3">pca.eig<span class="fl">.2</span><span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb930-4" title="4"></a>
-<a class="sourceLine" id="cb930-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">11</span></a>
-<a class="sourceLine" id="cb930-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
-<a class="sourceLine" id="cb930-7" title="7"></a>
-<a class="sourceLine" id="cb930-8" title="8"><span class="co">#Scree plot</span></a>
-<a class="sourceLine" id="cb930-9" title="9"><span class="kw">ggplot</span>(pca.eig<span class="fl">.2</span>,<span class="kw">aes</span>(<span class="dt">x=</span>index,<span class="dt">y=</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb930-10" title="10"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,<span class="kw">aes</span>(<span class="dt">fill =</span> index),<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb930-11" title="11"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, <span class="dt">group =</span> <span class="dv">1</span>),<span class="dt">size =</span> <span class="dv">1</span>,<span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb930-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb930-13" title="13"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
-<a class="sourceLine" id="cb930-14" title="14">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb930-15" title="15"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
-<a class="sourceLine" id="cb930-16" title="16"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb930-17" title="17"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb939"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb939-1" title="1"><span class="co"># Before </span></a>
+<a class="sourceLine" id="cb939-2" title="2">pca.eig<span class="fl">.2</span><span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig<span class="fl">.2</span>))</a>
+<a class="sourceLine" id="cb939-3" title="3">pca.eig<span class="fl">.2</span><span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb939-4" title="4"></a>
+<a class="sourceLine" id="cb939-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">11</span></a>
+<a class="sourceLine" id="cb939-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
+<a class="sourceLine" id="cb939-7" title="7"></a>
+<a class="sourceLine" id="cb939-8" title="8"><span class="co">#Scree plot</span></a>
+<a class="sourceLine" id="cb939-9" title="9"><span class="kw">ggplot</span>(pca.eig<span class="fl">.2</span>,<span class="kw">aes</span>(<span class="dt">x=</span>index,<span class="dt">y=</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-10" title="10"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,<span class="kw">aes</span>(<span class="dt">fill =</span> index),<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-11" title="11"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, <span class="dt">group =</span> <span class="dv">1</span>),<span class="dt">size =</span> <span class="dv">1</span>,<span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-13" title="13"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
+<a class="sourceLine" id="cb939-14" title="14">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-15" title="15"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-16" title="16"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb939-17" title="17"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.15-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb931-1" title="1"><span class="co"># After</span></a>
-<a class="sourceLine" id="cb931-2" title="2">pca.eig.<span class="fl">2.</span>trans<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.<span class="fl">2.</span>trans))</a>
-<a class="sourceLine" id="cb931-3" title="3">pca.eig.<span class="fl">2.</span>trans<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.<span class="fl">2.</span>trans)</a>
-<a class="sourceLine" id="cb931-4" title="4"></a>
-<a class="sourceLine" id="cb931-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb931-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
-<a class="sourceLine" id="cb931-7" title="7"></a>
-<a class="sourceLine" id="cb931-8" title="8"><span class="co">#Scree plot</span></a>
-<a class="sourceLine" id="cb931-9" title="9"><span class="kw">ggplot</span>(pca.eig.<span class="fl">2.</span>trans,<span class="kw">aes</span>(<span class="dt">x=</span>index,<span class="dt">y=</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb931-10" title="10"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,<span class="kw">aes</span>(<span class="dt">fill =</span> index),<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb931-11" title="11"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, <span class="dt">group =</span> <span class="dv">1</span>),<span class="dt">size =</span> <span class="dv">1</span>,<span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb931-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb931-13" title="13"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
-<a class="sourceLine" id="cb931-14" title="14">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb931-15" title="15"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
-<a class="sourceLine" id="cb931-16" title="16"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb931-17" title="17"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb940-1" title="1"><span class="co"># After</span></a>
+<a class="sourceLine" id="cb940-2" title="2">pca.eig.<span class="fl">2.</span>trans<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.<span class="fl">2.</span>trans))</a>
+<a class="sourceLine" id="cb940-3" title="3">pca.eig.<span class="fl">2.</span>trans<span class="op">$</span>index.cont &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.eig.<span class="fl">2.</span>trans)</a>
+<a class="sourceLine" id="cb940-4" title="4"></a>
+<a class="sourceLine" id="cb940-5" title="5">nb.cols &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb940-6" title="6">mycolors &lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;YlGnBu&quot;</span>)))(nb.cols)</a>
+<a class="sourceLine" id="cb940-7" title="7"></a>
+<a class="sourceLine" id="cb940-8" title="8"><span class="co">#Scree plot</span></a>
+<a class="sourceLine" id="cb940-9" title="9"><span class="kw">ggplot</span>(pca.eig.<span class="fl">2.</span>trans,<span class="kw">aes</span>(<span class="dt">x=</span>index,<span class="dt">y=</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb940-10" title="10"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,<span class="kw">aes</span>(<span class="dt">fill =</span> index),<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb940-11" title="11"><span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> index.cont, <span class="dt">group =</span> <span class="dv">1</span>),<span class="dt">size =</span> <span class="dv">1</span>,<span class="dt">colour =</span> <span class="st">&quot;Gray50&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb940-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb940-13" title="13"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Principal Components&quot;</span>,</a>
+<a class="sourceLine" id="cb940-14" title="14">       <span class="dt">y =</span> <span class="st">&quot;Percentage of Variance Explained&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb940-15" title="15"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> mycolors) <span class="op">+</span></a>
+<a class="sourceLine" id="cb940-16" title="16"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb940-17" title="17"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.15-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb932"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb932-1" title="1">pca.contrib<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>var<span class="op">$</span>contrib, <span class="dv">2</span>))[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a>
-<a class="sourceLine" id="cb932-2" title="2">pca.contrib<span class="fl">.2</span></a></code></pre></div>
+<div class="sourceCode" id="cb941"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb941-1" title="1">pca.contrib<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>var<span class="op">$</span>contrib, <span class="dv">2</span>))[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb941-2" title="2">pca.contrib<span class="fl">.2</span></a></code></pre></div>
 <pre><code>                             Dim.1 Dim.2 Dim.3 Dim.4
   Paralonchurus brasiliensis  4.18 29.66 12.13  3.42
   Macrodon ancylodon         26.17  9.73  1.84  2.30
@@ -767,18 +767,18 @@ Also the PCA axis are ranked by order of importance such that differences along 
   Callinectes ornatus        11.29  0.39  0.00  0.49
   Trichiurus lepturus         0.21 17.23  0.01 38.34
   Symphurus plagusia          0.47  0.36 45.32  1.13</code></pre>
-<div class="sourceCode" id="cb934"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb934-1" title="1">pca.contrib<span class="fl">.2</span><span class="op">$</span>var &lt;-</a>
-<a class="sourceLine" id="cb934-2" title="2"><span class="st">  </span><span class="kw">row.names</span>(pca.contrib<span class="fl">.2</span>) <span class="co">#Turn row names into a variable</span></a>
-<a class="sourceLine" id="cb934-3" title="3"></a>
-<a class="sourceLine" id="cb934-4" title="4">pca.contrib<span class="fl">.2</span> &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(pca.contrib<span class="fl">.2</span>,<span class="dt">id.vars =</span> <span class="st">&quot;var&quot;</span>) <span class="co">#Melt the dataset</span></a>
-<a class="sourceLine" id="cb934-5" title="5">  </a>
-<a class="sourceLine" id="cb934-6" title="6">total.var &lt;-</a>
-<a class="sourceLine" id="cb934-7" title="7"><span class="st">  </span><span class="kw">paste0</span>(<span class="st">&quot;(&quot;</span>,pca.eig<span class="fl">.2</span><span class="op">$</span><span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],<span class="st">&quot;% of Variance)&quot;</span>,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>) <span class="co">#Extract the % of variance explained by each PC</span></a>
-<a class="sourceLine" id="cb934-8" title="8"></a>
-<a class="sourceLine" id="cb934-9" title="9">pca.contrib<span class="fl">.2</span><span class="op">$</span>variable &lt;-<span class="st"> </span><span class="kw">factor</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>variable,<span class="dt">labels =</span></a>
-<a class="sourceLine" id="cb934-10" title="10">  <span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="st">&quot; &quot;</span>, total.var,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="co">#Append these values to the names of each PC</span></a></code></pre></div>
-<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb935-1" title="1">pca.coord<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>var<span class="op">$</span>coord, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb935-2" title="2">pca.coord<span class="fl">.2</span></a></code></pre></div>
+<div class="sourceCode" id="cb943"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb943-1" title="1">pca.contrib<span class="fl">.2</span><span class="op">$</span>var &lt;-</a>
+<a class="sourceLine" id="cb943-2" title="2"><span class="st">  </span><span class="kw">row.names</span>(pca.contrib<span class="fl">.2</span>) <span class="co">#Turn row names into a variable</span></a>
+<a class="sourceLine" id="cb943-3" title="3"></a>
+<a class="sourceLine" id="cb943-4" title="4">pca.contrib<span class="fl">.2</span> &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(pca.contrib<span class="fl">.2</span>,<span class="dt">id.vars =</span> <span class="st">&quot;var&quot;</span>) <span class="co">#Melt the dataset</span></a>
+<a class="sourceLine" id="cb943-5" title="5">  </a>
+<a class="sourceLine" id="cb943-6" title="6">total.var &lt;-</a>
+<a class="sourceLine" id="cb943-7" title="7"><span class="st">  </span><span class="kw">paste0</span>(<span class="st">&quot;(&quot;</span>,pca.eig<span class="fl">.2</span><span class="op">$</span><span class="st">`</span><span class="dt">percentage of variance</span><span class="st">`</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],<span class="st">&quot;% of Variance)&quot;</span>,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>) <span class="co">#Extract the % of variance explained by each PC</span></a>
+<a class="sourceLine" id="cb943-8" title="8"></a>
+<a class="sourceLine" id="cb943-9" title="9">pca.contrib<span class="fl">.2</span><span class="op">$</span>variable &lt;-<span class="st"> </span><span class="kw">factor</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>variable,<span class="dt">labels =</span></a>
+<a class="sourceLine" id="cb943-10" title="10">  <span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="st">&quot; &quot;</span>, total.var,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="co">#Append these values to the names of each PC</span></a></code></pre></div>
+<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb944-1" title="1">pca.coord<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">round</span>(pca.dat<span class="fl">.2</span><span class="op">$</span>var<span class="op">$</span>coord, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb944-2" title="2">pca.coord<span class="fl">.2</span></a></code></pre></div>
 <pre><code>                              Dim.1  Dim.2  Dim.3  Dim.4  Dim.5
   Paralonchurus brasiliensis  0.288 -0.631 -0.393  0.200 -0.078
   Macrodon ancylodon          0.720  0.362 -0.153  0.164 -0.128
@@ -791,13 +791,13 @@ Also the PCA axis are ranked by order of importance such that differences along 
   Callinectes ornatus        -0.473 -0.072  0.004  0.076  0.039
   Trichiurus lepturus         0.064  0.481  0.012  0.669 -0.490
   Symphurus plagusia         -0.097 -0.069  0.760  0.115  0.099</code></pre>
-<div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb937-1" title="1"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.contrib<span class="fl">.2</span>))</a>
-<a class="sourceLine" id="cb937-2" title="2">{</a>
-<a class="sourceLine" id="cb937-3" title="3">  pca.contrib<span class="fl">.2</span><span class="op">$</span>dir[i] &lt;-<span class="st"> </span>pca.coord<span class="fl">.2</span>[<span class="kw">which</span>(<span class="kw">row.names</span>(pca.coord) <span class="op">==</span><span class="st"> </span>pca.contrib<span class="fl">.2</span><span class="op">$</span>var[i]),</a>
-<a class="sourceLine" id="cb937-4" title="4">                                  <span class="kw">grep</span>(<span class="kw">as.numeric</span>(<span class="kw">substr</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>variable[i],<span class="dv">3</span>,<span class="dv">3</span>)),<span class="kw">names</span>(pca.coord<span class="fl">.2</span>))] <span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb937-5" title="5"><span class="st">    </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb937-6" title="6">}</a>
-<a class="sourceLine" id="cb937-7" title="7">pca.contrib<span class="fl">.2</span></a></code></pre></div>
+<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb946-1" title="1"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pca.contrib<span class="fl">.2</span>))</a>
+<a class="sourceLine" id="cb946-2" title="2">{</a>
+<a class="sourceLine" id="cb946-3" title="3">  pca.contrib<span class="fl">.2</span><span class="op">$</span>dir[i] &lt;-<span class="st"> </span>pca.coord<span class="fl">.2</span>[<span class="kw">which</span>(<span class="kw">row.names</span>(pca.coord) <span class="op">==</span><span class="st"> </span>pca.contrib<span class="fl">.2</span><span class="op">$</span>var[i]),</a>
+<a class="sourceLine" id="cb946-4" title="4">                                  <span class="kw">grep</span>(<span class="kw">as.numeric</span>(<span class="kw">substr</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>variable[i],<span class="dv">3</span>,<span class="dv">3</span>)),<span class="kw">names</span>(pca.coord<span class="fl">.2</span>))] <span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb946-5" title="5"><span class="st">    </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb946-6" title="6">}</a>
+<a class="sourceLine" id="cb946-7" title="7">pca.contrib<span class="fl">.2</span></a></code></pre></div>
 <pre><code>                            var                   variable value   dir
   1  Paralonchurus brasiliensis PC1 ( 18.000% of Variance)  4.18  TRUE
   2          Macrodon ancylodon PC1 ( 18.000% of Variance) 26.17  TRUE
@@ -843,25 +843,25 @@ Also the PCA axis are ranked by order of importance such that differences along 
   42        Callinectes ornatus PC4 ( 10.621% of Variance)  0.49  TRUE
   43        Trichiurus lepturus PC4 ( 10.621% of Variance) 38.34  TRUE
   44         Symphurus plagusia PC4 ( 10.621% of Variance)  1.13  TRUE</code></pre>
-<div class="sourceCode" id="cb939"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb939-1" title="1"><span class="kw">ggplot</span>(pca.contrib<span class="fl">.2</span>,<span class="kw">aes</span>(<span class="dt">x =</span> var,</a>
-<a class="sourceLine" id="cb939-2" title="2">  <span class="dt">y =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb939-3" title="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>var)),</a>
-<a class="sourceLine" id="cb939-4" title="4">             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb939-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
-<a class="sourceLine" id="cb939-6" title="6">    <span class="kw">aes</span>(<span class="dt">fill =</span> var),</a>
-<a class="sourceLine" id="cb939-7" title="7">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb939-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
-<a class="sourceLine" id="cb939-9" title="9">    <span class="dt">nrow =</span> <span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb939-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb939-11" title="11"><span class="st">  </span><span class="co"># geom_label(aes(label = var,colour = dir)) +</span></a>
-<a class="sourceLine" id="cb939-12" title="12"><span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="op">+</span></a>
-<a class="sourceLine" id="cb939-13" title="13"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb939-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb939-15" title="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">&quot;% Contribution to Principal Component&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot; &quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb939-16" title="16"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</a>
-<a class="sourceLine" id="cb939-17" title="17">    <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb939-18" title="18"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">override.aes =</span></a>
-<a class="sourceLine" id="cb939-19" title="19">      <span class="kw">aes</span>(<span class="dt">label =</span> <span class="st">&quot; &quot;</span>), <span class="dt">nrow =</span> <span class="dv">4</span>)) </a></code></pre></div>
+<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb948-1" title="1"><span class="kw">ggplot</span>(pca.contrib<span class="fl">.2</span>,<span class="kw">aes</span>(<span class="dt">x =</span> var,</a>
+<a class="sourceLine" id="cb948-2" title="2">  <span class="dt">y =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb948-3" title="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(pca.contrib<span class="fl">.2</span><span class="op">$</span>var)),</a>
+<a class="sourceLine" id="cb948-4" title="4">             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb948-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb948-6" title="6">    <span class="kw">aes</span>(<span class="dt">fill =</span> var),</a>
+<a class="sourceLine" id="cb948-7" title="7">    <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb948-8" title="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable,</a>
+<a class="sourceLine" id="cb948-9" title="9">    <span class="dt">nrow =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb948-10" title="10">    <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb948-11" title="11"><span class="st">  </span><span class="co"># geom_label(aes(label = var,colour = dir)) +</span></a>
+<a class="sourceLine" id="cb948-12" title="12"><span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb948-13" title="13"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb948-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb948-15" title="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">&quot;% Contribution to Principal Component&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot; &quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb948-16" title="16"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb948-17" title="17">    <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb948-18" title="18"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">override.aes =</span></a>
+<a class="sourceLine" id="cb948-19" title="19">      <span class="kw">aes</span>(<span class="dt">label =</span> <span class="st">&quot; &quot;</span>), <span class="dt">nrow =</span> <span class="dv">4</span>)) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.20-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="id.102" class="section level2">
@@ -869,19 +869,19 @@ Also the PCA axis are ranked by order of importance such that differences along 
 </div>
 <div id="first-approach" class="section level2">
 <h2><span class="header-section-number">11.6</span> First Approach</h2>
-<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb940-1" title="1"><span class="co"># Data</span></a>
-<a class="sourceLine" id="cb940-2" title="2">cca.data.all &lt;-<span class="st"> </span>species.cor <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb940-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> LatinNames,</a>
-<a class="sourceLine" id="cb940-4" title="4">    <span class="dt">values_from =</span> CpueKGHR,</a>
-<a class="sourceLine" id="cb940-5" title="5">    <span class="dt">values_fill =</span> <span class="dv">0</span>) </a>
-<a class="sourceLine" id="cb940-6" title="6"></a>
-<a class="sourceLine" id="cb940-7" title="7"><span class="co"># Creating two data frames</span></a>
-<a class="sourceLine" id="cb940-8" title="8">cca<span class="fl">.1</span> &lt;-<span class="st"> </span>cca.data.all[,<span class="dv">7</span><span class="op">:</span><span class="dv">17</span>]</a>
-<a class="sourceLine" id="cb940-9" title="9">cca<span class="fl">.2</span> &lt;-<span class="st"> </span>cca.data.all[,<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>]</a>
-<a class="sourceLine" id="cb940-10" title="10"></a>
-<a class="sourceLine" id="cb940-11" title="11"><span class="co"># Fitting model </span></a>
-<a class="sourceLine" id="cb940-12" title="12">cca.model &lt;-<span class="st"> </span><span class="kw">cca</span>(cca<span class="fl">.1</span>, cca<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb940-13" title="13">cca.model</a></code></pre></div>
+<div class="sourceCode" id="cb949"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb949-1" title="1"><span class="co"># Data</span></a>
+<a class="sourceLine" id="cb949-2" title="2">cca.data.all &lt;-<span class="st"> </span>species.cor <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb949-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> LatinNames,</a>
+<a class="sourceLine" id="cb949-4" title="4">    <span class="dt">values_from =</span> CpueKGHR,</a>
+<a class="sourceLine" id="cb949-5" title="5">    <span class="dt">values_fill =</span> <span class="dv">0</span>) </a>
+<a class="sourceLine" id="cb949-6" title="6"></a>
+<a class="sourceLine" id="cb949-7" title="7"><span class="co"># Creating two data frames</span></a>
+<a class="sourceLine" id="cb949-8" title="8">cca<span class="fl">.1</span> &lt;-<span class="st"> </span>cca.data.all[,<span class="dv">7</span><span class="op">:</span><span class="dv">17</span>]</a>
+<a class="sourceLine" id="cb949-9" title="9">cca<span class="fl">.2</span> &lt;-<span class="st"> </span>cca.data.all[,<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>]</a>
+<a class="sourceLine" id="cb949-10" title="10"></a>
+<a class="sourceLine" id="cb949-11" title="11"><span class="co"># Fitting model </span></a>
+<a class="sourceLine" id="cb949-12" title="12">cca.model &lt;-<span class="st"> </span><span class="kw">cca</span>(cca<span class="fl">.1</span>, cca<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb949-13" title="13">cca.model</a></code></pre></div>
 <pre><code>  Call: cca(X = cca.1, Y = cca.2)
   
                 Inertia Proportion Rank
@@ -897,9 +897,9 @@ Also the PCA axis are ranked by order of importance such that differences along 
   Eigenvalues for unconstrained axes:
       CA1     CA2     CA3     CA4     CA5     CA6     CA7     CA8     CA9    CA10 
   0.18303 0.16279 0.12756 0.08077 0.05257 0.03636 0.02307 0.02147 0.01908 0.01624</code></pre>
-<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb942-1" title="1"><span class="kw">plot</span>(cca.model, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb951-1" title="1"><span class="kw">plot</span>(cca.model, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/10.22-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb943"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb943-1" title="1"><span class="kw">summary</span>(cca.model)</a></code></pre></div>
+<div class="sourceCode" id="cb952"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb952-1" title="1"><span class="kw">summary</span>(cca.model)</a></code></pre></div>
 <pre><code>  
   Call:
   cca(X = cca.1, Y = cca.2) 
@@ -1078,7 +1078,7 @@ Also the PCA axis are ranked by order of importance such that differences along 
   TimePeriodsNight -0.6296  0.04066 -0.05257 -0.02391  0.7737   0
   FishingZones     -0.3261  0.82198 -0.03249 -0.41785 -0.2058   0
   FishingDepthMtr  -0.3231 -0.31242 -0.17413 -0.80361 -0.3491   0</code></pre>
-<div class="sourceCode" id="cb945"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb945-1" title="1"><span class="kw">anova</span>(cca.model)</a></code></pre></div>
+<div class="sourceCode" id="cb954"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb954-1" title="1"><span class="kw">anova</span>(cca.model)</a></code></pre></div>
 <pre><code>  Permutation test for cca under reduced model
   Permutation: free
   Number of permutations: 999
@@ -1092,17 +1092,17 @@ Also the PCA axis are ranked by order of importance such that differences along 
 </div>
 <div id="second-approach" class="section level2">
 <h2><span class="header-section-number">11.7</span> Second Approach</h2>
-<div class="sourceCode" id="cb947"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb947-1" title="1">data<span class="fl">.1</span> &lt;-<span class="st"> </span>cca<span class="fl">.1</span>[, <span class="dv">7</span>]</a>
-<a class="sourceLine" id="cb947-2" title="2">data<span class="fl">.2</span> &lt;-<span class="st"> </span>cca<span class="fl">.1</span>[, <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dv">8</span><span class="op">:</span><span class="dv">11</span>)]</a>
-<a class="sourceLine" id="cb947-3" title="3"></a>
-<a class="sourceLine" id="cb947-4" title="4"><span class="co"># Running model</span></a>
-<a class="sourceLine" id="cb947-5" title="5">cc1 &lt;-<span class="st"> </span><span class="kw">cc</span>(data<span class="fl">.1</span>, data<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb947-6" title="6"></a>
-<a class="sourceLine" id="cb947-7" title="7"><span class="co"># display the canonical correlations</span></a>
-<a class="sourceLine" id="cb947-8" title="8">cc1<span class="op">$</span>cor</a></code></pre></div>
+<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb956-1" title="1">data<span class="fl">.1</span> &lt;-<span class="st"> </span>cca<span class="fl">.1</span>[, <span class="dv">7</span>]</a>
+<a class="sourceLine" id="cb956-2" title="2">data<span class="fl">.2</span> &lt;-<span class="st"> </span>cca<span class="fl">.1</span>[, <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dv">8</span><span class="op">:</span><span class="dv">11</span>)]</a>
+<a class="sourceLine" id="cb956-3" title="3"></a>
+<a class="sourceLine" id="cb956-4" title="4"><span class="co"># Running model</span></a>
+<a class="sourceLine" id="cb956-5" title="5">cc1 &lt;-<span class="st"> </span><span class="kw">cc</span>(data<span class="fl">.1</span>, data<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb956-6" title="6"></a>
+<a class="sourceLine" id="cb956-7" title="7"><span class="co"># display the canonical correlations</span></a>
+<a class="sourceLine" id="cb956-8" title="8">cc1<span class="op">$</span>cor</a></code></pre></div>
 <pre><code>  [1] 0.2637492</code></pre>
-<div class="sourceCode" id="cb949"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb949-1" title="1"><span class="co"># raw canonical coefficients</span></a>
-<a class="sourceLine" id="cb949-2" title="2">cc1[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb958-1" title="1"><span class="co"># raw canonical coefficients</span></a>
+<a class="sourceLine" id="cb958-2" title="2">cc1[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
 <pre><code>  $xcoef
                              [,1]
   Xiphopenaeus kroyeri 0.04494189
@@ -1120,11 +1120,11 @@ Also the PCA axis are ranked by order of importance such that differences along 
   Trichiurus lepturus         2.799891e-03
   Symphurus plagusia         -7.486898e-05</code></pre>
 <p>The raw canonical coefficients are interpreted in a manner analogous to interpreting regression coefficients i.e., for the species <em>Paralonchurus brasiliensis</em>, a one unit increase in CPUE leads to a -0.497 decrease in the first canonical variate of the other variables are held constant?</p>
-<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb951-1" title="1"><span class="co"># compute canonical loadings</span></a>
-<a class="sourceLine" id="cb951-2" title="2">cc2 &lt;-<span class="st"> </span><span class="kw">comput</span>(data<span class="fl">.1</span>, data<span class="fl">.2</span>, cc1)</a>
-<a class="sourceLine" id="cb951-3" title="3"></a>
-<a class="sourceLine" id="cb951-4" title="4"><span class="co"># display canonical loadings</span></a>
-<a class="sourceLine" id="cb951-5" title="5">cc2[<span class="dv">3</span><span class="op">:</span><span class="dv">6</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb960"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb960-1" title="1"><span class="co"># compute canonical loadings</span></a>
+<a class="sourceLine" id="cb960-2" title="2">cc2 &lt;-<span class="st"> </span><span class="kw">comput</span>(data<span class="fl">.1</span>, data<span class="fl">.2</span>, cc1)</a>
+<a class="sourceLine" id="cb960-3" title="3"></a>
+<a class="sourceLine" id="cb960-4" title="4"><span class="co"># display canonical loadings</span></a>
+<a class="sourceLine" id="cb960-5" title="5">cc2[<span class="dv">3</span><span class="op">:</span><span class="dv">6</span>]</a></code></pre></div>
 <pre><code>  $corr.X.xscores
                        [,1]
   Xiphopenaeus kroyeri    1
@@ -1159,15 +1159,15 @@ Also the PCA axis are ranked by order of importance such that differences along 
   Trichiurus lepturus         0.21113319
   Symphurus plagusia          0.02437261</code></pre>
 <p>The above correlations are between observed variables and canonical variables which are known as the canonical loadings. These canonical variates are actually a type of latent variable.</p>
-<div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb953-1" title="1"><span class="co"># tests of canonical dimensions</span></a>
-<a class="sourceLine" id="cb953-2" title="2">rho &lt;-<span class="st"> </span>cc1<span class="op">$</span>cor</a>
-<a class="sourceLine" id="cb953-3" title="3"><span class="co">## Define number of observations, number of variables in first set, and number of variables in the second set.</span></a>
-<a class="sourceLine" id="cb953-4" title="4">n &lt;-<span class="st"> </span><span class="kw">dim</span>(data<span class="fl">.1</span>)[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb953-5" title="5">p &lt;-<span class="st"> </span><span class="kw">length</span>(data<span class="fl">.1</span>)</a>
-<a class="sourceLine" id="cb953-6" title="6">q &lt;-<span class="st"> </span><span class="kw">length</span>(data<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb953-7" title="7"></a>
-<a class="sourceLine" id="cb953-8" title="8"><span class="co">## Calculate p-values using the F-approximations of different test statistics:</span></a>
-<a class="sourceLine" id="cb953-9" title="9"><span class="kw">p.asym</span>(rho, n, p, q, <span class="dt">tstat =</span> <span class="st">&quot;Wilks&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb962"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb962-1" title="1"><span class="co"># tests of canonical dimensions</span></a>
+<a class="sourceLine" id="cb962-2" title="2">rho &lt;-<span class="st"> </span>cc1<span class="op">$</span>cor</a>
+<a class="sourceLine" id="cb962-3" title="3"><span class="co">## Define number of observations, number of variables in first set, and number of variables in the second set.</span></a>
+<a class="sourceLine" id="cb962-4" title="4">n &lt;-<span class="st"> </span><span class="kw">dim</span>(data<span class="fl">.1</span>)[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb962-5" title="5">p &lt;-<span class="st"> </span><span class="kw">length</span>(data<span class="fl">.1</span>)</a>
+<a class="sourceLine" id="cb962-6" title="6">q &lt;-<span class="st"> </span><span class="kw">length</span>(data<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb962-7" title="7"></a>
+<a class="sourceLine" id="cb962-8" title="8"><span class="co">## Calculate p-values using the F-approximations of different test statistics:</span></a>
+<a class="sourceLine" id="cb962-9" title="9"><span class="kw">p.asym</span>(rho, n, p, q, <span class="dt">tstat =</span> <span class="st">&quot;Wilks&quot;</span>)</a></code></pre></div>
 <pre><code>  Wilks&#39; Lambda, using F-approximation (Rao&#39;s F):
                 stat    approx df1 df2   p.value
   1 to 1:  0.9304364 0.2691523  10  36 0.9842124</code></pre>
