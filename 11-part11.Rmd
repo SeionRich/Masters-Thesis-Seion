@@ -16,11 +16,12 @@ prop.wt.kmeans <- t(scale(species.kmeans))
 
 ```{r 11.2}
 # Fitting models
+
 # # K-means = 2
-kmeans.3 <- kmeans(prop.wt.kmeans,
+kmeans.2 <- kmeans(prop.wt.kmeans,
   centers = 2,
   nstart = 25)
-# # K-means = 3
+# K-means = 3
 kmeans.3 <- kmeans(prop.wt.kmeans,
   centers = 3,
   nstart = 25)
