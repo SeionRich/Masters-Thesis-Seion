@@ -18,7 +18,7 @@ github-repo: rstudio/bookdown-demo
 
 <center>
 
-![Figure 1 Map of Guyana EEZ. The Yellow boundary lines represents the different zone demarcations. The Seabob trawling zone (15 to 33 meter lines) is colored red (Richardson, 2020).](C:\Users\UNUFTP\Desktop\thesis.exploration\GuyanaEEZ.png){width=65%}
+![Figure 1 Map of Guyana EEZ. The Yellow boundary lines represents the different zone demarcations. The Seabob trawling zone (15 to 33 meter lines) is colored red (Richardson, 2020).](C:\Users\UNUFTP\Documents\MyGit\Masters-Thesis-Seion\GuyanaEEZ.png){width=65%}
 
 </center>
 

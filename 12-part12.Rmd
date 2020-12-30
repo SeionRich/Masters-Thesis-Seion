@@ -4,7 +4,7 @@
 
 <center>
 
-![Marine Fauna - Fish](C:\Users\UNUFTP\Desktop\thesis.exploration\Marine_fauna_poster_Suriname_fish.jpg){width=90%}
+![Marine Fauna - Fish](C:\Users\UNUFTP\Documents\MyGit\Masters-Thesis-Seion\Marine_fauna_poster_Suriname_fish.jpg){width=90%}
 
 </center>
 
@@ -12,6 +12,6 @@
 
 <center>
 
-![Marine Fauna - Invertebrates](C:\Users\UNUFTP\Desktop\thesis.exploration\Marine_fauna_poster_Suriname_invertebrates.jpg){width=90%}
+![Marine Fauna - Invertebrates](C:\Users\UNUFTP\Documents\MyGit\Masters-Thesis-Seion\Marine_fauna_poster_Suriname_invertebrates.jpg){width=90%}
 
 </center>
