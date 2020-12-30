@@ -1,6 +1,10 @@
+fig:fig01
+fig:fig02
 fig:41
 data
 fishing-area
+sampling-protocol-used-to-collect-data
+data-analysis
 creating-a-few-additonal-variables
 dividing-the-data-up-by-catch-groups
 data-by-bottom-trawl-tows-sampled---appendix
@@ -128,7 +132,6 @@ all-species-across-bottom-trawl-tows
 data-modifications-4
 model-comparison-15
 best-proportion-models---top-10-bycatch-species
-list-of-the-most-recent-changes--
 negative-binomial-model-selection
 data-modifications-5
 macrodon-ancylodon-2
@@ -219,5 +222,8 @@ determining-optimal-clusters-1
 hierachical-clustering-hc-1
 determining-optimal-groups-1
 appendix
+id.121
+id.122
+id.123
 common-fish-species
 common-invertebrate-species

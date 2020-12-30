@@ -1,25 +1,25 @@
 #  Best Proportion Models - Top 10 Bycatch Species
 
-## List of the Most Recent Changes :-
-
-1. Summary tables for the negative binomial model outputs:
-  
-* [AIC][Model Comparison - AIC]
-* [P-value][Model Comparison - P.values]
-  
-2. Correct the response variable in the [binomial models][Binomial Model Selection] 
-
-3. Adjust correlation matrix by adding [p-values and correlation for every factor variables][Correlation Analysis for Primary Species]
-
-4. Do [PCA for species][Principal Component Analysis (PCA)] not fishing trips. 
-
-5. Conduct a [Canonical correspondence analysis][Canonical Correspondence Analysis]. 
-
-6. [K-mean and hierarchical clustering starting from k = 3][CLUSTER ANALYSIS]. Do K-means by species and not fishing tows. 
-
-7. Repeat the variable PCA plots but showing different factors instead? 
-
-<br>
+```{r, eval = FALSE, include = FALSE}
+# ## List of the Most Recent Changes :-
+# 
+# 1. Summary tables for the negative binomial model outputs:
+#   
+# * [AIC][Model Comparison - AIC]
+# * [P-value][Model Comparison - P.values]
+#   
+# 2. Correct the response variable in the [binomial models][Binomial Model Selection] 
+# 
+# 3. Adjust correlation matrix by adding [p-values and correlation for every factor variables][Correlation Analysis for Primary Species]
+# 
+# 4. Do [PCA for species][Principal Component Analysis (PCA)] not fishing trips. 
+# 
+# 5. Conduct a [Canonical correspondence analysis][Canonical Correspondence Analysis]. 
+# 
+# 6. [K-mean and hierarchical clustering starting from k = 3][CLUSTER ANALYSIS]. Do K-means by species and not fishing tows. 
+# 
+# 7. Repeat the variable PCA plots but showing different factors instead? 
+```
 
 ## Negative Binomial Model Selection
 
