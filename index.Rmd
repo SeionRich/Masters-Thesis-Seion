@@ -14,8 +14,8 @@ github-repo: rstudio/bookdown-demo
 
 ```{r 0.1, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-  #cache = FALSE,
-  cache = TRUE,
+  cache = FALSE,
+  #cache = TRUE,
   fig.align = "center",
   strip.white = TRUE,
   highlight = TRUE,
