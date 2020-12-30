@@ -1,0 +1,275 @@
+---
+title: "SPiCT_Seion"
+author: "Seion Richardson"
+date: "9/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, install package}
+# devtools::install_github("DTUAqua/spict/spict", ref="5ae1381109890c740090b9db2392afe6b11444b0")
+```
+
+```{r}
+library(spict)
+library(tidyverse)
+```
+
+```{r}
+# Importing species data and converting to list
+# banga <- read_csv("banga.csv")
+# butter <- read_csv("butter.csv")
+# trout <- read_csv("trout.csv")
+#      
+# banga <- list(ObsC=banga$ObsC, TimeC=banga$TimeC, ObsI=banga$ObsI, TimeI=banga$TimeI)
+# 
+# butter <- list(ObsC=butter$ObsC, TimeC=butter$TimeC, ObsI=butter$ObsI, TimeI=butter$TimeI)
+# 
+# trout <- list(ObsC=trout$ObsC, TimeC=trout$TimeC, ObsI=trout$ObsI, TimeI=trout$TimeI)
+# 
+# 
+# 
+# pol <- list(banga = banga, butter = butter, trout = trout)
+```
+
+```{r}
+data(pol)
+```
+
+```{r}
+pol$albacore
+```
+
+```{r}
+inp <- check.inp(pol$albacore)
+inp$dtc
+```
+
+```{r}
+plotspict.data(pol$albacore)
+```
+
+```{r}
+inpshift <- pol$albacore
+inpshift$timeC <- inpshift$timeC + 0.3
+inpshift$timeI <- inpshift$timeI + 0.8
+plotspict.data(inpshift)
+```
+
+```{r}
+plotspict.ci(pol$albacore)
+```
+
+```{r}
+res <- fit.spict(pol$albacore)
+```
+
+```{r}
+names(res)
+```
+
+```{r}
+capture.output(summary(res))
+```
+
+```{r}
+plot(res)
+```
+
+```{r}
+plotspict.biomass(res)
+```
+
+```{r}
+plotspict.bbmsy(res)
+```
+
+```{r}
+plotspict.f(res, main='', qlegend=FALSE, rel.axes=FALSE, rel.ci=FALSE)
+plotspict.ffmsy(res, main='', qlegend=FALSE)
+```
+
+```{r}
+plotspict.catch(res)
+```
+
+```{r}
+plotspict.fb(res, ylim=c(0, 1.3), xlim=c(0, 300))
+```
+
+```{r}
+res <- calc.osa.resid(res)
+plotspict.diagnostic(res)
+```
+
+```{r}
+get.par('logBmsy', res)
+```
+
+```{r}
+get.par('logBmsy', res, exp=TRUE)
+```
+
+```{r}
+list.quantities(res)
+```
+
+```{r}
+res$cov.fixed
+```
+
+```{r}
+cov2cor(res$cov.fixed)
+```
+
+```{r}
+cov2cor(get.cov(res, 'logBmsy', 'logFmsy'))
+```
+
+```{r}
+## res <- fit.spict(pol$albacore)
+res <- retro(res, nretroyear = 4)
+plotspict.retro(res)
+```
+
+```{r}
+set.seed(123)
+inp <- list(timeC=pol$albacore$timeC, obsC=pol$albacore$obsC)
+inp$timeI <- list(pol$albacore$timeI, pol$albacore$timeI[10:23]+0.25)
+inp$obsI <- list()
+inp$obsI[[1]] <- pol$albacore$obsI * exp(rnorm(23, sd=0.1)) # Index 1
+inp$obsI[[2]] <- 10*pol$albacore$obsI[10:23] # Index 2
+res <- fit.spict(inp)
+sumspict.parest(res)
+```
+
+```{r}
+plotspict.biomass(res)
+```
+
+```{r}
+inpeff <- list(timeC=pol$albacore$timeC, obsC=pol$albacore$obsC,
+timeE=pol$albacore$timeC, obsE=pol$albacore$obsC/pol$albacore$obsI)
+repeff <- fit.spict(inpeff)
+sumspict.parest(repeff)
+```
+
+```{r}
+library(ellipse)
+par(mfrow=c(2, 2))
+plotspict.bbmsy(repeff)
+plotspict.ffmsy(repeff, qlegend=FALSE)
+plotspict.catch(repeff, qlegend=FALSE)
+plotspict.fb(repeff)
+```
+
+```{r}
+inp <- pol$albacore
+res1 <- fit.spict(inp)
+inp$stdevfacC <- rep(1, length(inp$obsC))
+inp$stdevfacC[1:10] <- 5
+res2 <- fit.spict(inp)
+par(mfrow=c(2, 1))
+plotspict.catch(res1, main='No scaling')
+plotspict.catch(res2, main='With scaling', qlegend=FALSE)
+```
+
+```{r}
+inp <- check.inp(pol$albacore)
+sim <- sim.spict(inp)
+plotspict.data(sim)
+```
+
+```{r}
+inp <- list(ini=list(logK=log(100), logm=log(10), logq=log(1)))
+sim <- sim.spict(inp, nobs=50)
+plotspict.data(sim)
+```
+
+```{r}
+set.seed(31415926)
+inp <- list(ini=list(logK=log(100), logm=log(10), logq=log(1),
+logbkfrac=log(1), logF0=log(0.3), logsdc=log(0.1),
+logsdf=log(0.3)))
+sim <- sim.spict(inp, nobs=30)
+res <- fit.spict(sim)
+sumspict.parest(res)
+```
+
+```{r}
+par(mfrow=c(2, 2))
+plotspict.biomass(res)
+plotspict.f(res, qlegend=FALSE)
+plotspict.catch(res, qlegend=FALSE)
+plotspict.fb(res)
+```
+
+```{r}
+set.seed(1234)
+inp <- list(nseasons=4, splineorder=3)
+inp$timeC <- seq(0, 30-1/inp$nseasons, by=1/inp$nseasons)
+inp$timeI <- seq(0, 30-1/inp$nseasons, by=1/inp$nseasons)
+inp$ini <- list(logK=log(100), logm=log(20), logq=log(1),
+logbkfrac=log(1), logsdf=log(0.4), logF0=log(0.5),
+logphi=log(c(0.05, 0.1, 1.8)))
+seasonsim <- sim.spict(inp)
+plotspict.data(seasonsim)
+```
+
+```{r}
+set.seed(432)
+inp <- list(nseasons=4, seasontype=2)
+inp$timeC <- seq(0, 30-1/inp$nseasons, by=1/inp$nseasons)
+inp$timeI <- seq(0, 30-1/inp$nseasons, by=1/inp$nseasons)
+inp$ini <- list(logK=log(100), logm=log(20), logq=log(1),
+logbkfrac=log(1), logsdf=log(0.4), logF0=log(0.5))
+seasonsim2 <- sim.spict(inp)
+plotspict.data(seasonsim2)
+```
+
+```{r}
+seasonres <- fit.spict(seasonsim)
+plotspict.biomass(seasonres)
+plotspict.f(seasonres, qlegend=FALSE)
+plotspict.season(seasonres)
+```
+
+```{r}
+seasonres2 <- fit.spict(seasonsim2)
+sumspict.parest(seasonres2)
+```
+
+```{r}
+plotspict.biomass(seasonres2)
+plotspict.f(seasonres2, qlegend=FALSE)
+```
+
+```{r}
+inp2 <- list(obsC=seasonsim2$obsC, obsI=seasonsim2$obsI,
+timeC=seasonsim2$timeC, timeI=seasonsim2$timeI,
+seasontype=1, true=seasonsim2$true)
+rep2 <- fit.spict(inp2)
+rep2 <- calc.osa.resid(rep2)
+plotspict.diagnostic(rep2)
+```
+
+```{r}
+inp <- pol$albacore
+inp$ini$logK <- log(100)
+```
+
+```{r}
+inp <- check.inp(pol$albacore)
+inp$ini$logK
+```
+
+```{r}
+set.seed(123)
+check.ini(pol$albacore, ntrials=4)
+```
+
+

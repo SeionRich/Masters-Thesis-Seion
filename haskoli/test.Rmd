@@ -1,0 +1,15 @@
+---
+title: "Test"
+author: "Seion Richardson"
+date: "10/5/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r a}
+a <- 2+2
+a
+```

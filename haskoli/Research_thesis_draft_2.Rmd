@@ -1,0 +1,1504 @@
+---
+title: "An evaluation of discarded bycatch data collected by at-sea observers (draft #1)."
+author: "Seion Richardson"
+date: "`r format(Sys.time(), '%B %d, %Y')`" 
+output: 
+  word_document: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 2
+    reference_docx: template.docx
+    fig_width: 7
+    fig_height: 5
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, fig.height = 4, fig.width = 6, results='asis', warning = FALSE, cache = TRUE)
+
+```
+
+
+\newpage
+
+# Abstract
+
+**This is usually written last, but I am currently doing a course (Science Communication & Scientific Writing) where this was given as an assignment, so I include it as a draft.**
+
+Anecdotal evidence suggested that discarding within Guyana`s main shrimp fishery is excessive and includes commercially viable juvenile species. For the first time unbiased data on discards were obtained by way of an At-sea Observer Program between 2019 to 2020. The observers sampled 48 fishing hauls across eight random fishing trips at an average of six fishing hauls per trip i.e. three days and nights, respectively. This study examined the dataset for the first time; with emphasis on species weights, rates, and lengths; across varying time-periods (days/nights) and fishing depths (≤ or > 9 fathoms). Where species count within the samples were copious, the assessment focused on the more common by weights, rates and lengths recorded. The composition of discards at the fishery level was also estimated using the observer data. The two-sample t-test were used to analyze the differences in mean species weights and sizes.The paired t-tests were used to analyze the differences in mean catch rates. In the 48 fishing hauls sampled, 70 fish taxa were identified from 36 families in 11 orders, with Perciformes (28 species) being the dominant order. Discards made up a substantial 40% of the total fishery biomass. Six of the more common species by weight (i.e. bangamary, butterfish, seatrout, rockhead, catfish and cuirass and butterfish) were of commercial importance and accounted for roughly 45% of the total biomass. The mean species weights (100 kg/trip), rates (60 kg/twin-net hour), and lengths recorded (15 cm) were significantly higher at nights and in shallow water conditions. These findings have significant economic and ecological implications on the sustainability of the fishery and therefore in the short term should influence management e.g. through improved policies and research.  
+
+\newpage
+
+# Introduction
+
+**To be written.**
+
+<br>
+
+**I am doing the analysis in Rmarkdown, so I am integrating texts and codes as I go along.**
+
+## Objective:
+
+To determine the extent of discarding within Guyana`s main shrimp fishery by assessing discard composition, weights, rates, and lengths across dissimilar time-periods (day/night) and fishing depths (≤ or > 9 fathoms), using observer data. 
+
+## Research questions:
+
+1. What proportion of the total catch do discards account for?
+
+2. What proportion of the discards are commercially viable species?                                                       
+
+3. What are the species discarded and what are their relative weights and catch rates?                                        
+
+4. Which species have the highest weights, catch rates and lengths?                                                     
+
+5. What are the length distributions of the discarded bycatch species?                                                        
+
+6. At which time-period and fishing depth is discarding most prevalent?                                                     
+
+7. Does time-period significantly impact discard weights, catch rates and lengths?                                              
+
+8. Does fishing depth significantly impact discard weights, catch rates and lengths? 
+
+\newpage
+
+# Data and Methods 
+
+The data used was collected by at-sea observers onboard shrimp trawl vessels between 2019 to 2020. All samples were from within the seabob trawling zone i.e. the eight to eighteen fathoms - depth contour (see Figure 1). The data includes haul-by-haul records from eight fishing trips, with an average of six hauls per fishing trip i.e. three days and three nights, respectively. Fishing was carried out at different water depths i.e. ≤ and > 9 fathoms. In addition to these conditions, fishing locations and trawling speed were consistent with commercial fishing practices. Other key variables measured included the haul time (hrs.) and days-at-sea, among others. 
+
+![Seabob trawling zone (8 and 18-fathom lines) within the EEZ. Modified from (Maison 2015).](C:\Users\UNUFTP\OneDrive - Háskóli Íslands\Haskoli files\University of Iceland\University of Iceland\First year\Semester 2\Courses\Thesis\Haskoli_project\Picture1.PNG)
+
+Microsoft Excel and R statistical software were used for the data manipulation and analysis, respectively. The evaluations investigated discard proportionality in terms of weights, catch rates, lengths, and general composition. These were measured against time-periods and fishing locations where practicable. Parametric statistical testing was used as the assumptions of normal distribution and homogeneity of variance were satisfied. The two-sample was used to assess for significance in the differences in mean species weights (lbs.) and sizes (cm). The paired t-tests was used to assess for significance in the differences in mean catch rates (lbs./twin-trawl hr.). 
+
+
+```{r packages, message=FALSE}
+
+library(tidyverse)
+library(knitr)
+library(RColorBrewer) # display.brewer.all()...to see colors
+library(plyr)
+library(captioner)
+library(flextable)
+library(officer)
+library(skimr)
+library(vegan)
+library(plotrix)
+library(broom)
+library(purrr)
+
+```
+
+
+```{r functions, include=FALSE}
+
+# A function for captioning and referencing images/figures
+fig <- local({
+    i <- 0
+    ref <- list()
+    list(
+        cap=function(refName, text) {
+            i <<- i + 1
+            ref[[refName]] <<- i
+            paste("Figure ", i, ": ", text, sep="")
+        },
+        ref=function(refName) {
+            ref[[refName]]
+        })
+})
+
+```
+
+
+```{r Tables labels, include=FALSE}
+# A function for captioning and referencing tables
+
+table_nums <- captioner::captioner(prefix = "Tab.")
+
+tab.1_cap <- table_nums(name = "tab_1", 
+                        caption = "Fish taxa identified from 48 bottom-trawl hauls sampled off Guyana. Count = species presence within the samples. With those identified in > 30  hauls colored blue")
+tab.2_cap <- table_nums(name = "tab_2", 
+                        caption = "Count of species sampled by trip and time-period")
+
+tab.3_cap <- table_nums(name = "tab_3", 
+                        caption = "Count of species sampled by trip and fishing depth")
+
+tab.4_cap <- table_nums(name = "tab_4", 
+                        caption = "Sample size measured by fishing trip")
+
+tab.6_cap <- table_nums(name = "tab_6", 
+                        caption = "Catch and effort for the top 15 species, ordered from highest to lowest catches. ")
+
+tab.7_cap <- table_nums(name = "tab_7", 
+                        caption = "Catch rates for the top 15 species in pounds per hour, ordered from highest to lowest catch rates. ")
+
+tab.8_cap <- table_nums(name = "tab_8", 
+                        caption = "Count of species measured across all hauls")
+
+tab.9_cap <- table_nums(name = "tab_9", 
+                        caption = "Lengths (cm) of all species measured, ordered from highest to lowest mean lengths. ")
+
+tab.10_cap <- table_nums(name = "tab_10", 
+                        caption = "Ten most common (by occurrence) fish species caught in 48 hauls sampled off Guyana.")
+
+# source: https://www.r-bloggers.com/2016/09/r-markdown-how-to-number-and-reference-tables/
+```
+
+
+```{r Data, message=FALSE}
+
+obs_wt <- read_csv("observer_weights.csv") 
+obs_tp <- read_csv("observer_trips.csv")
+obs_fy <- read_csv("observer_fishery.csv")
+obs_lt <- read_csv("observer_lengths.csv")
+obs_wt_db <- obs_wt %>% 
+     filter(groups == "Discarded bycatch") %>% filter(!class == "Unknown") 
+obs_wt_db <- obs_wt_db %>% mutate(total_wt_kg = round(total_wt_lbs/2.2, 2), cpue = round(total_wt_kg/hrs_dec, 2)) 
+
+obs_wt_rb <- obs_wt %>% 
+     filter(groups == "Retained bycatch") 
+obs_wt_tc <- obs_wt %>% 
+     filter(groups == "Target catch") 
+
+lengths <- dplyr::inner_join(obs_wt, obs_lt, by=c("drag_all", "sci_name"))
+
+species_curve_t <- read_csv("species_accum_trip.csv")
+species_curve_h <- read_csv("species_accum_haul.csv")
+
+time_catch <- read_csv("time_period_catch.csv")
+time_cpue <- read_csv("time_period_cpue.csv")
+depth_catch <- read_csv("depth_catch.csv")
+depth_cpue <- read_csv("depth_cpue.csv")
+
+time_catch_2 <- time_catch %>% gather(day, night, key = "time_period", value = "catch") %>% select(-"difference")
+
+time_cpue_2 <- time_cpue %>% gather(day, night, key = "time_period", value = "cpue") %>% select(-"difference")
+
+depth_catch_2 <-depth_catch %>% gather(shallow, deep, key = "fishing_depth", value = "catch") %>% select(-"difference")
+
+depth_cpue_2 <- depth_cpue %>% gather(shallow, deep, key = "fishing_depth", value = "cpue") %>% select(-"difference")
+
+
+```
+
+\newpage
+ 
+# Data Analysis
+
+**These are just the random analysis done with very little structure. Only a few will make it into the final report. I have not addressed all the research questions at this point yet but I do have the data.** 
+
+## Overview
+
+`r table_nums('tab_1')`
+
+```{r Table 1 - Fish taxa identified, fig.cap = tab.1_cap}
+
+table_1 <- obs_wt_db %>%
+  filter(groups == "Discarded bycatch") %>% 
+  group_by(order, family, sci_name) %>%
+  dplyr::summarise(n = n(), prop = round(n/48,2), .groups = 'drop') %>% 
+  arrange(order)
+
+table_1$order = ifelse(duplicated(table_1$order),"",table_1$order)
+table_1$family = ifelse(duplicated(table_1$family),"",table_1$family)
+
+colnames(table_1) <-c("Orders", "Families", "Scientific names", "Counts", "Proportion")
+
+table_1 %>% 
+  flextable() %>% 
+  autofit() %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "#C90000", part = "header") %>% 
+  color(color = "white", part = "header") %>% 
+  color(~ Proportion >= 0.5, ~ Proportion, color = "blue") %>% 
+  bold(~ Proportion >= 0.5, ~ Proportion, bold = TRUE) 
+
+  # col_keys = c("order" = "am", "family" = "carb", "sci_name" = "gear", "Count" = "mpg") 
+# https://stackoverflow.com/questions/42304117/omit-cell-entries-in-xtable-markdown...omit repeated columns 
+## Kable extra sources: https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+```
+
+
+<br><br><br><br><br>
+
+`r table_nums('tab_2')`
+
+```{r Table 2 - Species sampled by trip and time-period, fig.cap = tab.2_cap}
+
+table_2 <- obs_wt %>%
+  filter(groups == "Discarded bycatch") %>% 
+  group_by(trip, drag_period) %>%
+  dplyr::summarise(Count = n(), .groups = 'drop') %>% 
+  arrange(trip)
+
+colnames(table_2) <-c("Trips", "Time-period", "Counts")
+
+table_2 %>%  
+  flextable() %>% 
+  autofit(add_w = 1) %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "#8DD3C7", part = "header") %>% 
+  color(color = "white", part = "header")
+
+# Use this to browse RColorBrewer.... cols <- brewer.pal(3, "BuGn")...BuGn is the name from RColorBrewer
+# Colors cheatsheet
+```
+
+\newpage
+
+`r table_nums('tab_3')`
+
+```{r Table 3 - Species sampled by trip and fishing depth, fig.cap = tab.3_cap}
+
+table_3 <- obs_wt %>%
+  filter(groups == "Discarded bycatch") %>% 
+  group_by(depth) %>%
+  dplyr::summarise(Count = n(), .groups = 'drop') %>% 
+   dplyr::arrange(depth)
+
+colnames(table_3) <-c("Depths", "Counts")
+
+table_3 %>% 
+ flextable() %>% 
+  autofit(add_w = 2) %>%
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "midnightblue", part = "header") %>% 
+  color(color = "white", part = "header")
+
+```
+
+<br><br><br>
+
+`r table_nums('tab_4')`
+
+```{r Table 4 - Sample size measured by fishing trip, fig.cap = tab.4_cap}
+
+table_4 <- obs_wt_db %>%
+  mutate(sample_perc = (sample_wt_lbs/total_wt_lbs)*100) %>% 
+  group_by(trip) %>%
+  dplyr::summarise(samp = round(mean(sample_perc, na.rm=TRUE)), .groups = 'drop') 
+
+colnames(table_4) <-c("Trips", "Sample size (%)")
+
+table_4 %>%  
+  flextable()%>% 
+  autofit(add_w = 2) %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "#FB8072", part = "header") %>% 
+  color(color = "white", part = "header")
+# https://stackoverflow.com/questions/42304117/omit-cell-entries-in-xtable-markdown...omit repeated columns 
+## Kable extra sources: https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html (works for HTML only)
+###https://cran.r-project.org/web/packages/flextable/vignettes/overview.html (works for word doc)
+```
+
+
+```{r Table 5}
+
+table_5 <- obs_wt_db %>%
+  mutate(sample_perc = (sample_wt_lbs/total_wt_lbs)*100) %>% 
+  group_by(drag_all) %>%
+  dplyr::summarise(samp = mean(sample_perc, na.rm=TRUE), .groups = 'drop') 
+# https://stackoverflow.com/questions/42304117/omit-cell-entries-in-xtable-markdown...omit repeated columns 
+## Kable extra sources: https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+
+```
+
+```{r Sample size, fig.cap=fig$cap("cars", "Line plot of sample size across hauls with the red horizontal represent the mean sample size.")}
+
+m <- round(mean(table_5$samp))
+
+ggplot(table_5, aes(x = drag_all, y = samp)) +
+  geom_line() + 
+  geom_point() +
+geom_hline(yintercept = m, linetype = 'dotted', color="red") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50")) +
+              labs(y="Percentage (%)", x = "Haul number") +
+  geom_text(aes(2,m, label = paste0(m, "% "), vjust = -0.5, hjust = -0.1), size = 3)
+
+```
+
+```{r Fishing depth, fig.cap=fig$cap("cars", "Barplot showing count of species sampled at different depths")}
+
+obs_wt_db %>% 
+ggplot() +
+  geom_bar(aes(depth, fill = as.factor("depth"))) +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Fishing depths", y = "Count") 
+
+```
+
+
+```{r Time fished, fig.cap=fig$cap("cars", "Scatterplot of time fished across all sampled hauls")}
+ggplot(obs_wt, aes(y = time_fished_min, x = drag_all, color = as.factor(trip))) + 
+  geom_point() + 
+  theme(legend.position = "none", panel.background = element_rect(fill = "white", colour = "grey50")) +
+  labs(x="All drags", y = "Time fished (hrmm)") 
+```
+
+## Weights
+
+`r table_nums('tab_6')`
+
+```{r Table 6 - Catch and effort for the top 15 species, fig.cap = tab.6_cap}
+
+table_6 <- obs_wt_db %>% 
+  mutate(cpue = total_wt_lbs/hrs_dec) %>% 
+  group_by(sci_name) %>%
+  dplyr::summarise(Catch = round(sum(total_wt_lbs)/2.2), Effort = sum(hrs_dec), .groups = 'drop') %>%
+  mutate(Catch_per = round((Catch/sum(Catch))*100,2) , Effort_per = round(Effort/sum(Effort)*100,2)) %>% 
+  arrange(desc(Catch))
+
+colnames(table_6) <-c("Sceintific names", "Catch", "Effort", "Catch perc.", "Effort perc.")
+
+table_6 <- head(table_6, 15)
+table_6_tail <- tail(table_6, 45)  
+
+table_6 %>%  
+  flextable()%>% 
+  autofit() %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left")
+# %>% 
+#   bg(bg = "#FB8072", part = "header") %>% 
+#   color(color = "white", part = "header")...Adds colour to heading 
+
+```
+
+```{r Days-at-sea count, fig.cap=fig$cap("cars", "Histogram of days-at-sea")}
+ggplot(obs_wt, aes(das)) + 
+  geom_histogram(bins = 13) + 
+  theme(legend.position = "none", panel.background = element_rect(fill = "white", colour = "grey50")) +
+  labs(x="Days at sea", y = "Count") 
+```
+
+```{r Days-at-sea vs dicarded bycatch, fig.cap=fig$cap("cars", "Scatter plot of days at sea against disacrded bycatch with trendine (blue) and standard error margin (grayed area)")}
+
+ggplot(obs_wt_db, aes(x = total_wt_lbs, y = das)) +
+  geom_point() +
+  geom_smooth() +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50")) +
+              labs(y="Days at sea", x = "Discarded bycatch (lbs)")
+
+```
+
+```{r Discarded bycatch by trip, fig.cap=fig$cap("cars", "Barplot of disacrded bycatch for the six hauls sampled for each trip")}
+
+obs_wt_db %>% 
+  group_by(trip) %>% 
+dplyr::summarise(total_wt_lbs = sum(total_wt_lbs), .groups = 'drop') %>% 
+ggplot(aes(x = as.factor(trip), y = total_wt_lbs, fill = as.factor(trip))) + ylim(0, 8000) +
+  geom_bar(stat = "identity") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Observer trips", y = "Discarded bycatch (lbs)") +  scale_fill_brewer("Trips", palette="Set2") + geom_text(aes(label = round(total_wt_lbs), vjust = -0.5))
+
+```
+
+```{r Discarded bycatch weights, fig.cap=fig$cap("cars", "Histogram showing the count of discarded bycatch from all hauls")}
+ggplot(obs_wt_db, aes(total_wt_lbs)) + 
+  geom_histogram(bins = 70) + 
+  theme(legend.position = "none", panel.background = element_rect(fill = "white", colour = "grey50")) +
+  labs(x="Discarded bycatch weights", y = "Count") 
+```
+
+```{r Discarded bycacth categories, fig.cap=fig$cap("cars", "Barplots showing discarded bycatch against observer trips across the four different catch categories")}
+
+ggplot(obs_wt_db, aes(x = as.factor(trip), y = total_wt_lbs, fill = categories)) +
+  geom_bar(stat = "identity") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Observer trips", y = "Discarded bycatch (lbs)") +  scale_fill_brewer("Trips", palette="Set2") +  facet_wrap(.~ categories, )
+
+```
+
+```{r Proportion of Discarded bycatch by trip, fig.cap=fig$cap("cars", "Barplot showing catch prportions for the different trips")}
+
+group_sum <- obs_wt %>% 
+group_by(trip, group_2) %>% 
+dplyr::summarise(g_sum = sum(total_wt_lbs), .groups = 'drop') 
+
+group_sum_2 <- group_sum %>% dplyr::group_by(trip) %>% dplyr::mutate(per= round(prop.table(g_sum), 2)) 
+
+ggplot(group_sum_2, aes( x = group_2, y = per, fill = group_2)) +
+  geom_col(position = "dodge") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), axis.title.x=element_blank(), axis.text.x=element_blank(),
+                      axis.ticks.x=element_blank()) +
+              labs(x="Observer trips", y = "Proportions") + scale_fill_brewer("Catch", palette="Set2") + facet_grid(~trip)
+      # geom_text(aes(label = round(g_sum), vjust = -0.5, hjust = 1 ))
+
+```
+
+
+
+```{r}
+ttp <- obs_wt %>% 
+group_by(trip, groups) %>% 
+dplyr::summarise(g_sum = sum(total_wt_lbs))
+
+grp <- ttp %>% 
+group_by(groups) %>% 
+dplyr::summarise(g_sum2 = sum(g_sum), g_mean = mean(g_sum), .groups = 'drop')
+
+per <- grp %>% mutate(p_sum = (g_sum2/sum(g_sum2))*100, p_mean = (g_mean/sum(g_mean))*100)
+```
+
+
+```{r}
+
+obs_wt_a <-  obs_wt %>% filter(groups == "Discarded bycatch" | groups == "Target catch")
+
+
+group_sum <- obs_wt_a %>% 
+group_by(trip, group_2) %>% 
+dplyr::summarise(g_sum = sum(total_wt_lbs), .groups = 'drop') 
+
+group_sum_2 <- group_sum %>% dplyr::group_by(trip) %>% dplyr::mutate(per= round(prop.table(g_sum), 2)) 
+
+ggplot(group_sum_2, aes( x = group_2, y = per, fill = group_2)) +
+  geom_col(position = "dodge") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), axis.title.x=element_blank(), axis.text.x=element_blank(),
+                      axis.ticks.x=element_blank()) +
+              labs(x="Observer trips", y = "Proportions") + scale_fill_brewer(palette="Set2", name = "Groups", labels = c("Discards", "Shrimp")) +  facet_grid(~trip)
+```
+
+
+
+```{r Weight by category, fig.cap=fig$cap("cars", "Barplot showing catch proportions for all trips")}
+
+group_sum <- obs_wt %>% 
+group_by(trip, groups) %>% 
+dplyr::summarise(g_sum = sum(total_wt_lbs), .groups = 'drop') 
+
+group_sum_2 <- group_sum %>% dplyr::group_by(trip) %>% dplyr::mutate(per= round(prop.table(g_sum), 2)) 
+
+ggplot(group_sum_2, aes( x = as.factor(trip), y = per, fill = groups)) +
+  geom_col(position = "dodge") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Observer trips", y = "Proportions") + scale_fill_brewer("Catch", palette="Set2") + facet_grid(~groups)
+      # geom_text(aes(label = round(g_sum), vjust = -0.5, hjust = 1 ))
+
+```
+
+```{r Discraded bycatch - all hauls, fig.cap=fig$cap("cars", "Barplot showing the discarded bycatch across all hauls")}
+
+obs_wt_2 <- obs_wt %>% 
+     filter(groups == "Discarded bycatch")
+
+obs_wt_2 %>% 
+group_by(trip, drag_all) %>% 
+dplyr::summarise(sum_wt = sum(total_wt_lbs), .groups = 'drop') %>% 
+ggplot(aes(x = drag_all, y = sum_wt)) +
+  geom_bar(stat = "identity")  +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x = "Observer hauls", y = "Discarded bycatch (lbs)") + scale_colour_brewer("Trips", palette = "Set2")
+
+```
+
+```{r FIshing time vs discarded bycatch, fig.cap=fig$cap("cars", "Scatter plot of fishing time against disacrded bycatch with trendine (red) and standard error margin (grayed area)Line plot of fishing time against disacrded bycatch")}
+
+ggplot(obs_wt_db, aes(x = total_wt_lbs, y = time_fished_min)) +
+  geom_point() +
+  geom_smooth(color = "red") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50")) +
+              labs(y="Fishing time (hr:mm:ss)", x = "Discarded bycatch biomass (lbs)")
+
+```
+
+```{r Discarded bycatch vs time-periods, fig.cap=fig$cap("cars", "Boxplot of discarded bycatch against fishing depth across time-periods")}
+
+ggplot(obs_wt_db, aes(y = total_wt_lbs, x = as.factor(depth), colour = as.factor(depth))) +
+  geom_boxplot() +
+  geom_smooth(method = "lm", se=FALSE, color="grey", aes(group=1)) +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Fishing depth (fathoms)", y = "Discarded bycatch (lbs)") + scale_colour_brewer("Fishing depths", palette="Paired") + facet_wrap(~drag_period)
+
+```
+
+<!-- ```{r Scrap 1 - Discarded bycatch vs time-periods, fig.cap=fig$cap("cars", "Boxplot of discarded bycatch against fishing depth across time-periods")} -->
+
+<!-- obs_wt_db_copy <- obs_wt_db %>% filter(total_wt_lbs <= 130) %>% mutate(total_wt_kgs = total_wt_lbs/2.2) -->
+
+
+<!-- ggplot(obs_wt_db_copy, aes(y = total_wt_kgs, x = as.factor(drag_period), colour = as.factor(drag_period))) + -->
+<!--   geom_boxplot() + -->
+<!--   geom_smooth(method = "lm", se=FALSE, color="red", aes(group=1)) + -->
+<!--             theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") + -->
+<!--               labs(x="Time-periods", y = "Weights (cm)", title = "Discard weight distribution by time-periods") + scale_colour_brewer(palette="Dark2")  -->
+
+<!-- ``` -->
+
+
+```{r Discarded bycatch vs fishing depths, fig.cap=fig$cap("cars", "Boxplot of discarded bycatch against fishing depth. Where **shallow** is defined by waters <= 9 fathoms and **deep** means water deeper than 9 fathoms")}
+
+ggplot(obs_wt_db, aes(y = total_wt_lbs/2.2, x = depth_sd, colour = depth_sd)) +
+  geom_boxplot() +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Fishing depth", y = "Discarded bycatch (lbs)") + scale_colour_brewer("Fishing depths", palette="Paired") + facet_wrap(~drag_period)
+
+```
+
+```{r Discraded bycatch vs time-periods by categories, fig.cap=fig$cap("cars", "Boxplots showing mean discarded bycatch by categories and time-periods")}
+
+x_med <-  ddply (obs_wt_db, .(categories, drag_period), summarise, med = round(mean(total_wt_lbs),2))
+
+ggplot(obs_wt_db, aes(y = total_wt_lbs, x = drag_period, fill = drag_period)) +
+  geom_boxplot() + 
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Time periods", y = "Discarded bycatch (lbs)") + geom_text(data = x_med, aes(x = drag_period, y = med, label = med), size = 3, vjust = -1.9, hjust = 1.1)  +  facet_wrap(.~ categories)
+# *Night = 6:00PM to 5:59AM and Day = 6:00AM to 5:59PM
+
+```
+
+```{r Mean retained bycatch vs time-periods by trips, fig.cap=fig$cap("cars", "Boxplots showing mean ratained bycatch by trips and time-periods")}
+
+rb_mean <- ddply(obs_wt_rb, .(trip, drag_period), summarise, mean_rb = round(mean(total_wt_lbs),2))
+
+ggplot(obs_wt_rb, aes(y = total_wt_lbs, x = drag_period)) +
+  geom_boxplot() + 
+            theme(panel.background = element_rect(fill = "white", colour = "grey50")) +
+              labs(x="Time period", y = "Mean retained bycatch (lbs)") + geom_text(data = rb_mean, aes(x = drag_period, y = mean_rb, label = mean_rb), 
+              size = 3, vjust = -1.9, hjust = 1.5) + facet_wrap(~trip) 
+
+```
+
+```{r Mean target catch vs time-periods by trips, fig.cap=fig$cap("cars", "Boxplots showing mean target catch by trips and time-periods")}
+
+tc_mean <- ddply(obs_wt_tc, .(trip, drag_period), summarise, mean_tc = round(mean(total_wt_lbs)))
+
+ggplot(obs_wt_tc, aes(y = total_wt_lbs, x = drag_period)) +
+  geom_boxplot() + 
+            theme(panel.background = element_rect(fill = "white", colour = "grey50")) +
+              labs(x="Time periods", y = "Mean target catch (lbs)") + geom_text(data = tc_mean, aes(x = drag_period, y = mean_tc, label = mean_tc), 
+              size = 3, vjust = -1.9, hjust = 1.2) + facet_wrap(~trip) 
+
+```
+
+\newpage
+
+## Catch rates
+
+`r table_nums('tab_7')`
+
+```{r Table 7 - Catch rates for the top 15 species in pounds per hour, fig.cap = tab.7_cap}
+
+table_7 <- obs_wt_db %>% 
+  group_by(sci_name) %>%
+  dplyr::summarise(Count = n(), catch_rate = round(mean(cpue),2), .groups = 'drop') %>% 
+  filter(Count >= 24) %>% 
+  arrange(desc(catch_rate))
+
+colnames(table_7) <-c("Sceintific names", "Count", "Catch rates (lbs/hr)")
+
+table_7 <- head(table_7, 15)
+
+table_7 %>%  
+  flextable()%>% 
+  autofit() %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") 
+```
+
+\newpage
+
+## Lengths
+
+`r table_nums('tab_8')`
+
+```{r Table 8 - Species measured across all hauls, fig.cap = tab.8_cap}
+
+table_8 <- obs_lt %>%
+  group_by(sci_name) %>%
+  dplyr::summarise(Count = n(), min = round(min(length),2), max = max(length), median = median(length),  .groups = 'drop') %>% 
+  arrange(desc(median))
+
+colnames(table_8) <-c("Scientific names", "Counts", "Min.", "Max", "Med.")
+
+table_8 %>%  
+  flextable() %>% 
+  autofit(add_w = 1) %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "#8DD3C7", part = "header") %>% 
+  color(color = "white", part = "header")
+```
+
+\newpage
+
+```{r}
+table_a <- obs_lt %>%
+  group_by(sci_name) %>%
+  dplyr::summarise(Count = n(), min = round(min(length),2), max = max(length), median = median(length),  .groups = 'drop') %>% 
+  arrange(desc(Count)) %>% head(n=10)
+
+names <- c("Stellifer rastrifer", "Stellifer microps", "Macrodon ancylodon", "Nebris microps", "Bagre bagre", "Cynoscion virescens")
+
+table_b <- obs_lt %>% filter(sci_name %in% names)
+
+ggplot(data = table_b, aes(x=length)) +
+  geom_histogram(aes(fill=sci_name)) +
+  scale_fill_brewer(palette="Set2") +
+  facet_wrap( ~ sci_name, ncol=2) +
+  xlab("Species Length (cm)") +
+  ylab("Frequency") +
+  xlim(1,40) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10))
+```
+
+## Time-periods - Most abundant species 
+
+```{r Length frequency Stellifer rastrifer - Time-periods}
+s_rastrifer <- lengths %>% filter(sci_name == "Stellifer rastrifer")
+sp1 <- s_rastrifer %>% group_by(drag_period) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = s_rastrifer, aes(x=length)) +
+  geom_histogram(aes(fill=drag_period)) +
+  scale_fill_brewer(palette="Set2") +
+  facet_wrap(~ drag_period, ncol=1) +
+  xlab(expression(paste(italic("Stellifer rastrifer")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp1, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp1, mapping = aes(label = paste0("Median length = ", round(mlen1)),  x = 25, y = 74), size = 3, hjust = 0.3)+ geom_label(data = sp1, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 93), size = 3, hjust = 0.3)
+
+####################Nice plot for appendix#########################
+# s_rastrifer <- lengths %>% filter(sci_name == "Stellifer rastrifer")
+# sp1 <- s_rastrifer %>% group_by(drag_period, depth_sd) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+# 
+# ggplot(data = s_rastrifer, aes(x=length)) +
+#   geom_histogram(aes(fill=drag_period)) +
+#   scale_fill_brewer(palette="Set2") +
+#   facet_grid(depth_sd ~ drag_period) +
+#   xlab("Species length (cm)") +
+#   ylab("Frequency") +
+#   xlim(0,30) +
+#   theme_bw() +
+#   guides(fill=FALSE) + 
+# theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp1, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp1, mapping = aes(label = paste0("Median length = ", round(mlen1)),  x = 25, y = 54), size = 3, hjust = 0.6)+ geom_label(data = sp1, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 65), size = 3, hjust = 0.6)
+```
+
+
+```{r Length frequency Stellifer microps - Time-periods}
+s_microps <- lengths %>% filter(sci_name == "Stellifer microps")
+sp2 <- s_microps %>% group_by(drag_period) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = s_microps, aes(x=length)) +
+  geom_histogram(aes(fill=drag_period)) +
+  scale_fill_brewer(palette="Set2") +
+  facet_wrap(~ drag_period, ncol =1) +
+  xlab(expression(paste(italic("Stellifer microps")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp2, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp2, mapping = aes(label = paste0("Median length = ", round(mlen1)),  x = 25, y = 68), size = 3, hjust = 0.3)+ geom_label(data = sp2, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 86), size = 3, hjust = 0.3)
+```
+
+
+```{r Length frequency Macrodon ancylodon - Time-periods}
+m_ancylodon <- lengths %>% filter(sci_name == "Macrodon ancylodon")
+sp3 <- m_ancylodon %>% group_by(drag_period) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = m_ancylodon, aes(x=length)) +
+  geom_histogram(aes(fill=drag_period)) +
+  scale_fill_brewer(palette="Set2") +
+  facet_wrap( ~ drag_period, ncol=1) +
+  xlab(expression(paste(italic("Macrodon ancylodon")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp3, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp3, mapping = aes(label = paste0("Median length = ", mlen1),  x = 25, y = 32), size = 3, hjust = 0.1)+ geom_label(data = sp3, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 41), size = 3, hjust = 0.1)
+```
+
+
+```{r Length frequency Nebris microps - Time-periods}
+n_microps <- lengths %>% filter(sci_name == "Nebris microps")
+sp4 <- n_microps %>% group_by(drag_period) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = n_microps, aes(x=length)) +
+  geom_histogram(aes(fill=drag_period)) +
+  scale_fill_brewer(palette="Set2") +
+  facet_wrap( ~ drag_period, ncol=1) +
+  xlab(expression(paste(italic("Nebris microps")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp4, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp4, mapping = aes(label = paste0("Median length = ", mlen1),  x = 25, y = 15.5), size = 3, hjust = 0.3)+ geom_label(data = sp4, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 20), size = 3, hjust = 0.3)
+```
+
+```{r Length frequency Bagre bagre - Time-periods}
+b_bagre <- lengths %>% filter(sci_name == "Bagre bagre")
+sp5 <- b_bagre %>% group_by(drag_period) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = b_bagre, aes(x=length)) +
+  geom_histogram(aes(fill=drag_period)) +
+  scale_fill_brewer(palette="Set2") +
+  facet_wrap( ~ drag_period, ncol=1) +
+  xlab(expression(paste(italic("Bagre bagre")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp5, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp5, mapping = aes(label = paste0("Median length = ", mlen1),  x = 25, y = 18), size = 3, hjust = 0.3)+ geom_label(data = sp5, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 23), size = 3, hjust = 0.3)
+```
+
+```{r Length frequency Cynoscion virescens - Time-periods}
+c_virescens <- lengths %>% filter(sci_name == "Cynoscion virescens")
+sp6 <- c_virescens %>% group_by(drag_period) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = c_virescens, aes(x=length)) +
+  geom_histogram(aes(fill=drag_period)) +
+  scale_fill_brewer(palette="Set2") +
+  facet_wrap( ~ drag_period, ncol=1) +
+  xlab(expression(paste(italic("Cynoscion virescens")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp6, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp6, mapping = aes(label = paste0("Median length = ", mlen1),  x = 25, y = 15), size = 3, hjust = 0.3)+ geom_label(data = sp6, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 19), size = 3, hjust = 0.3)
+```
+
+## Fishing depths - Most abundant species
+
+```{r Length frequency Stellifer rastrifer - Fishing depths}
+
+s_rastrifer <- lengths %>% filter(sci_name == "Stellifer rastrifer")
+sp1b <- s_rastrifer %>% group_by(depth_sd) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = s_rastrifer, aes(x=length)) +
+  geom_histogram(aes(fill=depth_sd)) +
+  scale_fill_brewer(palette="Pastel1",direction = -1) +
+  facet_wrap(~ depth_sd, ncol=1) +
+  xlab(expression(paste(italic("Stellifer rastrifer")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp1b, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp1b, mapping = aes(label = paste0("Median length = ", round(mlen1)),  x = 25, y = 80), size = 3, hjust = 0.1)+ geom_label(data = sp1b, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 102), size = 3, hjust = 0.1)
+
+```
+
+
+```{r Length frequency Stellifer microps - Fishing depths}
+s_microps <- lengths %>% filter(sci_name == "Stellifer microps")
+sp2b <- s_microps %>% group_by(depth_sd) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = s_microps, aes(x=length)) +
+  geom_histogram(aes(fill=depth_sd)) +
+  scale_fill_brewer(palette="Pastel1",direction = -1) +
+  facet_wrap(~ depth_sd, ncol =1) +
+  xlab(expression(paste(italic("Stellifer microps")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp2b, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp2b, mapping = aes(label = paste0("Median length = ", round(mlen1)),  x = 25, y = 50), size = 3, hjust = 0.1)+ geom_label(data = sp2b, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 65), size = 3, hjust = 0.1)
+```
+
+
+```{r Length frequency Macrodon ancylodon - Fishing depths}
+m_ancylodon <- lengths %>% filter(sci_name == "Macrodon ancylodon")
+sp3b <- m_ancylodon %>% group_by(depth_sd) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = m_ancylodon, aes(x=length)) +
+  geom_histogram(aes(fill=depth_sd)) +
+  scale_fill_brewer(palette="Pastel1",direction = -1) +
+  facet_wrap( ~ depth_sd, ncol=1) +
+  xlab(expression(paste(italic("Macrodon ancylodon")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp3b, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp3b, mapping = aes(label = paste0("Median length = ", mlen1),  x = 25, y = 27), size = 3, hjust = 0.1)+ geom_label(data = sp3b, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 34.5), size = 3, hjust = 0.1)
+```
+
+
+```{r Length frequency Nebris microps - Fishing depths}
+n_microps <- lengths %>% filter(sci_name == "Nebris microps")
+sp4b <- n_microps %>% group_by(depth_sd) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = n_microps, aes(x=length)) +
+  geom_histogram(aes(fill=depth_sd)) +
+  scale_fill_brewer(palette="Pastel1",direction = -1) +
+  facet_wrap( ~ depth_sd, ncol=1) +
+  xlab(expression(paste(italic("Nebris microps")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp4b, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp4b, mapping = aes(label = paste0("Median length = ", mlen1),  x = 25, y = 20.5), size = 3, hjust = 0.1)+ geom_label(data = sp4b, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 26), size = 3, hjust = 0.1)
+```
+
+```{r Length frequency Bagre bagre - Fishing depths}
+b_bagre <- lengths %>% filter(sci_name == "Bagre bagre")
+sp5b <- b_bagre %>% group_by(depth_sd) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = b_bagre, aes(x=length)) +
+  geom_histogram(aes(fill=depth_sd)) +
+  scale_fill_brewer(palette="Pastel1",direction = -1) +
+  facet_wrap( ~ depth_sd, ncol=1) +
+  xlab(expression(paste(italic("Bagre bagre")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp5b, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp5b, mapping = aes(label = paste0("Median length = ", mlen1),  x = 25, y = 16), size = 3, hjust = 0.1)+ geom_label(data = sp5b, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 20.5), size = 3, hjust = 0.1)
+```
+
+```{r Length frequency Cynoscion virescens - Fishing depths}
+c_virescens <- lengths %>% filter(sci_name == "Cynoscion virescens")
+sp6b <- c_virescens %>% group_by(depth_sd) %>% dplyr::summarise(mlen1 = median(length), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+ggplot(data = c_virescens, aes(x=length)) +
+  geom_histogram(aes(fill=depth_sd)) +
+  scale_fill_brewer(palette="Pastel1",direction = -1) +
+  facet_wrap( ~ depth_sd, ncol=1) +
+  xlab(expression(paste(italic("Cynoscion virescens")," lengths (cm)"))) +
+  ylab("Frequency") +
+  xlim(0,30) +
+  theme_bw() +
+  guides(fill=FALSE) + 
+theme(axis.text=element_text(size=10),axis.title=element_text(size=10)) + geom_vline(data = sp6b, aes(xintercept=mlen1), linetype="dotted", colour="#BB0000") + geom_label(data = sp6b, mapping = aes(label = paste0("Median length = ", mlen1),  x = 25, y = 20.5), size = 3, hjust = 0.1)+ geom_label(data = sp6b, mapping = aes(label = paste0("Abundance = ", count),  x = 25, y = 26), size = 3, hjust = 0.1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**Species accumulation curves by trip and hauls.**
+
+```{r Species accumulation curves, fig.cap=fig$cap("cars", "Species accumulation curves by trip and haul.")}
+
+curve_trip <- specaccum(species_curve_t)
+curve_haul <- specaccum(species_curve_h)
+
+###=============================================================###
+
+sites_t <- curve_trip$sites
+richness_t <- curve_trip$richness
+
+spec_accum_t <- data.frame(sites_t, richness_t)
+spec_accum_t %>% 
+  ggplot(aes(x=sites_t, y=richness_t)) +
+  geom_line() +
+  geom_point() +
+  labs(y="Number of species", x="Number of trips sampled") + 
+  theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") 
+
+###=============================================================###
+
+sites_h <- curve_haul$sites
+richness_h <- curve_haul$richness
+
+spec_accum_h <- data.frame(sites_h, richness_h)
+spec_accum_h %>% 
+  ggplot(aes(x=sites_h, y=richness_h)) +
+  geom_line(color = "blue") +
+  geom_point(color = "blue") +
+  labs(y="Number of species", x="Number of hauls sampled") + 
+  theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") 
+
+```
+
+```{r All length distribution, fig.cap=fig$cap("cars", "Histogram showing species length distribution for all hauls")}
+ggplot(lengths, aes(length)) +
+  geom_histogram(binwidth = 1) +
+ labs(y="Count", x="Lengths (cm)") + 
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"))
+```
+
+`r table_nums('tab_9')`
+
+```{r Table 9 - Lengths (cm) of all species measured, fig.cap = tab.9_cap}
+
+table_9 <- lengths %>% 
+  group_by(sci_name, com_status) %>%
+  dplyr::summarise(max.lengths = round(mean(length)),  Count = n(), .groups = 'drop') %>% 
+  arrange(desc(max.lengths))
+
+colnames(table_9) <-c("Sceintific names", "Commercial status", "Mean lengths (cm)", "Count")
+
+# table_9 <- head(table_9, 15)
+
+table_9 %>%  
+  flextable() %>% 
+  autofit() %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "#FB8072", part = "header") %>% 
+  color(color = "white", part = "header")  
+  
+```
+
+\newpage
+
+```{r Species length distribution, fig.cap=fig$cap("cars", "Histograms showing species length distributions")}
+ggplot(lengths, aes(length)) +
+  geom_histogram(binwidth = 1) +
+ labs(y="Count", x="Lengths (cm)") + 
+            theme(panel.background = element_rect(fill = "white", colour = "grey50")) + facet_wrap(.~sci_name)
+```
+
+```{r Length distribution by commercial status, fig.cap=fig$cap("cars", "Histogram showing species length distribution by commercial status. Here, yes = Commercially important species and no = non-commercially important species")}
+
+ggplot(lengths, aes(length, fill = com_status)) +
+  geom_histogram(binwidth = 1) +
+ labs(y="Count", x="Lengths (cm)") + 
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") + facet_wrap(.~com_status)
+```
+
+```{r Empirical cumulative distribution, fig.cap=fig$cap("cars", "Empirical cumulative distribution for commercial (yes) and non-commercial species (no), stacked by fishing companies") }
+
+ggplot(lengths, aes(length)) +
+  stat_ecdf(aes(color = com_status)) +
+  scale_color_viridis_d()+
+ labs(y="Distribution", x="Lengths (cm)", color = "Com. status") + 
+            theme(panel.background = element_rect(fill = "white", colour = "grey50")) + facet_grid(company ~.) 
+
+# Useful link for plotting ideas...https://www.datanovia.com/en/blog/ggplot-examples-best-reference/
+
+```
+
+\newpage
+
+```{r Empirical cumulative distribution 2, fig.cap=fig$cap("cars", "Empirical cumulative distribution for differen time-periods, showing commercial (yes) and non-commercial species (no), stacked by fishing companies")}
+
+ggplot(lengths, aes(length)) +
+  stat_ecdf(aes(color = com_status)) +
+  scale_color_viridis_d()+
+ labs(y="Distribution", x="Lengths (cm)", color = "Com. status") + 
+            theme(panel.background = element_rect(fill = "white", colour = "grey50")) + facet_grid(drag_period ~.)
+
+# Useful link for plotting ideas...https://www.datanovia.com/en/blog/ggplot-examples-best-reference/
+
+```
+
+\newpage
+
+## Statistical tests
+
+### Two sampled t-tests - Catch by time-periods
+
+```{r Catch distribution by time-periods, fig.cap=fig$cap("cars", "Histogram and density plots of the mean difference in catch distributions")}
+
+time_catch %>% 
+ggplot(aes(difference)) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+ geom_density(alpha=.2, fill="#00441B") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Mean difference in catch distribution") 
+
+```
+
+```{r Catch by time-periods two sample t-test}
+t.test(catch ~ time_period,
+       data   = time_catch_2)
+```
+
+### Two sampled t-tests - Catch by fishing depths
+
+```{r Catch distribution by fishing depths, fig.cap=fig$cap("cars", "Histogram and density plots of the mean difference in catch distributions")}
+
+depth_catch %>% 
+ggplot(aes(difference)) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+ geom_density(alpha=.2, fill="#FF6666") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Mean difference in catch distribution") 
+
+```
+
+```{r Cpue by fishing depths two-sample t-test}
+t.test(catch ~ fishing_depth,
+       data   = depth_catch_2)
+```
+
+\newpage
+
+### Paired t-tests - Cpue by time-periods
+
+```{r Cpue distribution by time-periods, fig.cap=fig$cap("cars", "Histogram and density plots of the mean difference in cpue distributions")}
+
+time_cpue %>% 
+ggplot(aes(difference)) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+ geom_density(alpha=.2, fill="#00441B") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Mean difference in cpue distribution") 
+
+```
+
+
+```{r Cpue by time-periods paired t-test}
+t.test(cpue ~ time_period,
+       data   = time_cpue_2,
+       paired = TRUE)
+```
+
+### Paired t-tests - Cpue by fishing depths
+
+```{r Cpue distribution by fishing depths, fig.cap=fig$cap("cars", "Histogram and density plots of the mean difference in cpue distributions")}
+
+depth_cpue %>% 
+ggplot(aes(difference)) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+ geom_density(alpha=.2, fill="#FF6666") +
+            theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Mean difference in cpue distribution") 
+
+```
+
+
+```{r Cpue by fishing depths paired t-test}
+t.test(cpue ~ fishing_depth,
+       data   = depth_cpue_2,
+       paired = TRUE)
+```
+
+
+<br><br><br><br><br>
+
+**In the draft #2 I will add some structure to the report and will remove some of the excess tables and plots and add some others in accordance with the research questions. I also plan to commence writing up the sections as I go along. The plan is send weekly or bi-weekly updates of my progress.** 
+
+
+
+
+```{r}
+species_1 <- obs_wt_db %>%
+  filter(sci_name == "Stellifer rastrifer") %>% 
+  select(drag_all, sci_name, drag_period, total_wt_lbs) %>% 
+  dplyr::mutate(grouped_id = row_number())
+
+species_1_test <- species_1 %>% 
+  spread(drag_period, total_wt_lbs) %>% 
+  select(-grouped_id)
+
+
+# # paired
+# t.test(total_wt_lbs ~ drag_period,
+#        data   = species_1,
+#        paired = TRUE)
+
+# two sample
+t.test(total_wt_lbs ~ drag_period,
+       data   = species_1)
+```
+
+
+```{r}
+chk <- lengths %>%
+  filter(sci_name %in% names) %>% 
+  select(sci_name, drag_period, trip.x, length) %>%
+  group_by(sci_name, trip.x, drag_period) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+```
+
+
+
+```{r Species lengths two-sampled t-test drag period}
+sr <- lengths %>%
+  filter(sci_name == "Stellifer rastrifer") %>% 
+  select(sci_name, drag_period, trip.x, length) %>%
+  group_by(trip.x, drag_period) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+sm <- lengths %>%
+  filter(sci_name == "Stellifer microps") %>% 
+  select(sci_name, drag_period, trip.x, length) %>%
+  group_by(trip.x, drag_period) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+ma <- lengths %>%
+  filter(sci_name == "Macrodon ancylodon") %>% 
+  select(sci_name, drag_period, trip.x, length) %>%
+  group_by(trip.x, drag_period) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+nm <- lengths %>%
+  filter(sci_name == "Nebris microps") %>% 
+  select(sci_name, drag_period, trip.x, length) %>%
+  group_by(trip.x, drag_period) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+bb <- lengths %>%
+  filter(sci_name == "Bagre bagre") %>% 
+  select(sci_name, drag_period, trip.x, length) %>%
+  group_by(trip.x, drag_period) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+cv <- lengths %>%
+  filter(sci_name == "Cynoscion virescens") %>% 
+  select(sci_name, drag_period, trip.x, length) %>%
+  group_by(trip.x, drag_period) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+
+
+tstt1 <- t.test(mn_ln ~ drag_period,
+       data =  sr) 
+tstt2 <- t.test(mn_ln ~ drag_period,
+       data =  sm) 
+tstt3 <- t.test(mn_ln ~ drag_period,
+       data =  ma) 
+tstt4 <- t.test(mn_ln ~ drag_period,
+       data =  nm) 
+tstt5 <- t.test(mn_ln ~ drag_period,
+       data =  bb) 
+tstt6 <- t.test(mn_ln ~ drag_period,
+       data =  cv) 
+
+# Species length table 
+
+(tab <- map_df(list(tstt1, tstt2, tstt3, tstt4, tstt5, tstt6), tidy))
+
+# diff_fmla <- ((32.50-28.43)/32.50)*100 # old-new/old * 100
+# Source for tabling multiple results....https://stackoverflow.com/questions/44067566/how-to-construct-a-table-from-a-t-test-in-r
+```
+
+
+```{r}
+t4 <- tab[c("estimate", "statistic", "p.value")]
+t5 <- tab[c("estimate", "statistic", "p.value")]
+
+t4 <- as.data.frame(t4)
+t5 <- as.data.frame(t5)
+
+
+# rbind with rownames as a column 
+st <- rbind(data.frame(t4, station = 'T1', what = factor(rownames(t4), levels = rownames(t4)), row.names= NULL, check.names = FALSE), 
+            data.frame(t5,station = 'T2',what = factor(rownames(t5), levels = rownames(t5)), row.names = NULL,check.names = FALSE))
+# 
+# library(tables)
+# mytable <- tabular(Heading()*what ~ station*(`estimate` +`statistic` + `p.value`)*Heading()*(identity),data=st)
+
+# mytable  
+
+
+
+# Source for conbining two tables with control and test results....https://stackoverflow.com/questiKons/17560683/create-a-table-in-r-with-header-expanding-on-two-columns-using-xtable-or-any-pac
+```
+
+```{r Lengths by haul two-sampled t-test}
+# By fishing depth
+haul_sd <- lengths %>%
+  select(trip.x, depth_sd, length) %>%
+  group_by(trip.x, depth_sd) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+
+tstt1_haul_sd <- t.test(mn_ln ~ depth_sd,
+       data =  haul_sd) 
+
+tab_haul_sd <- map_df(list(tstt1_haul_sd), tidy)
+
+# creating table 
+
+table_13 <- lengths %>% 
+  group_by(depth_sd) %>%
+  dplyr::summarise(m_len = round(mean(length)), s_e = round(std.error(length),2), Count = n(), .groups = 'drop')%>% mutate(Difference = round(((12 - 14)/12)*100,2))  
+
+
+# By time-periods
+haul_tp <- lengths %>%
+  select(trip.x, drag_period, length) %>%
+  group_by(trip.x, drag_period) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+
+tstt1_haul_tp <- t.test(mn_ln ~ drag_period,
+       data =  haul_tp) 
+
+tab_haul_sd <- map_df(list(tstt1_haul_tp), tidy)
+
+# creating table 
+
+table_14 <- lengths %>% 
+  group_by(drag_period) %>%
+  dplyr::summarise(m_len = round(mean(length)), s_e = round(std.error(length),2), Count = n(), .groups = 'drop')%>% mutate(Difference = round(((13 - 13)/13)*100,2))
+```
+
+```{r Species lengths two-sampled t-test fishing depth}
+sr_sd <- lengths %>%
+  filter(sci_name == "Stellifer rastrifer") %>% 
+  select(sci_name, depth_sd, trip.x, length) %>%
+  group_by(trip.x, depth_sd) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+sm_sd <- lengths %>%
+  filter(sci_name == "Stellifer microps") %>% 
+  select(sci_name, depth_sd, trip.x, length) %>%
+  group_by(trip.x, depth_sd) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+ma_sd <- lengths %>%
+  filter(sci_name == "Macrodon ancylodon") %>% 
+  select(sci_name, depth_sd, trip.x, length) %>%
+  group_by(trip.x, depth_sd) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+nm_sd <- lengths %>%
+  filter(sci_name == "Nebris microps") %>% 
+  select(sci_name, depth_sd, trip.x, length) %>%
+  group_by(trip.x, depth_sd) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+bb_sd <- lengths %>%
+  filter(sci_name == "Bagre bagre") %>% 
+  select(sci_name, depth_sd, trip.x, length) %>%
+  group_by(trip.x, depth_sd) %>% 
+  dplyr::summarise(mn_ln = mean(length)) 
+# cv_sd <- lengths %>%
+#   filter(sci_name == "Cynoscion virescens") %>% 
+#   select(sci_name, depth_sd, trip.x, length) %>%
+#   group_by(trip.x, depth_sd) %>% 
+#   dplyr::summarise(mn_ln = mean(length)) 
+
+
+tstt1_sd <- t.test(mn_ln ~ depth_sd,
+       data =  sr_sd) 
+tstt2_sd <- t.test(mn_ln ~ depth_sd,
+       data =  sm_sd) 
+tstt3_sd <- t.test(mn_ln ~ depth_sd,
+       data =  ma_sd) 
+tstt4_sd <- t.test(mn_ln ~ depth_sd,
+       data =  nm_sd) 
+tstt5_sd <- t.test(mn_ln ~ depth_sd,
+       data =  bb_sd) 
+# tstt6_sd <- t.test(mn_ln ~ depth_sd,
+#        data =  cv_sd) 
+
+# diff_fmla <- ((32.50-28.43)/32.50)*100 # old-new/old * 100
+
+```
+
+```{r Species lengths table fishing depth}
+library(broom)
+library(purrr)
+
+tab_sd <- map_df(list(tstt1_sd, tstt2_sd, tstt3_sd, tstt4_sd, tstt5_sd), tidy)
+
+tab_sd
+
+# Source for tabling multiple results....https://stackoverflow.com/questions/44067566/how-to-construct-a-table-from-a-t-test-in-r
+```
+
+
+\newpage
+
+
+```{r Species lengths summary table - time period, echo=FALSE, include=TRUE, results="asis"}
+
+table_11 <- lengths %>% 
+  group_by(sci_name, drag_period) %>%
+  dplyr::summarise(m_len = round(mean(length)), s_e = round(std.error(length),2), Count = n(), .groups = 'drop') %>% 
+  filter(duplicated(sci_name) | duplicated(sci_name, fromLast=TRUE)) 
+
+table_11_d <- table_11 %>% 
+  filter(drag_period == "Day")
+table_11_n <- table_11 %>% 
+  filter(drag_period == "Night")
+
+table_11_dn  <- dplyr::left_join(table_11_d, table_11_n, by= "sci_name")
+
+colnames(table_11_dn) <- c("Sceintific_names", "Time_period", "ml_cm", "SE", "n", "Time_period_b", "ml_cm_b", "SE_b", "n_b")
+
+table_11_dn <- table_11_dn %>% select(-c(2,6)) %>% 
+  filter(Sceintific_names %in% names)
+
+table_11_dn <- table_11_dn %>% 
+  mutate(Difference = round(((ml_cm - ml_cm_b)/ml_cm)*100,2))
+
+names <- names
+
+table_11_dn <- table_11_dn %>%
+  slice(match(names, Sceintific_names))
+
+p_value <- round(tab$p.value,3)
+
+table_11_dn <- cbind(table_11_dn, p_value)
+
+table_11_dn <- flextable(table_11_dn, col_keys = c("Sceintific_names", "ml_cm", "SE", "n", "ml_cm_b", "SE_b", "n_b", "Difference", "p_value"))
+
+# start with no header
+table_11_dn <- delete_part(table_11_dn, part = "header")
+
+# add a line of row
+table_11_dn <- add_header(x = table_11_dn, Sceintific_names = "Species", ml_cm = "Mean_length_cm", SE = "SE", n = "n", ml_cm_b = "Mean_length_cm_n", SE_b = "SE_n", n_b = "n_n", Difference = "Difference", p_value = "p_value", top = FALSE)
+
+# add another line of row at the top position
+table_11_dn <- add_header(x = table_11_dn, ml_cm = "Day", SE = "Day", n = "Day", ml_cm_b = "Night", SE_b = "Night", n_b = "Night", Difference = "Comparison", p_value = "Comparison", top = TRUE )
+
+# merge horizontally when there are identical values
+table_11_dn <- merge_h(table_11_dn, part = "header")
+
+table_11_dn <- table_11_dn %>%  
+  autofit() %>% 
+  theme_booktabs() %>%   
+  bg(bg = "#C90000", part = "header") %>% 
+  color(color = "white", part = "header") %>% 
+  align(align = "left", part = "all") %>% 
+  align(i = 1, j = c(1:9), align = "center", part = "header") %>% 
+  compose(i = 2, j = c(2:9), part = "header", value = as_paragraph(c("Mean)", "SE","n","Mean","SE","n", "Difference.", "P value"))) 
+
+table_11_dn
+# SOurce for table header:  https://davidgohel.github.io/flextable/reference/add_header.html
+```
+
+## Another table example
+
+```{r}
+ft <- flextable( head( iris ) ) 
+ft <- set_header_labels(ft, Sepal.Length = "Sepal length", 
+    Sepal.Width = "Sepal width", Petal.Length = "Petal length",
+    Petal.Width = "Petal width" )
+ft
+```
+
+```{r}
+ft <- add_header_row(ft, 
+  values = c("","length", "width", "length", "width"), top = FALSE )
+ft
+```
+
+```{r}
+data <- iris[c(1, 51, 101), ]
+
+header_df <- tibble( key = colnames(data) ) %>% 
+  separate(col = key, into = c("Group1", "Group2"), sep = "\\.", remove = FALSE, fill = "left")
+
+data %>% 
+  select(Species, everything()) %>% 
+  flextable() %>% 
+  set_header_df(mapping = header_df, key = "key") %>% 
+  merge_h(part = "header") %>% 
+  theme_booktabs() %>% 
+  align(j=c(2,4), align="center", part="header")
+```
+
+
+`r table_nums('tab_10')`
+
+```{r Table 10 - Fish taxa identified, fig.cap = tab.10_cap}
+
+table_10 <- obs_wt_db %>%
+  group_by(order, family, sci_name)%>%
+  dplyr::summarise(n = n(), freq = round(n()/48*100,3), wt = round(sum(total_wt_lbs/2.2)), .groups = 'drop') %>%  
+  mutate(wt_p = round(wt/sum(wt)*100,2)) %>% 
+  arrange(desc(n)) %>%
+  head(n=10) 
+
+table_10 <- mutate(table_10, cum_wt = round(cumsum(wt_p),2)) %>%
+  dplyr::select(sci_name, wt, freq, wt_p, cum_wt) %>% 
+  arrange(cum_wt)
+  
+colnames(table_10) <-c("Species", "Weight (kg)", "Frequency (%)", "Abundance (%)", "Cumulative abundance (%)")
+
+table_10 %>% 
+  flextable() %>% 
+  autofit() %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "#C90000", part = "header") %>% 
+  color(color = "white", part = "header") 
+
+  # col_keys = c("order" = "am", "family" = "carb", "sci_name" = "gear", "Count" = "mpg") 
+# https://stackoverflow.com/questions/42304117/omit-cell-entries-in-xtable-markdown...omit repeated columns 
+## Kable extra sources: https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+```
+
+
+```{r Species length vs fishing depths}
+
+mean_lt_dp <- lengths %>% 
+  group_by(depth_sd) %>% 
+  dplyr::summarise(m_lt = round(mean(length)), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+lengths %>% 
+ggplot() +
+  geom_boxplot(aes(y = length, x = depth_sd, fill = depth_sd)) +
+   geom_text(data = mean_lt_dp, aes(x = depth_sd, y = m_lt, label = m_lt), 
+              size = 3, vjust = -1.9, hjust = 1.2) +
+         theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Fishing depths", y = "Length (cm)") + scale_fill_brewer(palette="Pastel1",direction = -1) 
+```
+
+
+```{r Species length vs time-periods}
+
+mean_lt_tp <- lengths %>% 
+  group_by(drag_period) %>% 
+  dplyr::summarise(m_lt = round(mean(length)), mean1 = round(mean(length)), sd1 = round(sd(length)), min. = min(length), max. = max(length), count = n(), no_trips = n_distinct(drag_all))
+
+lengths %>% 
+ggplot() +
+  geom_boxplot(aes(y = length, x = drag_period, fill = drag_period)) +
+   geom_text(data = mean_lt_tp, aes(x = drag_period, y = m_lt, label = m_lt), 
+              size = 3, vjust = -1.9, hjust = 1.2) +
+         theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Time periods", y = "Length (cm)") + scale_fill_brewer(palette="Set2") 
+```
+
+
+\newpage
+
+
+```{r Species lengths summary table - fishing depths, echo=FALSE, include=TRUE, results="asis"}
+
+table_12 <- lengths %>% 
+  group_by(sci_name, depth_sd) %>%
+  dplyr::summarise(m_len = round(mean(length)), s_e = round(std.error(length),2), Count = n(), .groups = 'drop') %>% 
+  filter(duplicated(sci_name) | duplicated(sci_name, fromLast=TRUE)) 
+
+table_12_d <- table_12 %>% 
+  filter(depth_sd == "Deep")
+table_12_s <- table_12 %>% 
+  filter(depth_sd == "Shallow")
+
+table_12_sd  <- dplyr::left_join(table_12_d, table_12_s, by= "sci_name")
+
+colnames(table_12_sd) <- c("Sceintific_names", "Fishing_depth", "ml_cm", "SE", "n", "Fishing_depth_b", "ml_cm_b", "SE_b", "n_b")
+
+table_12_sd <- table_12_sd %>% select(-c(2,6)) %>% 
+  filter(Sceintific_names %in% names)
+
+table_12_sd <- table_12_sd %>% 
+  mutate(Difference = round(((ml_cm - ml_cm_b)/ml_cm)*100,2))
+
+names_sd <- c("Stellifer rastrifer", "Stellifer microps", "Macrodon ancylodon",  "Nebris microps", "Bagre bagre")
+
+table_12_sd <- table_12_sd %>%
+  slice(match(names_sd, Sceintific_names))
+
+p_value_sd <- round(tab_sd$p.value,3)
+
+table_12_sd <- cbind(table_12_sd, p_value_sd)
+
+table_12_sd <- flextable(table_12_sd, col_keys = c("Sceintific_names", "ml_cm", "SE", "n", "ml_cm_b", "SE_b", "n_b", "Difference", "p_value_sd"))
+
+# start with no header
+table_12_sd <- delete_part(table_12_sd, part = "header")
+
+# add a line of row
+table_12_sd <- add_header(x = table_12_sd, Sceintific_names = "Species", ml_cm = "Mean_length_cm", SE = "SE", n = "n", ml_cm_b = "Mean_length_cm_n", SE_b = "SE_n", n_b = "n_n", Difference = "Difference", p_value = "p_value_sd", top = FALSE)
+
+# add another line of row at the top position
+table_12_sd <- add_header(x = table_12_sd, ml_cm = "Deep", SE = "Deep", n = "Deep", ml_cm_b = "Shallow", SE_b = "Shallow", n_b = "Shallow", Difference = "Comparison", p_value = "Comparison", top = TRUE )
+
+# merge horizontally when there are identical values
+table_12_sd <- merge_h(table_12_sd, part = "header")
+
+table_12_sd <- table_12_sd %>%  
+  autofit() %>% 
+  theme_booktabs() %>%   
+  bg(bg = "#C90000", part = "header") %>% 
+  color(color = "white", part = "header") %>% 
+  align(align = "left", part = "all") %>% 
+  align(i = 1, j = c(1:9), align = "center", part = "header") %>% 
+  compose(i = 2, j = c(2:9), part = "header", value = as_paragraph(c("Mean)", "SE","n","Mean","SE","n", "Difference.", "P value"))) 
+
+table_12_sd
+# SOurce for table header:  https://davidgohel.github.io/flextable/reference/add_header.html
+```

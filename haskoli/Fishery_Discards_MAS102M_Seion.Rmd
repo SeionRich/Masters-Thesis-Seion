@@ -1,0 +1,1206 @@
+---
+title: "Evaluating Discards using Observer Data - Guyana`s Shrimp Fishery"
+author: "Seion Richardson"
+date: "`r format(Sys.time(), '%B %d, %Y')`" 
+output: 
+  html_document:
+        toc: true
+        toc_float: true
+        toc_depth: 5
+        number_sections: true
+        code_folding: show
+---
+
+<style type="text/css">
+
+h1.title {
+  font-size: 38px;
+  color: DarkBlue;
+  text-align: center;
+}
+h2.subtitle {
+  font-size: 24px;
+  color: DarkBlue;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      cache = FALSE, 
+                      fig.align = "center",
+                      strip.white = TRUE,
+                      highlight = TRUE,
+                      comment = " "
+                      )
+```
+
+# FIRST SUBMISSION
+
+```{r Packages, message=FALSE, warning=FALSE}
+library(tidyverse) ### [1]. Summarize data and make plots
+library(skimr) ### [2]. Summarizes data with descriptive statistics
+library(flextable) ### [3]. Creates neat tables 
+library(kableExtra) ### [4]. Also creates tables 
+```
+
+
+```{r Data, message=FALSE}
+ObserverData <- read_csv("observer_weights_mas102m.csv")
+
+###=== COMMENTS START ===###
+### [1]. Importing the observer data using the read_csv() function from the tidyverse package. The imported data is called "ObserverData" in this project. 
+###=== COMMENTS END ===###
+```
+
+## Definition of Key terms 
+
+**Total catch** - the amount of fish caught by a fishing gear that reaches the vessels deck. 
+
+**Target catch** - the main species which are sought after by a particular fishery e.g. cod or shrimp.
+
+**Incidental catch** - the species caught which are retained for consumption or marketing purposes. 
+
+**Discarded catch** - the section of catch returned to the sea, usually dead or alive due to economic or legal considerations. 
+
+**Bycatch** - Discarded catch combined with incidental catch.
+
+**Fishery observer** - is a specialist trained in collecting data onboard commercial fishing vessels.
+
+**Observer data** - data collected at-sea by fishery observers.
+
+**Drag** - The act of fishing or trawling.
+
+**CPUE** - Catch per unit effort i.e. the fish caught per unit of effort e.g. kgs/hr.
+
+## Data description
+The data used in this project is on discarded catch from a shrimp fishery in Guyana, South America. The data was collected at-sea by fishery observers onboard Atlantic seabob shrimp trawl vessels between 2019 to 2020. The data was collected within the seabob trawling zone i.e. 8 to 18 fathoms water depth (see Figure 1). It includes sampled bottom trawl data from 8 distinct fishing trips with an average of 6 sampled hauls per trip (3 days, 3 nights) and different fishing depths (shallow, deep) (Figure 2). A total of seven fishing vessels were used from two fishing companies. Other key variables measured included the fishing duration (days-at-sea) and trip lengths. 
+
+<center>
+
+![Figure 1 Seabob trawling zone (8 and 18-fathom lines) within the EEZ. Modified from (Maison 2015)](C:\Users\UNUFTP\Desktop\haskoli\Picture1.png){width=55%}
+
+</center>
+<!-- SOurce: https://stackoverflow.com/questions/24677642/centering-image-and-text-in-r-markdown-for-a-pdf-report -->
+
+<br>
+
+<center>
+
+![Figure 2 Data collection sampling protocol](C:\Users\UNUFTP\Desktop\haskoli\SamplingProtocol.png){width=65%}
+
+</center>
+
+<br>
+
+### Data Variables
+
+The variables within the data are coded. A description for each variable is below: 
+
+1. company              -   Fishing company
+2. dep_date             -   Date the vessel departs port for fishing
+3. arr_date             -   Date the vessel returns from fishing
+4. das                  -   Days the vessel spends at-sea       
+5. trip                 -   Unique trip identification number
+6. drag                 -   Unique drag identification number by 
+7. trip
+8. drag_all             -   Sequential drag identification number 9. drag_date            -   Date the drag was done
+10. drag_period         -   Binary variable of time-period for drag i.e. "Day" = 6:00hrs to 17:59 HRS and "Night" = 18:00 to 5:59 HRS
+11. drag_time_s         -   Time the drag started (24:00 hrs)
+12 drag_time_e          -   Time the drag ended (24:00 hrs)
+13. time_fished_min     -   Time fished in hours
+14. hrs_dec             -   Time fished converted to decimals 
+15. depth               -   Average fishing depth
+16. depth_sd            -   Binary variable of fishing depth i.e. "Deep" = above 9 fathoms and "Shallow" = less than or equal to 9 fathoms
+17. id_status           -   Binary variable of species identification i.e. "Yes" = Identified and "No" = Unidentified. 
+18. com_status          -   Binary variable of species economic status i.e. "Yes" = economic and "No" = Non-economical 
+19. order               -   Species taxonomy - Order
+20.family               -   Species taxonomy - Family
+21. class               -   Species taxonomy - Class
+22. total_catch_cat     -   Catch categorization (see definitions)
+23. total_catch_spp     -   Board species categorization
+24. categories          -   More narrow species categorization
+25. alpha_code          -   Unique 3-alpha species identifier used by FAO
+26.vcom_name            -   Local name or "call name" for species 27. sample_wt_lbs       -   Species sample weight per drag (units = pounds)
+28. total_wt_lbs        -   Species total weight per drag (units = pounds)
+29. cpue                -   Catch rate or catch per unit of effort (units = pounds/hours fished)
+
+<br>
+
+### First 10 rows from data
+
+```{r Head data}
+First10Rows <- head(ObserverData, 10) %>% 
+  kable("html") %>% 
+  kable_styling("striped") %>% 
+  scroll_box(width = "100%")
+
+###=== COMMENTS START ===###
+### [1]. A peek at first 10 rows in data using the head() function.
+### ==========
+### [2]. The kable() function used create a scrollable html table. This is useful for data with many variables like this one. 
+###=== COMMENTS END ===###
+
+First10Rows 
+```
+
+<br>
+
+### Renaming variables
+
+```{r Renaming variables}
+ObserverData <-  ObserverData %>% 
+  dplyr::rename(Company = company, 
+                Departure = dep_date,
+                Arrival = arr_date, 
+                DaysAtSea = das, 
+                TripID = trip, 
+                DragID = drag, 
+                DragID2 = drag_all, 
+                DragDate = drag_date, 
+                TimePeriods = drag_period, 
+                DragStart = drag_time_s, 
+                DragEnd = drag_time_e, 
+                TimeFishedHrs = time_fished_min, 
+                TimeFishedDec = hrs_dec, 
+                FishingDepth = depth, 
+                FishingDepth2 = depth_sd, 
+                SpeciesID = id_status, 
+                EconomicStatus = com_status, 
+                OrderTax = order, 
+                FamilyTax = family, 
+                ClassTax = class, 
+                CatchCategory = total_catch_cat, 
+                SpeciesCategory = total_catch_spp, 
+                SpeciesCategory2 = categories, 
+                LatinNames = sci_name, 
+                AplhaCode = alpha_code, 
+                CommonName = com_name, 
+                SampleWeightLB = sample_wt_lbs, 
+                TotalWeightLB = total_wt_lbs,
+                CpueLBHR = cpue)
+
+###=== COMMENTS START ===###
+### [1]. The rename() function from the dplyr package was used to give the variables descriptive names. 
+###=== COMMENTS END ===###
+
+NewNames <- names(ObserverData)
+
+###=== COMMENTS START ===###
+### [2]. A quick view of the renamed variables using the names() function from base R.
+###=== COMMENTS END ===###
+
+NewNames
+```
+
+<br>
+
+### Creating a few additonal variables
+
+Three new variables will be added. These variables will change the current weight units from **Imperial** to **Metric**  (i.e. pounds to kilograms)which is more common in Europe. 
+
+```{r Adding variables}
+ObserverData <- ObserverData %>% 
+  mutate(SampleWeightKG = SampleWeightLB/2.2, 
+    TotalWeightKG = TotalWeightLB/2.2,
+    CpueKGHR = TotalWeightKG/TimeFishedDec
+    )
+
+###=== COMMENTS START ===###
+### [1]. Convert from pounds to kilograms.
+### ========== 
+### [2]. The mutate() function from the dplyr package is passed to the data "ObserverData" to create two new variables: "SampleWeightKG" and "TotalweightKG".
+###=== COMMENTS END ===###
+
+NewVarNames <- names(ObserverData)
+
+###=== COMMENTS START ===###
+### [3]. A quick view of the new variables using the names() function from base R.
+###=== COMMENTS END ===###
+
+NewVarNames
+```
+
+
+<br>
+
+### Data summary
+
+Here we see the **ObserverData** data comprises 1217 observations and 32 variables. The variables were imported as three different class i.e. character (17), difftime (3) and numeric (12). Missing data are contained in the variable **AlphaCode** (75) and this is due unavailability of unique codes for those species. In total 65 species were sampled from the total catch (see **LatinNames** variable). The mean days at sea by fishing vessel was **8 days** with 50% of the vessels spending 7 or less days (Vessels names were not included in the data). The average time per drag was 3.88 hrs, with only 25% of the drags being 4 to 5.53 hours. 
+
+```{r Data summary, results = "asis"}
+
+SkimData <- skim(ObserverData) %>% 
+  skim_without_charts() 
+
+###=== COMMENTS START ===###
+### [1]. The skim() function from the "skimr" package was used to get a quick summary of the variables from the data. 
+###==========
+### [2]. The skim_without_charts() function from the "skimr" package was used to summarise the data without histograms since the histograms were only printing in Rstudio but not in the html output. 
+###==========
+### [3]. All the data seems to fit nicely into the categories character, difftime and numeric. Only the dates variables need to be converted to the correct format. This was not done in this submission as dates were not needed. However, if it is required for the other submissions, they will be formatted correctly.  
+###=== COMMENTS END ===###
+
+SkimData
+```
+
+<br>
+
+## Summary of key research variables 
+
+This research will look into discarded catch **weights, lengths and catch rates (CPUE)** and more specifically to measure them against **fishing depths and time-periods**. 
+
+<br>
+
+### Count of species sampled by trip and time-period
+
+Here we see that data was across eight fishing trips. For each of those trip sampling was done across Day and Night time-periods i.e. 8 respectively. The number of Samples collected ranged from 54 (Trip 8 - Day) to 89 (Trip 6 - Day) with the mean number sampled being 67. 
+
+```{r Table1 Species count across fishing trips and time-periods}
+DiscardData <- ObserverData %>%
+  filter(CatchCategory == "Discarded catch")
+
+###=== COMMENTS START ===###
+### [1]. Creating a new object "DiscardData" with the discard data only which will be the main focus of this project.
+###=== COMMENTS END ===###
+
+Table1 <- DiscardData %>% 
+  group_by(TripID, TimePeriods) %>%
+  dplyr::summarise(Count = n(),
+                   .groups = 'drop') %>% 
+  arrange(TripID)
+
+###=== COMMENTS START ===###
+### [2]. Creating table object called "Table1". 
+### ==========
+### [3]. The group_by() function was used group the data by fishing trip and time-period (day, night).
+### ==========
+### [4]. The summarise() function was called directly from the package using the command "package name::function" due to clashes with other packages.
+### [5]. The summarise() function was then used to produce a summary of count observations. 
+### ==========
+### [6]. The ".group" argument was used to control the grouping structure of the output, in this case it was dropped. 
+### ==========
+### [7]. Lastly, the table was sorted by the "TripID" variable in ascending order using the arrange() function. The functions used in this code were all from the dplyr package. 
+###=== COMMENTS END ===###
+
+colnames(Table1) <-c("Fishing Trips",
+                     "Time Period",
+                     "Counts")
+
+###=== COMMENTS START ===###
+### [8]. Used to rename the variables from "Table1" with descriptive names. 
+###=== COMMENTS END ===###
+
+Table1 <- Table1 %>%  
+  flextable() %>% 
+  autofit(add_w = 2) %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "#8DD3C7", part = "header") %>% 
+  color(color = "white", part = "header")  %>% 
+  set_caption("Table 1 Count of species sampled across fishing trips and time-periods. Day = 6:00 hrs to 17:59 hrs and Night = 18:00 hrs to 5:59 hrs.  ")
+
+###=== COMMENTS START ===###
+### [9]. The object "Table1" was then passed to flextable function to format the table. 
+### ==========
+### [10]. The columns were autofit to window using the autofit() function with the add_w argument. 
+### ==========
+### [11]. Both texts and columns were aligned left using align_text_col() and align_nottext_col() functions. 
+### ==========
+### [12]. The bg() and color() functions were used to set the color of the table header.
+### ==========
+### [13]. Lastly, he table caption was created using the set_caption() function. 
+### ==========
+### [14].The functions used in this code were all from the flextable package.
+###=== COMMENTS END ===###
+
+Table1
+
+```
+
+
+### Count of species sampled by trip and fishing depth
+
+Here we see that data was across eight fishing trips. The samples were randomly collected across Deep and Shallow water depths. The number of samples collected ranged from 41 (Trip 3 - Shallow) to 177 (Trip 6 - Shallow) with the mean number sampled being 98.
+
+```{r Table2 Species count across fishing trips and fishing depths}
+Table2 <- DiscardData %>% 
+  group_by(TripID, 
+           FishingDepth2) %>% 
+  dplyr::summarise(Count = n(),
+                   .groups = 'drop') %>% 
+   dplyr::arrange(TripID) 
+
+colnames(Table2) <-c("Fishing Trips",
+                     "Fishing Depths",
+                     "Counts")
+
+Table2 <- Table2 %>% 
+ flextable() %>% 
+  autofit(add_w = 2) %>%
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "midnightblue", part = "header") %>% 
+  color(color = "white", part = "header") %>% 
+  set_caption("Table 2 Count of species sampled across fishing trips and dishing depths. Deep = above 9 fathoms and Shallow = equal to or less than 9 fathoms. ")
+
+###=== COMMENTS START ===###
+### ==========
+### [1]. All of the comments in this code are similar to that of "Table 1" except that Fishing depth (i.e. "FishingDepth2") has replaced "TimePeriods".
+###=== COMMENTS END ===###
+
+Table2
+
+```
+<br>
+
+## Research Questions
+
+### First Submission
+
+1. What were the species discarded and their relative proportions?
+2. What proportions of the total catch were discarded? 
+
+### Second Submission
+
+3. What are the weight distributions of the most common species discarded across time-periods and fishing depths? 
+
+4. Are the mean species weights equal across time-periods and fishing depths?
+
+### Third Submission (Joining weight and length data)
+
+5. What were the length distributions of the most common species discarded across time-periods and fishing depths?
+
+6. Are the mean lengths for all species equal across time-periods and fishing depths?
+
+<br>
+
+## Hypotheses
+
+$H_O$ (Null hypothesis) – Mean species weights and lengths are **equal** across time-periods. 
+
+$H_A$ (Alternate hypothesis) - Mean species weights and lengths are **not equal** across time-periods.  
+
+$H_O$ (Null hypothesis) – Mean species weights and lengths are **equal** across fishing depths.   
+
+$H_A$ (Alternate hypothesis) – Mean species weights and lengths are **not equal** across fishing depths.
+
+<br>
+
+## Species discarded and their relative proportions (Research question 1)
+
+In total, 60 fish taxa were identified (Table 1), belonging	 to 39 families in 21 orders, with Perciformes (22 species) being the dominant order. Samples contained between 11 and 31 fish species, with an average of 21 ± 4 species per sample. Three species; *Callinectes ornatus*, *Macrodon ancylodon* and *Stellifer rastrifer* were present in all the samples, where 22 species were present in more than 50% of the samples. 
+
+```{r Table 3 List of species sampled}
+Table3 <- DiscardData %>% 
+  group_by(OrderTax, 
+           FamilyTax, 
+           LatinNames) %>%
+  dplyr::summarise(n = n(), 
+                   prop = round(n/48,2),
+                   .groups = 'drop') %>% 
+  arrange(OrderTax)
+
+###=== COMMENTS START ===###
+### [1]. The group_by() function was used create a species Taxonomy table containing the Order, Family and Latin/Scientific names. 
+### ==========
+### [2]. A new variable "prop" which calculated species proportion based on abundance/count within the data was created using the summarise() function.
+### ==========
+### [3]. The table was arranged by Order. 
+### ==========
+### [4]. See comments from "Table 1" for more details. 
+###=== COMMENTS END ===### 
+
+Table3$OrderTax = ifelse(duplicated(Table3$OrderTax), "",
+                         Table3$OrderTax)
+Table3$FamilyTax = ifelse(duplicated(Table3$FamilyTax), "",
+                          Table3$FamilyTax)
+
+###=== COMMENTS START ===###
+### [5]. The "ifelse and duplicated" functions from base R was used to remove duplicated Order and family names from "Table3". This will make the table look less clustered and more easily readable. 
+###=== COMMENTS END ===###
+
+colnames(Table3) <-c("Orders", 
+                     "Families", 
+                     "Scientific names", 
+                     "Counts", "Proportion")
+
+###=== COMMENTS START ===###
+### [6]. The colnames() function was used to rename "Table3" variables with descriptive names. 
+###=== COMMENTS END ===###
+
+Table3 <- Table3 %>% 
+  flextable() %>% 
+  autofit(add_w = 0.5) %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bg(bg = "#C90000", part = "header") %>% 
+  color(color = "white", part = "header") %>% 
+  color(~ Proportion >= 0.5, ~ Proportion, color = "blue") %>% 
+  bold(~ Proportion >= 0.5, ~ Proportion, bold = TRUE) %>% 
+    set_caption("Table 3 Fish taxa identified from the 48 bottom-trawl hauls sampled off the coast of Guyana. Where p = species presence in proportion within the total samples.Blue fonts  highlights species p of >= 0.5") 
+
+###=== COMMENTS START ===###
+### [7]. All comments here are similar to "Table1" except for: 
+### ==========
+### [8]. The Proportions greater greater than or equal to 0.5 were colored blue using the color() function and bolded using the bold() function.
+###=== COMMENTS END ===###
+
+Table3 
+
+```
+
+
+## Relative weights of disacrded catch
+
+The data presented in this paragraph and the figure below was filtered to remove those species which occurred less than 5 times in the sample (Figure 3). The top five species by median weight landed were: *Polymixia lowei* (18 kgs), followed by *Stellifer rastrifer*, *Stellifer microps*, *Macrodon ancylodon* and *Larimus breviceps* all with 14 kgs, respectively.  The weight range for these species are as follows: *Polymixia lowei* (7 to 21 kgs), *Stellifer rastrifer* (1 to 164 kgs), *Stellifer microps* (1 to 133 kgs), *Macrodon ancylodon* (1 to 74kgs) and *Larimus breviceps* (1 to 61 kgs). The five species with the lowest median weights were: *Mustelus higmani* (1 kg), followed by *Sphoeroides testudineus*, *Persephona lichtensteinii*, *Chaetodipterus faber* and *Hepatus gronovii* all with 2 kgs.  The weight range for these species are as follows: *Mustelus higmani* (0.2 to 33 kgs), followed by *Sphoeroides testudineus* (0.1 to 26 kgs), *Persephona lichtensteinii* (0.005 to 14 kgs), *Chaetodipterus faber* (0.01 to 21 kgs) and *Hepatus gronovii* (0.3 to 14 kgs) (See Figure 3 below).
+
+
+```{r Plot1 TotalWeightKG vs LatinNames, fig.height = 10, fig.cap= "Figure 3 Boxplot showing a breakdown of total weight distribution by species. Ranking is done from the highest (top of plot) to the lowest (bottom of plot)."}
+
+SpeciesWeights <- DiscardData %>% 
+  group_by(LatinNames) %>%
+  filter(n() >= 5) 
+
+
+Plot1 <- ggplot(data = SpeciesWeights,
+       mapping = aes(x = reorder(LatinNames,
+                                 TotalWeightKG,
+                                 FUN = median),
+                     y = TotalWeightKG)) +
+  geom_boxplot() +
+  coord_flip()  +
+  labs(x = "Latin Names",
+       y ="Weight (kgs)") +
+  theme(panel.background = element_rect(colour = "White"),
+        legend.position = "none")
+
+###=== COMMENTS START ===###
+### [1]. First the main data "DiscardData" was filtered to remove species that occurred less than five time in sample. This was done using the group_by() and filter() functions from dplyr. This was done to get meaning summary statistics e.g. median and range. The new data is named "SpeciesWeights".   
+### ==========
+### [2]. The first argument to the ggplot() function is the data ("SpeciesWeights"). Then the mapping = aes() where the X variable ("LatinNames") and the Y variable "TotalWeightKG" were supplied. The reorder() function was used to sort the species from the highest(top of plot) to the lowest (bottom of plot) median values.   
+### ==========
+### [3]. The arguments were passed to the geom_boxplot() function.
+### ==========
+### [4]. The coord_flip() function was used to switch the axis to allow for a better presentation of the data. This was due to the excess species. 
+### ==========
+### [5]. X and Y axis labels were added using the labs() function.
+### ==========
+### [6]. The plot was formatted using the theme() function and the legend removed using the legend.position argument.
+###=== COMMENTS END ===### 
+
+Plot1
+```
+
+
+<br>
+
+## Proportions of the total catch were discarded (Research Question 2) 
+
+### Catch categories
+
+In total 18608 kgs of fish were landed. Of this amount, bony fish accounted for the highest i.e. 8,804 kgs, followed by shellfish (7,240 kgs), flatfish (1,938 kgs) and others (626 kgs) (Figure 4). A similar trend was seen in the mean weights caught per trip for the different categories i.e. bony fish the highest 1,101 kgs/trip, followed by shell fish (905 kgs/trip), flat fish 242 kgs/trip and Others 78 kgs/trip. The minimum and maximum discard landed by category are as follows: bony fish discards ranged from 683 kgs (trip 4) to 2,410 kgs (trip 6), shell fish from 346 kgs (trip 7) to 1,885 kgs (trip 4), flat fish from 18 kgs (trip 1) to 577 kgs (trip 6) and others from 9 kgs to 257 kgs (trip 6) (Figure 4).     
+
+```{r Plot2 TotalWeightKG vs TripID, fig.cap = "Figure 4 Barplot showing a breakdown of weights by species category across fishing trips"}
+
+Plot2 <- ggplot(data = ObserverData,
+       mapping = aes(x = as.factor(TripID),
+                     y = TotalWeightKG, 
+                     fill = SpeciesCategory2)) +
+  geom_bar(stat = "identity") +
+  theme(panel.background = element_rect(fill = "white",
+                                        colour = "grey50"),
+        legend.position = "none") +
+  labs(x="Observer trips", 
+       y = "Discarded catch (kgs)") + 
+  scale_fill_brewer(palette="Set2") +  
+  facet_wrap(. ~ SpeciesCategory2)
+
+###=== COMMENTS START ===###
+### [1]. Here the Observerdata was used to get the four categories of species caught and to plot them using using four bar plots on a single window using the facet_wrap() function.
+### ==========
+### [2]. The first argument to the ggplot() function is the data ("ObserverData"). Then the mapping = aes() where the X variable ("TripID") and the Y variable "TotalWeightKG" were supplied. 
+### ==========
+### [3]. The fill argument was used to colour the data by the different categories i.e. "SpeciesCategory2".
+### ==========
+### [4]. The arguments were passed to the geom_bar() function.
+### ==========
+### [5]. The plot was formatted using the theme() function and the legend removed using the legend.position argument. Because the names were provide by the facet_wrap() function a legend would have been redundant. 
+### ==========
+### [6]. X and Y axis labels were added using the labs() function.
+### ==========
+### [7]. The scale_fill_brewer was used to customize the color of the bars according to the species category. The palette argument was used within the function to achieve this. 
+### ==========
+### [8]. Lastly the facet_wrap() function was used to complete the figure.
+###=== COMMENTS END ===###
+
+Plot2 
+
+```
+
+<br>
+
+### Discard against target species across fishing trips
+
+Of the total fish weight, bycatch species accounted for 11,956 kgs (68%) and target species 5,705 kgs (32%) (Figure 5). Bycatch species proportions (by weight) within the total catch ranged from 37% (trip 4) to 95% (trip 6). Target species on the other hand ranged from 5% (trip 6) to 63% (trip 4) (Figure 5).    
+
+
+```{r Plot3 Percentage vs SpeciesCategory, fig.width = 9, fig.align = "center", fig.cap = "Figure 5 Barplot showing a breakdown of weights (proportions) by catch category for the different fishing trips. The numbers at the top of each pair of bars i.e. in the grey area represents the Fishing Trip number ID"}
+
+FilteredCatch <- ObserverData %>% 
+  filter(CatchCategory == "Discarded catch" |
+           CatchCategory == "Target catch")
+
+###=== COMMENTS START ===###
+### [1]. Filtering the observer data by catch category. 
+### ###=== COMMENTS END ===###  
+
+SumFilteredCatch <- FilteredCatch %>%  
+  group_by(TripID, 
+           SpeciesCategory) %>% 
+  dplyr::summarise(WeightKG = sum(TotalWeightKG),
+                   .groups = 'drop') %>%
+  group_by(TripID) %>% 
+  mutate(Percentage = round(prop.table(WeightKG)*100))
+
+###=== COMMENTS START ===###
+### [2]. Creating a summary table of weights by fishing trip and species category.
+### ==========
+### [3]. The group_by() and summarise() functions were used to obtain this along with the sum() function to create a variable called "WeightKG". 
+### ==========
+### [4]. A new variable containing percentages for the different catch categories by fishing trips was created using the prop.table() function from base R. The values were rounded and time(*) 100 to converted to percentage. 
+###=== COMMENTS END ===###  
+
+Plot3 <- ggplot(data = SumFilteredCatch,
+                mapping = aes(x = SpeciesCategory, 
+                              y = Percentage, 
+                              fill = SpeciesCategory)) +
+  geom_col(position = "dodge") +
+  theme(panel.background = element_rect(fill = "white",
+                                        colour = "grey50"), axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
+  labs(x="Fishing Trips", 
+       y = "Percentages (%)") + 
+  scale_fill_brewer(palette="Set2", 
+                    name = " ", 
+                    labels = c("Discarded catch", "Target catch")) + facet_grid(~TripID)
+
+###=== COMMENTS START ===### 
+### [1]. The comments here are similar to that made for "Plot1" except: ### ==========
+### [2]. The differences here is that geom_col() function was used here in the place of geom_bar() function. This was used to allow "position" dodge argument which places the catch bars side-by-side for easy comparison.
+### ==========
+### [3]. The theme() function arguments are similar to "Plot1". The only additions are that the X axis ticks and texts were removed using the arguments: axis.ticks.x and axis.text.x, with the function value element_blank().
+### ==========
+### [4]. The scale_fill_brewer was used to customize the color of  the bars according to the catch category. The palette argument was used within the function to achieve this. The names argument was used to remove the default name and replace with a blank space (" ") and the labels argument to add labels to the plot.
+### ==========
+### [5]. The fact_grid() function was used to present the data side-by-side by fishing trips. 
+###=== COMMENTS END ===###
+
+Plot3 
+
+```
+<br>
+<br>
+<br>
+
+# SECOND SUBMISSION
+
+<br>
+
+## **Research Question 3** <br>                          What are the **weight Distributions** of the **Most Common Species Discarded**?
+
+<br>
+
+### **Weight Distributions** of the **Thirty (30) most common species discarded**.
+
+```{r}
+Table4 <- DiscardData %>% 
+  group_by(LatinNames) %>%
+  dplyr::summarise(Weight = round(sum(TotalWeightKG)),
+                                  .groups = 'drop') %>%
+  mutate(WeightPct = round((Weight/sum(Weight))*100,2)) %>%
+  arrange(desc(Weight)) %>% 
+  head(31)
+
+colnames(Table4) <-c("Latin Names", "Weights (kgs)", "Weight (%)")
+
+Table4 %>% 
+  kbl() %>%
+  kable_classic() %>% 
+  row_spec(0, bold = TRUE) %>% 
+  kable_styling(fixed_thead = T) %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed")) %>% 
+   footnote(number = "Un id refers to multiple species which were unidentified and not a single species.")
+
+```
+
+<br>
+
+```{r Time-periods - Most common species by biomass, eval=FALSE, message=FALSE, include = FALSE}
+
+# source("functionfile.R")
+# 
+# SpeciesNamesTop6 <- head(Table4$`Sceintific names`, 6)
+# Vector <- c(1,2,3,4,5,6)
+# 
+# for(i in Vector){
+#   Tables <- TimePeriodsWeight(Data = DiscardData %>% 
+#                                filter(LatinNames == SpeciesNamesTop6[i]),
+#                                Group = TimePeriods,
+#                                Quan_var = TotalWeightKG,
+#                                Wvar1 = Median_wt,
+#                                Wvar2 = Sum_wt,
+#                                Pos_x = 180,
+#                                Pos_y1 = 0.08,
+#                                Pos_y2 = 0.065,
+#                                hj = 0.85,
+#                                species = SpeciesNamesTop6[i])
+#     
+#     print(Tables)
+# }
+
+```
+
+<br>
+
+### Inspection of Weight Data before analysis 
+
+```{r, fig.align = "center"}
+SpeciesNamesTop6 <- head(Table4$`Latin Names`, 6)
+
+SpeciesDataTop6 <- DiscardData %>% 
+  filter(LatinNames %in% SpeciesNamesTop6) 
+
+ggplot(SpeciesDataTop6,
+       aes(x = DragID2, y = TotalWeightKG)) +
+  geom_point(alpha = 0.5) +
+  theme_bw() +
+  labs(x = "Drag Identification Number",
+       y = "Weight (kgs)")
+
+```
+
+<br>
+
+```{r,  fig.width = 9, fig.align = "center"}
+# filter dataframe to get data to be highligheted
+
+HighlightedPoints <- SpeciesDataTop6 %>% 
+  filter(TotalWeightKG > 61) # Removing 7 abnormally high values, possible outliers
+SpeciesDataTop6 %>% 
+  ggplot() +
+  geom_point(aes(x = DragID2,
+                 y = TotalWeightKG), 
+             alpha = 0.5) +
+  geom_point(data = HighlightedPoints,
+             aes(x = DragID2,
+                 y = TotalWeightKG, color = LatinNames), 
+             size = 3) +
+  theme_bw() +
+  guides(color=guide_legend(title="Latin Names")) +
+  labs(x = "Drag Identification Number",
+       y = "Weight (kgs)")
+
+SpeciesDataTop6 <- SpeciesDataTop6 %>% 
+  filter(TotalWeightKG < 61)
+```
+
+<br>
+
+### Density plots showing the **Weight Distributions** for the **Six (6) most Common species across Time-Periods**.
+
+```{r,  fig.width = 9, fig.align = "center"}
+ggplot(SpeciesDataTop6,
+       aes(x = LatinNames, 
+           y = TotalWeightKG, 
+           colour = LatinNames)) +
+  geom_boxplot(alpha = 0.5) +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+                                        colour = "grey50"),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.title = element_blank()) +
+  labs(x = "Latin Names",
+       y = "Weight (kgs)") +
+  facet_wrap(~TimePeriods, ncol = 2)
+```
+
+<br>
+
+```{r}
+Table5 <- SpeciesDataTop6 %>% 
+  group_by(LatinNames,
+           TimePeriods) %>% 
+  dplyr::summarise(SumWeights = round(sum(TotalWeightKG)),
+                   MedianWeights = round(median(TotalWeightKG)),                    .groups = 'drop')
+
+Table5 %>% 
+  kbl() %>%
+  kable_classic("striped") %>% 
+  row_spec(0, bold = TRUE) %>% 
+  column_spec(1, bold = T) %>% 
+  kable_styling(fixed_thead = T) %>% 
+  kable_styling(fixed_thead = T, bootstrap_options = "condensed")
+```
+
+<br>
+
+### Box plot showing the **Weight distribution** for the **six (6) most Common species discarded** across **Fishing Depths**. 
+
+```{r,  fig.width = 9, fig.align = "center"}
+ggplot(SpeciesDataTop6,
+       aes(x = LatinNames, 
+           y = TotalWeightKG, 
+           colour = LatinNames)) +
+  geom_boxplot(alpha = 0.5) + 
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+                                        colour = "grey50"),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.title = element_blank())  +
+  labs(x = "Weights (Sqrt Transformed)",
+       y = "Density") +
+  facet_wrap(~FishingDepth2, ncol = 2) 
+```
+
+<br>
+
+```{r}
+Table6 <- SpeciesDataTop6 %>% 
+  group_by(LatinNames,
+           FishingDepth2) %>% 
+  dplyr::summarise(SumWeights = sum(TotalWeightKG),
+                   MedianWeights = median(TotalWeightKG), 
+                   .groups = 'drop')
+
+Table6 %>% 
+  kbl() %>%
+  kable_classic("striped") %>% 
+  row_spec(0, bold = TRUE) %>% 
+  column_spec(1, bold = T) %>% 
+  kable_styling(fixed_thead = T, bootstrap_options = "condensed") 
+```
+
+<br>
+
+## **Research Question 4** <br>                             Are the mean species weights equal across **Time-Periods** and **Fishing Depths**?
+
+### Density plot showing **Discarded Catch** weight distribution for **All Species** across **Time-Periods**.
+
+```{r, fig.align = "center"}
+
+DiscardData <- DiscardData %>% 
+  filter(TotalWeightKG < 61)
+
+MeanTP <- DiscardData %>% 
+  group_by(TimePeriods) %>% 
+  dplyr::summarise(MeanWeight = mean(log10(TotalWeightKG)), .groups = 'drop')
+
+
+ggplot(DiscardData,
+       aes(TotalWeightKG,
+           color = TimePeriods,
+           fill = TimePeriods)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 10)) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(x = "Weights (Log Scale)",
+       y = "Density",
+       title = "Discard weigth distribution by time-periods") +
+  scale_x_continuous(trans = "log10") +
+  geom_vline(data = MeanTP,
+             aes(xintercept = MeanWeight,
+                 color = TimePeriods),
+             linetype = "dotted",
+             size = 0.5) 
+```
+
+<br>
+
+### Analysis of the **Mean Discarded Catch** across **Time-Periods** using the Two Sample T-test.
+
+```{r}
+WeightTestTP <- t.test(TotalWeightKG ~ TimePeriods,
+       data = DiscardData)
+
+WeightTestTP
+```
+
+<br>
+
+### Density plot showing **Discarded Catch** weight distribution for **All Species** across **Fishing Depths**.
+
+```{r, fig.align = "center"}
+MeanFD <- DiscardData %>% 
+  group_by(FishingDepth2) %>% 
+  dplyr::summarise(MeanWeight = mean(log10(TotalWeightKG)), .groups = 'drop')
+
+ggplot(DiscardData,
+       aes(TotalWeightKG,
+           color = FishingDepth2,
+           fill = FishingDepth2)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 10)) +
+  labs(x = "Weights (Log Scale)",
+       y = "Density",
+       title = "Discard weigth distribution by Fishing Depths") +
+  scale_x_continuous(trans = "log10") +
+  geom_vline(data = MeanFD,
+             aes(xintercept = MeanWeight,
+                 color = FishingDepth2),
+             linetype = "dotted",
+             size = 0.5)
+```
+
+<br>
+
+### Analysis of the **Mean Discarded Catch** across **Fishing Depths** using the Two Sample T-test.
+
+```{r}
+WeightTestFD <- t.test(TotalWeightKG ~ FishingDepth2,
+       data = DiscardData)
+
+WeightTestFD
+```
+
+<br>
+<br>
+<br>
+
+# THIRD SUBMISSION (Joining weight and length data)
+
+<br>
+
+```{r, message = FALSE}
+LengthImport <- read_csv("observer_lengths_mas102m.csv")
+
+LengthData <- inner_join(DiscardData, LengthImport, by = c("TripID", "DragID2", "LatinNames"))
+
+# CheckData <- LengthData %>% 
+#   group_by(LatinNames, FishingDepth2) %>% 
+#   dplyr::summarise() 
+
+# NoDuplicates <- c("Anchoa spinifer", "Larimus breviceps", "Lonchurus elegans", "Shallow", "Trichiurus lepturus")
+# 
+# LengthData <- LengthData %>% 
+#   filter(!LatinNames %in% NoDuplicates) 
+```
+
+<br>
+
+## **Research Question 4** <br>                          What are the **Length Distributions** of the **Species Discarded**?
+
+<br>
+
+### **Length Distributions** of the **Species Discarded**
+
+```{r}
+Table7 <- LengthData %>% 
+  group_by(LatinNames) %>%
+  dplyr::summarise(MeanLength = round(mean(Lengths)),
+                   Abundance = n(),
+                   Max. = max(Lengths),
+                   .groups = 'drop') %>%
+  mutate(AbundancePct = round((Abundance/sum(Abundance))*100,2)) %>% 
+  arrange(desc(Abundance)) 
+
+colnames(Table7) <-c("Latin Names", "Mean Lengths (cm)", "Quantity measured (no.)", "Perc. measured (%)")
+
+Table7 %>% 
+  kbl(caption = "Table 7 showing the length distributions and abundance of the species discarded") %>%
+  kable_classic() %>% 
+  row_spec(0, bold = TRUE) %>% 
+  kable_styling(fixed_thead = T) %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"))
+```
+
+<br>
+
+### Inspection of Length Data before analysis  
+
+```{r, fig.align = "center"}
+SpeciesNamesTop6 <- head(Table7$`Latin Names`, 6)
+
+SpeciesDataTop6 <- LengthData %>% 
+  filter(LatinNames %in% SpeciesNamesTop6)  
+
+ggplot(SpeciesDataTop6,
+       aes(x = DragID2, y = Lengths)) +
+  geom_point(alpha = 0.5) +
+  theme_bw() +
+  labs(x = "Drag Identification Number",
+       y = "Lengths (cm)")
+
+```
+
+<br>
+
+### Box plot showing the **Length Distributions** of the **Six (6) most Common Species Discarded** across **Time-Periods**.
+
+```{r,  fig.width = 9, fig.align = "center"}
+SpeciesNamesTop6 <- head(Table7$`Latin Names`, 6)
+
+SpeciesDataTop6 <- LengthData %>% 
+  filter(LatinNames %in% SpeciesNamesTop6) 
+
+ggplot(SpeciesDataTop6,
+       aes(x = LatinNames,
+           y = Lengths,
+           colour = LatinNames)) +
+  geom_boxplot(alpha = 0.5) + 
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+                                        colour = "grey50"),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.title = element_blank()) +
+  scale_fill_brewer(palette = "Set3") +
+  labs(x = "Lengths (cm)",
+       y = "Density") +
+  facet_wrap(~TimePeriods, ncol = 2) 
+```
+
+<br>
+
+```{r}
+Table8 <- SpeciesDataTop6 %>% 
+  group_by(LatinNames,
+           TimePeriods) %>% 
+  dplyr::summarise(MeanLengths = round(mean(Lengths)),
+                   .groups = 'drop')
+
+Table8 %>% 
+  kbl() %>%
+  kable_classic("striped") %>% 
+  row_spec(0, bold = TRUE) %>% 
+  column_spec(1, bold = T) %>% 
+  kable_styling(fixed_thead = T) %>% 
+  kable_styling(fixed_thead = T, bootstrap_options = "condensed") 
+```
+
+<br>
+
+### Box plot showing the **Length distribution** for the **six (6)** most Common species across **Fishing Depths**. 
+
+```{r,  fig.width = 9, fig.align = "center"}
+ggplot(SpeciesDataTop6,
+       aes(x = LatinNames, 
+           y = Lengths, 
+           colour = LatinNames)) +
+  geom_boxplot(alpha = 0.5) + 
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+                                        colour = "grey50"),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.title = element_blank()) +
+  labs(x = "Latin Names",
+       y = "Lengths (cm)") +
+  facet_wrap(~FishingDepth2, ncol= 2)
+```
+
+<br>
+
+```{r}
+Table9 <- SpeciesDataTop6 %>% 
+  group_by(LatinNames,
+           FishingDepth2) %>% 
+  dplyr::summarise(MeanLengths = round(mean(Lengths)),
+                   .groups = 'drop')
+
+Table9 %>% 
+  kbl() %>%
+  kable_classic("striped") %>% 
+  row_spec(0, bold = TRUE) %>% 
+  column_spec(1, bold = T) %>% 
+  kable_styling(fixed_thead = T) %>% 
+  kable_styling(fixed_thead = T, bootstrap_options = "condensed")
+```
+
+<br>
+
+## **Research Question 4** <br>                             Are the mean species lengths equal across **Time-Periods** and **Fishing Depths**?
+
+### Density plot showing the distribution of **Discarded Catch Lengths** for **All Species** across **Time-Periods**.
+
+```{r, fig.align = "center"}
+MeanLengthTP <- LengthData %>% 
+  group_by(TimePeriods) %>% 
+  dplyr::summarise(MeanLength = mean(Lengths),
+                   .groups = 'drop')
+
+ggplot(LengthData,
+       aes(Lengths,
+           color = TimePeriods,
+           fill = TimePeriods)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 10)) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(x = "Lengths (cm)",
+       y = "Density",
+       title = "Discard length distribution by time-periods") +
+  geom_vline(data = MeanLengthTP,
+             aes(xintercept = MeanLength,
+                 color = TimePeriods),
+             linetype = "dotted",
+             size = 0.5) 
+```
+
+<br>
+
+### An analysis of the **Mean Discarded Catch Lengths** across **Time-Periods** using the Two Sample T-test.
+
+```{r}
+LengthTestTP <- t.test(Lengths ~ TimePeriods,
+       data = LengthData)
+
+LengthTestTP
+```
+
+<br>
+
+### Density plot showing the distribution of **Discarded Catch Lengths** for **All Species** across **Fishing Depths**.
+
+```{r, fig.align = "center"}
+MeanLengthFD <- LengthData %>% 
+  group_by(FishingDepth2) %>% 
+  dplyr::summarise(MeanLength = mean(Lengths),
+                   .groups = 'drop')
+
+ggplot(LengthData,
+       aes(x = Lengths,
+           color = FishingDepth2,
+           fill = FishingDepth2)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 10)) +
+  labs(x = "Lengths (cm)",
+       y = "Density",
+       title = "Discard length distribution by Fishing Depths") +
+  geom_vline(data = MeanLengthFD,
+             aes(xintercept = MeanLength,
+                 color = FishingDepth2),
+             linetype = "dotted",
+             size = 0.5)
+```
+
+<br>
+
+### Analysis of the **Mean Discarded Catch** across **Fishing Depths** using the Two Sample T-test.
+
+```{r}
+WeightTestFD <- t.test(Lengths ~ FishingDepth2,
+       data = LengthData)
+
+WeightTestFD
+```
+
+<br>
+<br>
+<br>
+
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
+
+
+
+```{r,eval=FALSE, include=FALSE}
+
+DiscardData <- DiscardData %>% 
+  filter(TotalWeightKG < 61)
+
+MeanTP <- DiscardData %>% 
+  group_by(TimePeriods) %>% 
+  dplyr::summarise(MeanCpue = mean(log10(CpueKGHR)),
+                   .groups = 'drop')
+
+
+ggplot(DiscardData,
+       aes(CpueKGHR,
+           color = TimePeriods,
+           fill = TimePeriods)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 10)) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(x = "Weights (Log Scale)",
+       y = "Density",
+       title = "Discard CPUE distribution by Fishing Depths") +
+  scale_x_continuous(trans = "log10") +
+  geom_vline(data = MeanTP,
+             aes(xintercept = MeanCpue,
+                 color = TimePeriods),
+             linetype = "dotted",
+             size = 0.5) 
+```
+
+
+
+```{r}
+CPUE_Test <- DiscardData %>%
+  group_by(LatinNames, TimePeriods) %>% 
+  arrange(LatinNames) %>% 
+  dplyr::summarise(mn_cpue = mean(CpueKGHR)) %>% 
+  ungroup() # This step is needed to remove problems with filtering https://community.rstudio.com/t/is-ungroup-recommended-after-every-group-by/5296
+
+CPUE_Test2 <- CPUE_Test %>% subset(duplicated(LatinNames) | duplicated(LatinNames, fromLast=TRUE))
+
+WeightTestTP <- t.test(mn_cpue ~ TimePeriods,
+       data = CPUE_Test2, paired = TRUE)
+
+WeightTestTP
+```
+
+
+```{r, fig.align = "center"}
+MeanFD <- DiscardData %>% 
+  group_by(FishingDepth2) %>% 
+  dplyr::summarise(MeanCpue = mean(CpueKGHR), .groups = 'drop')
+
+ggplot(DiscardData,
+       aes(CpueKGHR,
+           color = FishingDepth2,
+           fill = FishingDepth2)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 10)) +
+  labs(x = "Weights (Log Scale)",
+       y = "Density",
+       title = "Discard CPUE distribution by Fishing Depths") +
+  scale_x_continuous(trans = "log10") +
+  geom_vline(data = MeanFD,
+             aes(xintercept = MeanCpue,
+                 color = FishingDepth2),
+             linetype = "dotted",
+             size = 0.5)
+```
+
+
+```{r}
+WeightTestFD <- t.test(CpueKGHR ~ FishingDepth2,
+       data = DiscardData)
+
+WeightTestFD
+```

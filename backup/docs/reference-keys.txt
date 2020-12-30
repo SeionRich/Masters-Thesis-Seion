@@ -1,0 +1,11 @@
+fig:nice-fig
+tab:nice-tab
+prerequisites
+intro
+test-run
+literature
+methods
+applications
+example-one
+example-two
+final-words

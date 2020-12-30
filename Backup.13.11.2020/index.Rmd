@@ -1,0 +1,343 @@
+--- 
+title: "Evaluating Discards using Observer Data Guyana`s Shrimp Fishery"
+author: "Seion Richardson"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+
+---
+
+# CHAPTER
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+  cache = TRUE,
+  fig.align = "center",
+  strip.white = TRUE,
+  highlight = TRUE,
+  comment = " ",
+  warning = FALSE,
+  Message = FALSE)
+```
+
+## Key definitions  
+
+**Total catch** - the amount of fish caught by a fishing gear that reaches the vessels deck.<br> 
+**Target catch** - the main species which are sought after by a particular fishery e.g. cod or shrimp.<br> 
+**Incidental catch** - the species caught which are retained for consumption or marketing purposes.<br>
+**Discarded catch** - the section of catch returned to the sea, usually dead or alive.<br>
+**Bycatch** - Discarded catch combined with incidental catch.<br> 
+**Fishery observer** - is a specialist trained in collecting data onboard commercial fishing vessels.<br> 
+**Observer data** - data collected at-sea by fishery observers.<br> 
+**Tow** - The act of fishing or trawling.<br> 
+**CPUE** - Catch per unit effort i.e. the fish caught per unit of fishing effort e.g. kgs/hr.<br> 
+
+## Introduction 
+
+The data used in this project is on discarded fish species (Appendix 4.1) from the Atlantic seabob(Appendix 4.3) fishery in Guyana, South America (Figure 1). The data was collected at-sea by fishery observers (Figure 2) onboard seven Atlantic seabob shrimp bottom trawl vessels (Appendix 4.2) between 2019 to 2020 (see chapter 1.3 for data variables). The data was collected within the seabob trawling zone i.e. 15 to 33 metres of water depth (Figure 1). It includes sampled bottom trawl fishing tow data from eight distinct fishing trips (one vessel was used twice) with an average of six sampled hauls per trip (three day, three night) and at different fishing depths (shallow, deep). Time of day are split into day (6:00HRS to 17:59HRS) and night (18:00HRS to 5:59HRS). Fishing depths are split into deep (> 16.46 metres) and shallow (<= 16.46 metres) of water depths. Based on interactions with fisherfolks in Guyana, discarding of fish species from Guyana`s main shrimp fishery is said to be excessive. Therefore this issue will be closely examined in this project, with specific emphasis on species weights and lengths; across varying time of day and fishing depths. 
+
+All functions and function arguments in this project are followed directly by parenthesis i.e. (). So for example: filter() means **filter() function** and sum() means **sum() function**. Therefore the word "function" will not be used but is implied. To not be repetitive and to make the codes more readable: code comments will only be made the first time that the code is used. Code comments are placed after each object produced from a code chunk. Two examples of these objects are tables or figures.
+
+### Fishing Area
+
+<center>
+
+![Figure 1 Map of Guyana`s 200 nautical miles Exclusive Economic Zone (EEZ). The Yellow boundary lines represents the different maritime boundary zones. The Atlantic seabob fishing zone (i.e. 15 to 33 meter lines) is represented by the area shaded in red (Richardson, 2020).](C:\Users\UNUFTP\Documents\mas102m\GuyanaEEZ.png){width=65%}
+
+</center>
+
+### Sampling protocol used to collect data
+
+<center>
+
+![Figure 2 Data collection sampling protocol used to collect the data for this project](C:\Users\UNUFTP\Documents\mas102m\SamplingProtocol2.png){width=75%}
+
+</center>
+
+
+
+## Data manipulation
+
+**R packages used in this project**
+
+```{r Packages, message=FALSE, warning=FALSE}
+library(tidyverse) #[1]. Summarize data and make plots
+library(skimr) #[2]. Summarizes data with descriptive statistics
+library(flextable) #[3]. Creates neat tables 
+library(kableExtra) #[4]. Also creates tables 
+library(bookdown) #[5]. Use to build this html book
+```
+
+
+**Importing data**
+
+```{r Data, message=FALSE}
+# Reading in csv file with data
+ObserverData <- read_csv("observer_weights_mas102m.csv")
+
+names(ObserverData)
+dim(ObserverData)
+
+### CODE COMMENTS ###
+#[1]. Importing the observer data using read_csv() from the tidyverse package.
+#     The imported data is called "ObserverData" in this project.
+#[2]. names() from base R is used to print the names of the variables in the data. 
+#[3]. dim() is used to show the length (1217 rows) and width (32 columns) of the imported data. 
+```
+
+**Inspecting the classes of variables**
+
+```{r}
+ObserverData %>% 
+  glimpse()
+
+### CODE COMMENTS ###
+#[1]. glimpse() is used to view the classes of each variable from the data. 
+```
+
+From the output created above we can see that of the 32 variables, 17 were of class characters, 3 difftime and 12 numeric. All the data seems to fit reasonably well into the required categories i.e. character, difftime and numeric. The main exceptions were the dates variables. Normally, these would have needed to be converted before use. However, this will not be done in this project as dates are not required to answer the research questions.   
+
+**Description of data variables**
+
+The variables within the data are coded. A total of 32 variables were recorded in the data. A description for each variable is below : 
+
+1. **company**: Fishing company
+2. **dep_date**: Date the vessel departs port for fishing
+3. **arr_date**: Date the vessel returns from fishing
+4. **das**: Number of days the vessel spent at-sea       
+5. **trip**: Unique trip identification number
+6. **drag**: Unique drag identification number by 
+7. **drag_all**: Sequential drag identification number 
+8. **drag_date**: Date the drag was done
+9. **day**: Day the drag was done
+10. **month**: Month the drag was done
+11. **year**: Year the drag was done
+12. **zone**: Fishing zone (Figure 1) where the drag was done
+13. **drag_period**: Binary variable of time of day for drag
+14. **drag_time_s**: Time the drag started (24:00 hrs)
+15. **drag_time_e**: Time the drag ended (24:00 hrs)
+16. **time_fished_min**: Time fished in hours
+17. **hrs_dec**: Time fished converted to decimals 
+18. **depth**: Average fishing depth
+19. **depth_sd**: Binary variable of fishing depth
+20. **id_status**: Binary variable of species identification
+21. **com_status**: Binary variable of species economic status<br>
+22. **order**: Species taxonomy - Order
+23. **family**: Species taxonomy - Family
+24. **class**: Species taxonomy - Class
+25. **total_catch_cat**: Catch categorization (see definitions)
+26. **total_catch_spp**: Board species categorization
+27. **categories**: More narrow species categorization <br>
+28. **sci_name**: Latin names for each species
+29. **alpha_code**: Unique 3-alpha species identifier used by FAO
+30. **com_name**: Local name or "call name" for species 
+31. **sample_wt_lbs**: Species sample weight per drag (in lbs) 
+32. **total_wt_lbs**: Species total weight per drag (in lbs)
+
+*However, most of them will not be required in this project.*
+
+**Printing the first 6 rows of the data**
+
+```{r}
+HeadData <- head(ObserverData) 
+
+HeadData %>% 
+  kbl(caption = "The first six rows of data") %>%
+  kable_classic() %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped",
+      "condensed")) %>% 
+  scroll_box(width = "770px", height = "350px")
+
+### CODE COMMENTS ###
+#[1]. A peek at first 6 rows in data using head().
+#[2]. kable() is used to create a scrollable html table. This is useful for data with many variables 
+#     like this one. 
+```
+
+**Renaming of all the variables from the data**
+
+```{r Renaming variables}
+ObserverData <-  ObserverData %>% 
+  dplyr::rename(Company = company, 
+                Departure = dep_date,
+                Arrival = arr_date, 
+                DaysAtSea = das, 
+                TripID = trip, 
+                DragID = drag, 
+                DragID2 = drag_all, 
+                DragDate = drag_date,
+                Day = day,
+                Month = month,
+                Year = year,
+                Zone = zone,
+                TimePeriods = drag_period, 
+                DragStart = drag_time_s, 
+                DragEnd = drag_time_e, 
+                TimeFishedHrs = time_fished_min, 
+                TimeFishedDec = hrs_dec, 
+                FishingDepth = depth, 
+                FishingDepth2 = depth_sd, 
+                SpeciesID = id_status, 
+                EconomicStatus = com_status, 
+                OrderTax = order, 
+                FamilyTax = family, 
+                ClassTax = class, 
+                CatchCategory = total_catch_cat, 
+                SpeciesCategory = total_catch_spp, 
+                SpeciesCategory2 = categories, 
+                LatinNames = sci_name, 
+                AplhaCode = alpha_code, 
+                CommonName = com_name, 
+                SampleWeightLB = sample_wt_lbs, 
+                TotalWeightLB = total_wt_lbs)
+
+names(ObserverData)
+
+### CODE COMMENTS ###
+#[1]. rename() from the dplyr package is used to give the variables descriptive names. 
+#[2]. A quick view of the renamed variables using names() from base R.
+```
+
+**Creating a few additional variables**
+
+Three new variables are being added. These variables will change the current weight units from **Imperial** to **Metric**  (i.e. pounds to kilograms) which is more common in Europe. 
+
+```{r Adding variables}
+ObserverData <- ObserverData %>% 
+  mutate(SampleWeightKG = SampleWeightLB/2.2, 
+    TotalWeightKG = TotalWeightLB/2.2,
+    CpueKGHR = TotalWeightKG/TimeFishedDec)
+
+names(ObserverData)
+dim(ObserverData)
+
+### CODE COMMENTS ###
+#[1]. Convert from pounds to kilograms.
+#[2]. mutate() from the dplyr package is passed to the data "ObserverData" to create three new variables: 
+#     "SampleWeightKG", "TotalweightKG" and "CpueKGHR".
+#[3]. A quick view of the new variables using names() from base R.
+```
+
+The **ObserverData** data now comprises 35 variables and 1217 row observations.
+
+## Inspecting the primary research variables
+
+This research will look into discarded fish species *weights* and *lengths*. These variables will be measured across *time of day* and *fishing depths*. 
+
+### Count of species sampled across fishing trips and time of day
+
+
+```{r}
+DiscardData <- ObserverData %>%
+  filter(CatchCategory == "Discarded catch")
+
+Table.1.2 <- DiscardData %>% 
+  group_by(TripID, TimePeriods) %>%
+  dplyr::summarise(Count = n(),
+                   .groups = 'drop') %>% 
+  arrange(TripID)
+
+Table.1.2 %>%  
+  kbl(caption = "Count of species sampled across fishing trips and time of day",
+    col.names = c("Fishing trips",
+                     "Time of day",
+                     "Counts"),
+    align = "l") %>%
+  kable_classic() %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped",
+      "condensed")) %>% 
+  scroll_box(width = "770px", height = "550px")
+  
+### CODE COMMENTS ###
+#[1]. Creating a new object "DiscardData" with the discard data only which will be the main focus
+#     of this project.
+#[2]. Creating table object called "Table1". 
+#[3]. group_by() is used group the data by fishing trip and time of day (day, night).
+#[4]. summarise() is called directly from the package using the command "package name::function"
+#     due to clashes with other packages.
+#[5]. summarise() is then used to produce a summary of count observations. 
+#[6]. The ".group" argument is used to control the grouping structure of the output, in this case 
+#     it is dropped. 
+#[7]. The table is sorted by the "TripID" variable in ascending order using arrange().
+#[8]. kbl() from the kableExtra package is used as the primary formatting source for "Table.2.1" to 
+#     solve the auto format setting in a better way.
+#[9]. kable_classic() is used to set the theme. 
+#[10]. row_spec() is used to select and bold the column texts.
+#[11]. kable_styling() is used to freeze the table headers and to adjust the theme and appearance 
+#     of "Table.1.2".
+```
+
+Here we see that data is spread across eight fishing trips. For each of those trip sampling is done across time of day (day, night) i.e. 8 respectively. The number of samples collected ranged from 54 (Trip 8 - Day) to 89 (Trip 6 - Day) with the mean number sampled being 67. 
+
+### Count of species sampled across fishing trips and fishing depths
+
+```{r}
+Table.1.3 <- DiscardData %>% 
+  group_by(TripID, 
+           FishingDepth2) %>% 
+  dplyr::summarise(Count = n(),
+                   .groups = 'drop') %>% 
+   dplyr::arrange(TripID) 
+
+Table.1.3 %>% 
+  kbl(caption = "Count of species sampled across fishing trips and fishing depths",
+    col.names = c("Fishing trips",
+      "Fishing depths",
+      "Counts"),
+    align = "l") %>%
+  kable_classic() %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped",
+      "condensed")) %>% 
+  scroll_box(width = "770px", height = "450px")
+
+### CODE COMMENTS ###
+#[1]. All of the comments in this code are similar to that of "Table.1.2" except that 
+#     Fishing depth (i.e. "FishingDepth2") has replaced "TimePeriods".
+```
+
+Here we see that data is across eight fishing trips. The samples were randomly collected across Deep and Shallow water depths. The number of samples collected ranged from 41 (Trip 3 - Shallow) to 177 (Trip 6 - Shallow) with the mean number sampled being 98.
+
+**After reviewing the data we now look at the research objective, questions and hypotheses**
+
+## Objective 
+
+To determine the extent of discarding within Guyana`s Atlantic seabob shrimp fishery. This will be done using observer data to evaluate the weights and lengths of the discarded species across dissimilar time of day (day, night) and fishing depths (deep, shallow). More precisely this study will aim to answer the following questions:  
+
+### Research Questions
+
+**First Submission**
+
+1. What are the weights by the different catch categories and what proportions of the catch are discarded? 
+2. What are the species discarded, their relative sampling proportions and weights?
+
+**Second Submission**
+
+3. What are the weight distributions of the most common species (by weight) discarded across time of day and fishing depths? 
+4. Are the mean species weights equal across time of day and fishing depths?
+
+**Third Submission (Joining weights and lengths data)**
+
+5. What were the length distributions of the most common species (by lengths) discarded across time of day and fishing depths?
+6. Are the mean lengths for all species equal across time of day and fishing depths?
+
+### Hypotheses
+
+* $H_O$ **(Null hypothesis)** – Mean species weights are **equal** across time of days and fishing depths. 
+
+* $H_A$ **(Alternate hypothesis)** - Mean species weights are **not equal** across time of days and fishing depths.  
+
+* $H_O$ **(Null hypothesis)** – Mean species lengths are **equal** across time of days and fishing depths.   
+
+* $H_A$ **(Alternate hypothesis)** – Mean species lengths are **not equal** across time of days and fishing depths.
+

@@ -1,0 +1,210 @@
+# CHAPTER 
+
+## Research Question 1
+
+**What are the weights by the different catch categories and what proportions of the catch are discarded?** 
+
+*First we will look at proportions by the different catch categories*
+
+### Catch categories
+
+```{r, fig.cap = "Barplots showing a breakdown of weights by species category across fishing trips"}
+
+ggplot(data = ObserverData,
+  mapping = aes(x = as.factor(TripID),
+    y = TotalWeightKG, 
+    fill = SpeciesCategory2)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.position = "none") +
+  labs(x="Observer trips", 
+    y = "Discarded catch (kgs)") + 
+  scale_fill_brewer(palette = "Set2") +  
+  facet_wrap(. ~ SpeciesCategory2)
+
+### CODE COMMENTS ###
+#[1]. Here the Observerdata is used to get the four categories of species caught and to plot
+#     them using using four bar plots on a single window using facet_wrap().
+#[2]. The first argument to ggplot() is the data ("ObserverData"). Then the mapping = aes() where
+#     the X variable ("TripID") and the Y variable "TotalWeightKG" were supplied. 
+#[3]. The fill argument is used to colour the data by the different categories i.e. "SpeciesCategory2".
+#[4]. The arguments were passed to geom_bar().
+#[5]. The plot is formatted using theme() and the legend removed using the legend.position argument. 
+#     Because the names were provide by facet_wrap() a legend would have been redundant. 
+#[6]. X and Y axis labels were added using labs().
+#[7]. The scale_fill_brewer is used to customize the color of the bars according to the
+#     species category. The palette argument is used within the function to achieve this. 
+#[8]. facet_wrap() is used to complete the figure.
+```
+
+In total 18,608 kgs of fish were landed. Of this amount, bony fish accounted for the highest i.e. 8,804 kgs, followed by shellfish (7,240 kgs), flatfish (1,938 kgs) and others (626 kgs) (Figure 2.1). A similar trend is seen in the mean weights caught per trip for the different categories i.e. bony fish the highest 1,101 kgs/trip, followed by shell fish (905 kgs/trip), flat fish 242 kgs/trip and Others 78 kgs/trip. The minimum and maximum discard landed by category are as follows: bony fish discards ranged from 683 kgs (trip 4) to 2,410 kgs (trip 6), shell fish from 346 kgs (trip 7) to 1,885 kgs (trip 4), flat fish from 18 kgs (trip 1) to 577 kgs (trip 6) and others from 9 kgs to 257 kgs (trip 6) (Figure 2.1). 
+
+
+*Now we will look at the proportions of the catch discarded*
+
+### Proportions of the catch discarded 
+
+*This will be looked at across fishing trips*
+
+```{r, fig.width = 9, fig.align = "center", fig.cap = "Barplot showing a breakdown of weights (proportions) by catch category for the different fishing trips. The numbers at the top of each pair of bars i.e. in the grey area represents the Fishing Trip number ID"}
+
+FilteredCatch <- ObserverData %>% 
+  filter(CatchCategory == "Discarded catch" |
+      CatchCategory == "Target catch")
+
+SumFilteredCatch <- FilteredCatch %>%  
+  group_by(TripID, 
+    SpeciesCategory) %>% 
+  dplyr::summarise(WeightKG = sum(TotalWeightKG),
+    .groups = 'drop') %>%
+  group_by(TripID) %>% 
+  mutate(Percentage = round(prop.table(WeightKG)*100))
+
+ggplot(data = SumFilteredCatch,
+  mapping = aes(x = SpeciesCategory, 
+    y = Percentage, 
+    fill = SpeciesCategory)) +
+  geom_col(position = "dodge") +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"), 
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.position = "bottom") +
+  labs(x="Fishing Trips", 
+    y = "Percentages (%)") + 
+  scale_fill_brewer(palette="Set2", 
+    name = " ", 
+    labels = c("Discarded catch",
+      "Target catch")) +
+  facet_grid(~TripID)
+
+### CODE COMMENTS ###
+#[1]. Filtering the observer data by catch category.
+#[2]. Creating a summary table of weights by fishing trip and species category.
+#[3]. group_by() and summarise() are used to obtain this along with sum() to create a 
+#     variable called "WeightKG". 
+#[4]. A new variable containing percentages for the different catch categories by 
+#     fishing trips is created using the prop.table() from base R. The values were rounded and 
+#     multiplied by 100 to convert to percentage. 
+#[5]. The differences here is that geom_col() is used here in the place of geom_bar().
+#     This is used to allow "position" dodge argument which places the catch bars 
+#     side-by-side for easy comparison.
+#[6]. theme() arguments are similar to "Plot1". The only additions are that the X axis ticks 
+#     and texts were removed using the arguments: axis.ticks.x and axis.text.x, with the 
+#     function value element_blank().
+#[7]. The scale_fill_brewer is used to customize the color of  the bars according to the catch category.
+#     The palette argument is used within the function to achieve this. The names argument is used
+#     to remove the default name and replace with a blank space (" ") and the labels argument 
+#     to add labels to the plot.
+#[8]. fact_grid() is used to present the data side-by-side by fishing trips. 
+```
+
+Of the total fish weight, discarded catch accounted for 11,956 kgs (68%) and target species 5,705 kgs (32%) (Figure 2.2). Discarded catch proportions (by weight) within the total catch ranged from 37% (trip 4) to 95% (trip 6). Target catch on the other hand ranged from 5% (trip 6) to 63% (trip 4) (Figure 2.2). 
+
+### Assessment summary 
+
+The data comprised of four different catch categories: bony fish, shell fish, flat fish and others. From the analysis done bony fish accounted to the highest total weights within the data and least was recorded by the "others" category. Discarding of fish species was found to relatively high (i.e. 68%) when compared to that of the target catch (32%). With the exception of fishing trip 1 and 4, the total weights of the discarded fish species was always higher than that of the target catch.
+
+## Research Question 2
+
+**What are the species discarded, their relative sampling proportions and weights?**
+
+### Species discarded and their relative sampling proportions
+
+```{r}
+Table.2.1 <- DiscardData %>% 
+  group_by(OrderTax, 
+           FamilyTax, 
+           LatinNames) %>%
+  dplyr::summarise(n = n(), 
+                   prop = round(n/48,2),
+                   .groups = 'drop') %>% 
+  arrange(OrderTax)
+
+Table.2.1$OrderTax = ifelse(duplicated(Table.2.1$OrderTax), "",
+                         Table.2.1$OrderTax)
+Table.2.1$FamilyTax = ifelse(duplicated(Table.2.1$FamilyTax), "",
+                          Table.2.1$FamilyTax)
+
+Table.2.1 %>% 
+  kbl(caption = "Fish taxa identified from the 48 bottom trawl fishing tows sampled off the coast of Guyana. Proportions = species presence in proportion within the total samples.",
+    col.names = c("Orders", 
+      "Families", 
+      "Scientific names", 
+      "Counts",
+      "Proportion"),
+    align = "l") %>%
+  kable_classic() %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped",
+      "condensed")) %>% 
+  scroll_box(width = "770px", height = "500px")
+
+### CODE COMMENTS ###
+#[1]. group_by() is used create a species Taxonomy table containing the Order, 
+#     Family and Latin/Scientific names. 
+#[2]. A new variable "Proportion" which calculated species proportion based on abundance/count within 
+#     the data is created using summarise().
+#[3]. The table is arranged by Order. 
+#[4]. ifelse() and duplicated() from base R is used to remove duplicated Order 
+#     and family names from "Table.2.1". This will make the table look less clustered and
+#     more easily readable. 
+#[5]. All comments here are similar to "Table.1.2"    
+
+```
+
+In total, 61 fish taxa (i.e. excluding *Scyphozoa sp.* and 	*Un id*) were identified (Table 2.1), belonging to 39 families in 21 orders, with Perciformes (22 species) being the dominant order. Samples contained between 11 and 31 fish species, with an average of 21 ± 4 species per sample. Four species; *Callinectes ornatus*, *Macrodon ancylodon*, *Stellifer microps* and *Stellifer rastrifer* were the only species present in more than 95% (45) of the bottom trawl hauls. Otherwise, 20 species were present in more than 50% of the bottom trawl tows. 
+
+### Relative weights of discarded fish species
+
+```{r, fig.height = 10, fig.cap = "Boxplot showing a breakdown of total weight distribution by species. Ranking is done from the highest (top of plot) to the lowest (bottom of plot). Six values above 100 kgs were removed to allow for better visulisation of trends in the species weight distributions."}
+
+SpeciesWeights <- DiscardData %>% 
+  group_by(LatinNames) %>%
+  filter(n() >= 5) %>% 
+  filter(TotalWeightKG < 125)
+
+
+ggplot(data = SpeciesWeights,
+  mapping = aes(x = reorder(LatinNames,
+    TotalWeightKG,
+    FUN = median),
+    y = TotalWeightKG)) +
+  geom_boxplot() +
+  coord_flip()  +
+  labs(x = "Latin Names",
+    y ="Weight (kgs)") +
+  theme(panel.background = element_rect(colour = "White"),
+    legend.position = "none") +
+  theme_bw()
+
+### CODE COMMENTS ###
+#[1]. First the main data "DiscardData" is filtered to remove species that occurred less than 
+#     five time in sample. This is done using group_by() and filter() from the dplyr package.
+#     This is done to get meaning summary statistics e.g. median and range. 
+#     The new data is named "SpeciesWeights".   
+# [2]. The first argument to ggplot() is the data ("SpeciesWeights"). 
+#     Then the mapping = aes() where the X variable ("LatinNames") and the Y variable "TotalWeightKG"
+#     were supplied. reorder() is used to sort the species from the highest(top of plot) 
+#     to the lowest (bottom of plot) median values.   
+#[3]. The arguments were passed to geom_boxplot().
+#[4]. coord_flip() is used to switch the axis to allow for a better presentation of 
+#     the data. This is due to the excess species. 
+#[5]. X and Y axis labels were added using labs().
+#[6]. The plot is formatted using theme() and the legend removed using the legend.position argument.
+
+```
+
+The data presented in this paragraph and the figure above is filtered to remove those species which occurred less than 5 times in the sample (Figure 2.3). The top five species by median weight landed were: *Polymixia lowei* (18 kgs), followed by *Stellifer rastrifer*, *Stellifer microps*, *Macrodon ancylodon* and *Larimus breviceps* all with 14 kgs, respectively.  The weight range for these species are as follows: *Polymixia lowei* (7 to 21 kgs), *Stellifer rastrifer* (1 to 164 kgs), *Stellifer microps* (1 to 133 kgs), *Macrodon ancylodon* (1 to 74 kgs) and *Larimus breviceps* (1 to 61 kgs). The five species with the lowest median weights were: *Mustelus higmani* (1 kg), followed by *Sphoeroides testudineus*, *Persephona lichtensteinii*, *Chaetodipterus faber* and *Hepatus gronovii* all with 2 kgs.  The weight range for these species are as follows: *Mustelus higmani* (0.2 to 33 kgs), followed by *Sphoeroides testudineus* (0.1 to 26 kgs), *Persephona lichtensteinii* (0.005 to 14 kgs), *Chaetodipterus faber* (0.01 to 21 kgs) and *Hepatus gronovii* (0.3 to 14 kgs) (Figure 2.3).
+
+### Assessment summary
+From the analysis it was found that 61 different species (i.e. those positively identified) were discarded (Table 2.1). Of this amount four of them: *Callinectes ornatus*, *Macrodon ancylodon*, *Stellifer microps* and *Stellifer rastrifer* were in at least 45 of the 48 total bottom trawl tows. The latter three fish species, along with *Polymixia lowei* and *Larimus breviceps* were the most dominant species discarded by median weights. 
+
+
+
+
+

@@ -1,0 +1,525 @@
+# CHAPTER
+
+## Research Question 3
+
+**What are the weight distributions of the most common fish species discarded across time of day and fishing depths?**
+
+### Weight distributions of the thirty (30) most common fish species (by weight) discarded.
+
+**Data Subsetting**
+
+```{r}
+# Data Subsetting
+Discard.data <- ObserverData %>%
+  filter(CatchCategory == "Discarded catch")
+
+# Viewing all fish species
+unique(Discard.data$LatinNames)
+
+### CODE COMMENTS ###
+#[1]. Creating a new object named "Discard.data". This object will contain discarded fish species
+#     only; which is the main focus of this project.
+#[2]. unique() is used to print the names of all discard fish species from the data. 
+```
+
+With the exception of **Un id** which is short for unidentified fish species, a total of 61 different fish species are contained in the discard data. Initially the analysis in this submission will zero in on the more common fish species (by weight) to answer **Research Question 3** whereas ALL fish species from the data will be utilized in answering **Research Question 4**.  
+
+**Creating table with the 30 most common fish species discarded**
+
+```{r}
+# Creating Raw Table
+Table.3.1 <- Discard.data %>% 
+  group_by(LatinNames) %>%
+  dplyr::summarise(Weight.kg = round(sum(TotalWeightKG),2),
+    .groups = "drop") %>% 
+  dplyr::mutate(Weight.pct = round(Weight.kg/10055.16*100,2)) %>% 
+  # 10055.16 was calculated manually using formula sum(Table.3.1$Weight.kg).
+  arrange(desc(Weight.kg)) %>% 
+  head(31) %>% 
+  filter(!LatinNames == "Un id")
+
+# Formatting Table.3.1
+Table.3.1 %>%
+  kbl(caption = "The top 30 fish species by total weights (kgs) caught.") %>%
+  kable_classic() %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling(fixed_thead = T,
+    bootstrap_options = c("striped",
+      "condensed")) %>% 
+  scroll_box(width = "770px",
+    height = "500px")
+
+### CODE COMMENTS ###
+#[1]. The name of the table object is Table.3.1 
+#[2]. group_by() is used to group the data by Latin Names.
+#[3]. summarise() is called directly from the dplyr package using the command "package name::function" 
+#     due to clashes with other loaded R packages.
+#[3.1]. summarise() is then used to create a new variable called "Weight.kg". "Weight.kg" 
+#       contains the summed weights for each discarded fish species. 
+#[3.2]. The ".group" argument is used to control the grouping structure of the output, which 
+#       in this case it was dropped. 
+#[4]. mutate() from the dplyr package is used to create a variable: "Weight.pct" i.e. Short for 
+#     weight percentage. 
+#[4.1]. Strangely I was not getting percentage to add up to 100% when I used the formula 
+#       (Weight.kg/sum(Weight.kg)*100), so instead I did it manually.
+#[4.2]. "Weight.pct" was rounded to 2 decimal places using round(). 
+#[5]. The table is sorted by the "Weight" variable in descending order using arrange(desc()). 
+#[6]. head() is used to select the first 31 rows/fish species.
+#[7]. filter() is used to remove "Un id" which  refers to multiple fish species that were unidentified 
+#     and not a single fish species.
+#[8]. kbl() from the kableExtra package is used as the primary formatting source for "Table.3.1" to 
+#     solve the auto format setting in a better way.
+#[9]. kable_classic() is used to set the theme. 
+#[10]. row_spec() is used to select and bold the column texts.
+#[11]. kable_styling() is used to freeze the table headers and to adjust the theme and appearance of "Table.3.1".
+```
+
+The total weight of the 30 fish species examined in Table 3.1 was 10,055 kgs. From the table we see that three fish species only: *Stellifer rastrifer*(17.25 %), *Stellifer microps*(14.33 %) and *Macrodon ancylodon* (12.20) were responsible for (43.78 %) of total weight. These fish species individually accounted for more than 10% of the weights. This is quite substantial consider that they collectively were just 10 % of all the fish species examined. Some of the other more common fish species by weight discarded were *Cynoscion virescens*(6.34 %), *Trichiurus lepturus*(4.67 %), *Nebris microps*(4.08 %), *Lonchurus elegans*(4.07 %), *Bagre bagre*(3.74 %), *Dasyatis geijskesi*(3.62 %) and *Symphurus plagusia*(3.55 %). 
+
+
+### Subsetting the top 6 most common fish species by weight 
+
+**Inspection of the data before analysis** 
+
+```{r, fig.align = "center", fig.cap = "Scatter plot of discarded fish species weights against bottom trawl fishing tows. A total of 48 bottom trawl fishing tows were made. Most of the weight observations are below 125 kgs" }
+# Creating a vector 
+Top.6.fish.names <- head(Table.3.1$LatinNames, 6) 
+
+# Filtering data
+Top.6.fish.data <- DiscardData %>% 
+  filter(LatinNames %in% Top.6.fish.names) 
+
+# Plotting data
+ggplot(data = Top.6.fish.data,
+  mapping = aes(x = DragID2,
+    y = TotalWeightKG)) +
+  geom_point(alpha = 0.5) +
+  theme_bw() +
+  labs(x = "Bottom trawl fishing tows",
+    y = "Weight (kgs)")
+
+### CODE COMMENTS ###
+#[1]. The vector "Top.6.fish.names" is created using head(). The fish species names were 
+#     extracted from the "Table.3.1" object. 
+#[2]. The "DiscardData" data is subsetted to remove the observations for the top 6 fish species. 
+#     The new object is called "Top.6.fish.data". This is done using filter().
+#[3]. The first argument to ggplot() is the new data "Top.6.fish.data". 
+#[3.1]. The x-variable "DragID2" and the y-variable "TotalWeightKG" are supplied to mapping = aes().   
+#[4]. The arguments are passed to geom_point(). Transparency of the points were set at "0.5" using alpha().
+#     This makes the over-plotted points more visible. geom_jitter() was another option but the points 
+#     in this case was not many.     
+#[5]. The plot theme is set with theme_bw(). 
+#[6]. The x and y labels are added using labs().
+```
+
+After seeing the top 30 fish species by weight in *Table 3.1* we will now zoom in on the top 6 fish species. Before any analysis it is important to inspect the data visually. From the scatter plot (Figure 3.1), we see that for the 48 bottom trawl fishing tows conducted, the weights ranged  between 0.018 kgs to 219.586 kgs. Despite this range most of the points were below 125 kgs. This means that a few data points were *abnormally high*. These points are highlighted below and will subsequently be removed from the analysis, as they were probably mistakes. This decision was guided by my knowledge about the data.   
+
+**Visualizing outliers** 
+
+```{r, fig.align = "center", fig.cap = "Scatter plot of discarded fish species weights against bottom trawl fishing tows. The oservations above 125 kgs removed - possible outliers. Points on the plot represent discarded fish species"}
+# Subsetting data with outliers
+Outliers <- Top.6.fish.data %>% 
+  filter(TotalWeightKG > 125) 
+
+# Plotting data
+ggplot(data = Top.6.fish.data) +
+  geom_point(aes(x = DragID2,
+    y = TotalWeightKG), 
+    alpha = 0.5) +
+  geom_point(data = Outliers,
+    aes(x = DragID2,
+      y = TotalWeightKG,
+      color = LatinNames), 
+    size = 3) +
+  theme_bw() +
+  theme(legend.position = "bottom",
+    legend.title = element_blank()) +
+  guides(color = guide_legend(title = "Latin Names")) +
+  labs(x = "Bottom trawl fishing tows",
+    y = "Weight (kgs)")
+
+### CODE COMMENTS ###
+#[1]. The "Top.6.fish.data" data is subsetted to remove the outlier observations. The new object 
+#     is called "Outliers". This is done using filter(). 
+#[2]. The comments for the code used to produce Figure 3.2 is similar to that for Figure 3.1, 
+#     except for the following:
+#[2.1]. geom_point() was used twice with the two different data. The second data "Outliers" was used with 
+#       size() and color() arguments to make the outliers visible.
+#[2.2]. legend.position() argument was used in theme() to show the legend to the bottom.
+#[2.3]. The name of the legend was specified using guides(). 
+```
+
+From Figure 3.2 we see that there were three abnormally high data points. These were for discarded fish species *Stellifer microps*(pink), *Stellifer rastrifer*(green) and *Trichiurus lepturus*(blue). As mentioned before these points are strangely high and therefore are perceived to be incorrectly entered and thus will be omitted from the analysis. 
+
+### Assessment of fish species against time of day
+
+#### Weight distributions for the Six (6) most common fish species (by weights) discarded across time of day.
+
+```{r,  fig.width = 8, fig.height = 5.5, fig.align = "center", fig.cap = "Boxplot of discarded fish species weights by time of day. Colours are used to represent the different fish species"}
+# Removing the outliers
+Top.6.fish.data <- Top.6.fish.data %>% 
+  filter(TotalWeightKG < 125)
+
+# Plotting data
+ggplot(Top.6.fish.data,
+  aes(x = LatinNames, 
+    y = TotalWeightKG, 
+    colour = LatinNames)) +
+  geom_boxplot(alpha = 0.5) +
+  stat_boxplot(geom = 'errorbar', width = 0.2) +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.title = element_blank(),
+    legend.position = "bottom") +
+  labs(x = "Latin Names",
+    y = "Weight (kgs)") +
+  facet_wrap(~TimePeriods,
+    ncol = 2)
+
+### CODE COMMENTS ###
+#[1]. The "Top.6.fish.data" data is subsetted to remove the three outlier values. The name is 
+#     maintained for the new object. This is done using filter().
+#[2]. The first argument to ggplot() is the data "Top.6.fish.data". 
+#[2.1]. The x-variable "LatinNames" and the y-variable "TotalWeightKG" are supplied to mapping = aes(). 
+#[2.1.1] The fish species are colored using color() within mapping = aes().     
+#[3]. Box plots are created using geom_boxplot.
+#[4]. stat_boxplot() is used to format the error bars at the minimum and maximum points on the whisker. 
+#[5]. theme() in this instance was also used to remove the axis tick marks to make the graph look less clustered. 
+#[6]. The data was grouped using facet_wrap() with 2 columns (i.e. ncol = 2).   
+```
+
+**Creating a table with the top 6 fish species across time-periods**
+
+```{r}
+# Creating table
+Table.3.2 <- Top.6.fish.data %>% 
+  group_by(LatinNames,
+    TimePeriods) %>% 
+  dplyr::summarise(SumWeights = round(sum(TotalWeightKG)),
+    MedianWeights = round(median(TotalWeightKG)),
+    .groups = 'drop')
+
+# Printing table
+Table.3.2 %>% 
+  kbl(caption = "The top 6 fish species by total weights (kgs) caught across time of day") %>%
+  kable_classic("striped") %>% 
+  row_spec(0, bold = TRUE) %>% 
+  column_spec(1, bold = T) %>% 
+  kable_styling(fixed_thead = T,
+    bootstrap_options = "condensed") 
+
+### CODE COMMENTS ###
+#[1]. To see a description of the functions used in this code and how they work please refer 
+#     to the code comments made at Table.3.1
+```
+
+Of the total discard fish species weights (5,403 kgs) for the top 6 fish species, 52% (2,835 kgs) were recorded for the day and 48% (2,568 kgs) from the night (Table 3.2). This means that the cumulative fish species weights were marginally higher in the day when compared to the night. Further, we see that the total weights by fish species in the day ranged from 170 kgs(*Nebris microps*) to 765 kgs(*Stellifer rastrifer*). Whereas the total weights in the night ranged from 54 kgs (*Trichiurus lepturus*) to 806 kgs (*Stellifer rastrifer*). From Figure 3.3 and Table 3.2 we see that *Trichiurus lepturus* had the lowest median weights across time of day i.e. 4 kgs (day) and 1 kg (night) for the top 6 fish species examined. While *Stellifer rastrifer* recorded the highest median weights for both the day (37 kgs) and night (30 kgs). Therefore, we can conclude that *Stellifer rastrifer* was the most dominant discarded fish species across time of day with the highest individual total weight and median, while *Nebris microps* and  *Trichiurus lepturus* were the least dominant discarded fish species i.e. recording the lowest total weight and median, respectively, across time of day.  
+
+### Assessment of fish species against fishing depths
+
+#### Box plot showing the weight distribution for the six (6) most common fish species (by weight) discarded across fishing depths. 
+
+```{r,  fig.width = 8, fig.height = 5.5, fig.align = "center", fig.cap = "Boxplot of discarded fish species weights by fishing depths. Colours are used to represent the different fish species"}
+ggplot(Top.6.fish.data,
+  aes(x = LatinNames, 
+    y = TotalWeightKG, 
+    colour = LatinNames)) +
+  geom_boxplot(alpha = 0.5) + 
+  stat_boxplot(geom = 'errorbar', width = 0.2) +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.title = element_blank(),
+    legend.position = "bottom")  +
+  labs(x = "Fish Species",
+    y = "Weights (kgs)") +
+  facet_wrap(.~FishingDepth2) 
+
+### CODE COMMENTS ###
+#[1]. To see a description of what the functions in this code are doing please refer to the 
+#     code comments made at Figure 3.3. The only exception being that time-period is replaced by fishing depths.  
+```
+
+**Creating a table of the top 6 fish species across fishing depths**
+
+```{r}
+Table.3.3 <- Top.6.fish.data %>% 
+  group_by(LatinNames,
+    FishingDepth2) %>% 
+  dplyr::summarise(SumWeights = round(sum(TotalWeightKG)),
+    MedianWeights = round(median(TotalWeightKG)), 
+    .groups = 'drop')
+
+Table.3.3 %>% 
+  kbl(caption = "The top 6 fish species by total weights (kgs) caught across fishing depths") %>%
+  kable_classic("striped") %>% 
+  row_spec(0, bold = TRUE) %>% 
+  column_spec(1, bold = T) %>% 
+  kable_styling(fixed_thead = T, bootstrap_options = "condensed")
+
+### CODE COMMENTS ###
+#[1]. To see a description of the functions used in this code and how they work please refer 
+#     to the code comments made at Table.3.1
+```
+
+Of the total discard fish species weights (5,403 kgs) for the top 6 fish species, 48% (2,574 kgs) were recorded for the deep and 52% (2,829 kgs) from the shallow (Table 3.3). This means that the cumulative fish species weights were marginally higher in the shallow when compared to the deep. Further, we see that the total weights by fish species in the deep ranged from 91 kgs(*Trichiurus lepturus*) to 689 kgs(*Stellifer rastrifer*). Whereas the total weights in the shallow ranged from 159 kgs (*Trichiurus lepturus*) to 882 kgs (*Stellifer rastrifer*). From Figure 3.4 and Table 3.3 we see that *Trichiurus lepturus* had the lowest median weights across fishing depths i.e. 2 kgs (deep) and 4 kgs (shallow) for the top 6 fish species examined. While *Stellifer rastrifer* recorded the highest median weights for both the deep (30 kgs) and shallow (34 kgs). Therefore, we can conclude that *Stellifer rastrifer* was the most dominant discarded fish species across fishing depths with the highest total wight and median, while *Trichiurus lepturus* was the least dominant discarded fish species i.e. recording the lowest total weight and median across fishing depths.  
+
+### Assessment summary
+
+In summary, of the **top 6 species examined** across time of day and fishing depths we found that *Stellifer rastrifer* was always the main discarded species whereas *Trichiurus lepturus* was     often the least discarded species amongst the top six species looked at. 
+
+
+## Research Question 4
+
+**Are the mean weights for the discarded fish species (ALL) equal across time of day and fishing depths?**
+
+To answer this research question we will now look at the discard data for all fish species. This will help us to get an idea of how weights are distributed for the entire population and not just a subsample of the data which we used to answer *Research Question 3*.
+
+**The following hypothesis will be tested**
+
+* $H_O$ **(Null hypothesis)** – Mean species weights are *equal* across time-periods and fishing depths. 
+
+* $H_A$ **(Alternate hypothesis)** - Mean species weights are *not equal* across time-periods and fishing depths.
+
+**Again inspection of the data precedes the analysis** 
+
+```{r, fig.align = "center", fig.cap = "Scatter plot of discarded fish species weights against bottom trawl fishing tows. A total of 48 bottom trawl fishing tows were made. Most of the weight observations are below 125 kgs"}
+
+# Plotting data
+ggplot(data = Discard.data,
+  mapping = aes(x = DragID2,
+    y = TotalWeightKG)) +
+  geom_point(alpha = 0.5) +
+  theme_bw() +
+  labs(x = "Bottom trawl tows",
+    y = "Weight (kgs)")
+
+### CODE COMMENTS ###
+#[1]. Please see the code comments made at Figure 3.1. 
+```
+
+Prior to any analysis it is important to inspect the data visually. From the scatter plot (Figure 3.5), we see that for the 48 bottom trawl fishing tows conducted, the weights ranged  between 0.0005 kgs to 219.586 kgs. Despite this range most of the points were below 125 kgs. This means that a few data points were *abnormally high*. These points are highlighted below and will subsequently be removed from the analysis, as they were probably mistakes. Again, this decision was guided by my knowledge about the data.   
+
+**Visualizing outliers** 
+
+```{r, fig.align = "center", fig.cap = "Scatter plot of discarded fish species weights against bottom trawl fishing tows. The oservations above 125 kgs removed - possible outliers"}
+# Subsetting data with outliers
+Outliers.2 <- Discard.data %>% 
+  filter(TotalWeightKG > 125) 
+
+# Plotting data
+ggplot(data = Discard.data) +
+  geom_point(aes(x = DragID2,
+    y = TotalWeightKG), 
+    alpha = 0.5) +
+  geom_point(data = Outliers.2,
+    aes(x = DragID2,
+      y = TotalWeightKG,
+      color = LatinNames), 
+    size = 3) +
+  theme_bw() +
+  theme(legend.position = "bottom",
+    legend.title = element_blank()) +
+  guides(color = guide_legend(title = "Latin Names", nrow = 2)) +
+  labs(x = "Bottom trawl fishing tows",
+    y = "Weight (kgs)")
+
+### CODE COMMENTS ###
+#[1]. Please see the code comments made at Figure 3.2.  
+```
+
+From Figure 3.6 we see that the they were five abnormally high data points. These were for discarded fish species *Dasyatis geijskesi*(peach), *Stellifer rastrifer*(bright green), *Trichiurus lepturus*(purple), *Stellifer microps*(dull green) and *Symphurus plagusia*(blue). As mentioned before these points are strangely high and therefore are perceived to be incorrectly entered and thus will be omitted from the analysis. 
+
+### Discard weight distribution for all fish species, across time of day and fishing depths.
+
+#### Time of day
+
+```{r, fig.align = "center", fig.cap = "Density plot of discarded fish species weight-distribution by time of day. Colours used to represent the different time of day"}
+# Removing the outliers
+Discard.data <- Discard.data %>% 
+  filter(TotalWeightKG < 125)
+
+# Summary table - time of day
+Mean.TP.1 <- Discard.data %>% 
+  group_by(TimePeriods) %>% 
+  dplyr::summarise(MeanWeight = mean(TotalWeightKG), .groups = 'drop')
+
+# Initial plot - time of day
+ggplot(Discard.data,
+  aes(TotalWeightKG,
+    color = TimePeriods,
+    fill = TimePeriods)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(legend.position = "bottom") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(x = "Weights (kgs)",
+    y = "Density") +
+  geom_vline(data = Mean.TP.1,
+    aes(xintercept = MeanWeight,
+      color = TimePeriods),
+    linetype = "dotted",
+    size = 0.5) 
+```
+
+
+```{r, fig.align = "center", fig.cap = "Density plot of discarded fish species weight-distribution by time of day. Colours used to represent the different time of day"}
+# Summary table with log transformed weights - time of day
+Mean.TP.2 <- Discard.data %>% 
+  group_by(TimePeriods) %>% 
+  dplyr::summarise(MeanWeight = mean(log10(TotalWeightKG)), .groups = 'drop') 
+
+# Plotting data on log scale - time of day
+ggplot(Discard.data,
+  aes(TotalWeightKG,
+    color = TimePeriods,
+    fill = TimePeriods)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(legend.position = "bottom") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(x = "Weights (Log Scale)",
+    y = "Density") +
+  scale_x_continuous(trans = "log10") +
+  geom_vline(data = Mean.TP.2,
+    aes(xintercept = MeanWeight,
+      color = TimePeriods),
+    linetype = "dotted",
+    size = 0.5) 
+
+### CODE COMMENTS ###
+#[1]. The code comments made in the earlier Tables and Figures mostly apply here too except that: 
+#[2]. log10() is used to transform the weight data to a log scale in the "Mean.TP.2" object. 
+#     This was done to create the vertical line (using geom_vline()) of the group 
+#     means in Figure 3.6. 
+#[3]. fill() is passed to mapping = aes() to group and color the data by time of day. 
+#[4]. scale_x_continuous() is used with the "trans" argument to log transform the data to the base 10. 
+#[5]. geom_vline() is used to add vertical lines showing the "mean weights" by time of day on the 
+#     density plots. These are highlighted by the arguments color, linetype and size.  
+#[6]. Otherwise, please see code comments made at "Table.3.1", "Figure 3.3" and the other
+#     Tables and Figures in this submission.
+```
+
+From the density plot shown in Figure 3.7 we can see that the data is skewed to the right. The reason for this is that the data is recorded by fish species observations and usually the very small fish species are discarded. The weights for all fish species ranged from 0.005 kgs to 100 kgs in the day and 0.005 kgs to 108 kgs in the night. The mean weight for all fish species was higher in the day (9.37 kgs) in comparison to the night (8.53 kgs). To better see these distributions the data was log transformed and presented in Figure 3.8. From this plot we can see the weight distribution clearer, hence log transforming the data worked reasonably fine.
+
+#### Fishing depths
+
+```{r, fig.align = "center", fig.cap = "Density plot of discarded fish species weight-distribution by fishing depths. Colours used to represent the different fishing depths"}
+# Summary table - fishing depths
+Mean.FD.1 <- Discard.data %>% 
+  group_by(FishingDepth2) %>% 
+  dplyr::summarise(MeanWeight = mean(TotalWeightKG),
+    .groups = 'drop')
+
+# Initial plot - fishing depths
+ggplot(Discard.data,
+  aes(TotalWeightKG,
+    color = FishingDepth2,
+    fill = FishingDepth2)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(axis.text = element_text(size = 10),
+    axis.title = element_text(size = 10),
+    legend.position = "bottom") +
+  labs(x = "Weights (Log Scale)",
+    y = "Density") +
+  geom_vline(data = Mean.FD.1,
+    aes(xintercept = MeanWeight,
+      color = FishingDepth2),
+    linetype = "dotted",
+    size = 0.5)
+```
+
+
+```{r, fig.align = "center", fig.cap = "Density plot of discarded fish species weight-distribution by fishing depths. Colours used to represent the different fishing depths"}
+# Summary table with log transformed weights - fishing depths
+Mean.FD.2 <- Discard.data %>% 
+  group_by(FishingDepth2) %>% 
+  dplyr::summarise(MeanWeight = mean(log10(TotalWeightKG)), .groups = 'drop')
+
+# Table with log transformed weights - fishing depths
+ggplot(Discard.data,
+  aes(TotalWeightKG,
+    color = FishingDepth2,
+    fill = FishingDepth2)) +
+  geom_density(alpha = 0.1) + 
+  theme_bw() +
+  theme(axis.text = element_text(size = 10),
+    axis.title = element_text(size = 10),
+    legend.position = "bottom") +
+  labs(x = "Weights (Log Scale)",
+    y = "Density") +
+  scale_x_continuous(trans = "log10") +
+  geom_vline(data = Mean.FD.2,
+    aes(xintercept = MeanWeight,
+      color = FishingDepth2),
+    linetype = "dotted",
+    size = 0.5)
+
+### CODE COMMENTS ###
+#[1]. To see a description of what the functions in these code are doing please refer to 
+#     the code comments made at Figures 3.7 and 3.8 and in the Mean.TP.1 and Mean.TP.2 tables.
+#     The only exception is that "TimePeriods" i.e. time of day, is replaced with 
+#     "FishingDepth2" i.e. fishing depths. 
+```
+
+From the density plot shown in Figure 3.9 we can see that the data is again skewed to the right. The reason for this is the same i.e. that the data is recorded by fish species observations and usually the very small fish species are discarded. The weights for all fish species ranged from 0.005 kgs to 87 kgs in the deep and 0.005 kgs to 108 kgs in the shallow. The mean weight for all fish species was higher in the deep (9.16 kgs) in comparison to the shallow (8.80 kgs). To better see these distributions the data was log transformed and presented in Figure 3.10. From this plot we can see the weight distribution clearer, hence log transforming the data worked reasonably fine.
+
+### Analysis of the mean discarded catch across time-Periods and fishing depths using the **Welch Two Sample t-test**.
+
+**Test assumptions**
+
+This test assumes that the the weight observations across time of day (day/night) and fishing depths (deep/shallow) are normally distributed. Fortunately as well, this method is not at all sensitive to deviations from this assumption. Therefore, if the distributions of day/night or deep/shallow are the same e.g. if both distributions are skewed to the right. This example is the case with this data as seen earlier. This means that the analysis will be performed on the actual weights variable and no transformation is needed. **This assumption was tested in this project and the results indeed were almost identical**
+
+**How the Welch Two Sample t-test works**
+
+The test statistic, $t_s$, is computed using a method that has the difference between the means in the numerator. This therefore makes the $t_s$ larger as the means move away from each other. The standard error of the difference in the means in this case is denominator. This value decreases as the sample variances decreases or if the size of sample increase. Hence the $t_s$ gets larger as the means move further apart, the variances get smaller, or if the size of the sample increase. The probability of getting the observed $t_s$ value under the **null hypothesis** is computed using the t-distribution.<br><br>
+
+
+**Conducting the t-tests**
+
+#### Time of day
+
+```{r}
+# Welch t.test - time of day
+Weight.ttest.TP <- t.test(TotalWeightKG ~ TimePeriods,
+  data = Discard.data)
+
+Weight.ttest.TP
+
+### CODE COMMENTS ###
+#[1]. The "DiscardData" is passed to t.test(). 
+#[2]. t.test() is used to analyze the "TotalWeightKG" variable against time-periods. 
+```
+
+The p-value associated with the test is $0.37$, so we cannot reject the null hypothesis ($H_0$) of no difference between the (true) means of the two groups (i.e. time of day; day and night) since the p-value is greater than the usual significance level $alpha = 0.05$. Therefore we conclude based on this data, that there is not enough evidence of a difference between the (true) means of the two groups at the usual significance level of $alpha = 0.05$. 
+
+#### Fishing depths
+
+```{r}
+# Welch t.test - fishing depths
+Weight.ttest.FD <- t.test(TotalWeightKG ~ FishingDepth2,
+  data = Discard.data)
+
+Weight.ttest.FD
+
+### CODE COMMENTS ###
+#[1]. To see a description of what the functions in this code are doing please refer to
+#     the code comments at Weight.ttest.TP. The only exception is "FishingDepth2" 
+#     have replaced "TimePeriods". 
+```
+
+The p-value associated with the test is $0.70$, so we cannot reject the null hypothesis ($H_0$) of no difference between the (true) means of the two groups (i.e. fishing depths; deep and shallow) since the p-value is greater than the usual significance level $alpha = 0.05$. Therefore we conclude dased on this data, that there is not enough evidence of a difference between the (true) means of the two groups at the usual significance level of $alpha = 0.05$.
+
+### Analysis summary
+
+In summary, from the analysis of the discarded species (ALL) from the data, we found that there is not enough evidence to reject the null hypothesis ($H_0$) which is that *the means are equal across time of day and fishing depths*. This was proven by the high p-values ($> 0.05$) obtained from the Welch Two Sample t-tests conducted on the discard species data across time of day and fishing depths. 
+
+## Closing remarks 
+
+Chapter 3 was focused on the **weight analysis** of discarded fish species. In Chapter 4, the focus will shift to the **length analysis** of discarded fish species. To achieve this a separate dataset will be **joined** to the data which was used in this Chapter. This will be required to answer **Research Questions 5 & 6**. For more details please see **Chapter 1** - sub-chapter 1.5.  

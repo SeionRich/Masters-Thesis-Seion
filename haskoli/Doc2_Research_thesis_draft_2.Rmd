@@ -1,0 +1,546 @@
+---
+title: "An evaluation of discarded bycatch data collected by at-sea observers (draft #1). - Doc2"
+author: "Seion Richardson"
+date: "`r format(Sys.time(), '%B %d, %Y')`" 
+output: 
+  word_document: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 2
+    reference_docx: template.docx
+    fig_width: 7
+    fig_height: 5
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, fig.height = 4, fig.width = 6, results='asis', warning = FALSE, cache = FALSE)
+
+```
+
+
+```{r packages, message=FALSE}
+
+library(tidyverse)
+library(knitr)
+library(RColorBrewer) # display.brewer.all()...to see colors
+# library(plyr)
+library(captioner)
+library(flextable)
+library(officer)
+# library(skimr)
+library(vegan)
+library(plotrix)
+library(broom)
+library(purrr)
+```
+
+```{r functions}
+source("functionfile.R")
+source("Fun2.R")
+```
+
+```{r Data, message=FALSE}
+
+obs_wt <- read_csv("observer_weights.csv") 
+obs_tp <- read_csv("observer_trips.csv")
+obs_fy <- read_csv("observer_fishery.csv")
+obs_lt <- read_csv("observer_lengths.csv")
+obs_wt_db <- obs_wt %>% 
+     filter(groups == "Discarded bycatch") %>% filter(!class == "Unknown") 
+obs_wt_db <- obs_wt_db %>% mutate(total_wt_kg = round(total_wt_lbs/2.2, 2), cpue = round(total_wt_kg/hrs_dec, 2)) 
+
+obs_wt_rb <- obs_wt %>% 
+     filter(groups == "Retained bycatch") 
+obs_wt_tc <- obs_wt %>% 
+     filter(groups == "Target catch") 
+
+lengths <- dplyr::inner_join(obs_wt, obs_lt, by=c("drag_all", "sci_name"))
+
+species_curve_t <- read_csv("species_accum_trip.csv")
+species_curve_h <- read_csv("species_accum_haul.csv")
+
+time_catch <- read_csv("time_period_catch.csv")
+time_cpue <- read_csv("time_period_cpue.csv")
+depth_catch <- read_csv("depth_catch.csv")
+depth_cpue <- read_csv("depth_cpue.csv")
+
+time_catch_2 <- time_catch %>% gather(day, night, key = "time_period", value = "catch") %>% select(-"difference")
+
+time_cpue_2 <- time_cpue %>% gather(day, night, key = "time_period", value = "cpue") %>% select(-"difference")
+
+depth_catch_2 <-depth_catch %>% gather(shallow, deep, key = "fishing_depth", value = "catch") %>% select(-"difference")
+
+depth_cpue_2 <- depth_cpue %>% gather(shallow, deep, key = "fishing_depth", value = "cpue") %>% select(-"difference")
+
+Cpue_table_tp <- obs_wt_db %>%  
+  dplyr::group_by(sci_name, drag_all, drag_period) %>%
+  dplyr::summarise(Cpue = round(mean(cpue),2), .groups = 'drop') 
+
+Cpue_table_fd <- obs_wt_db %>%  
+  dplyr::group_by(sci_name, drag_all, depth_sd) %>%
+  dplyr::summarise(Cpue = round(mean(cpue),2), .groups = 'drop') 
+```
+
+
+
+```{r mean weight landed by fishing depth}
+
+mean_wt_sd <- obs_wt_db %>% 
+  group_by(depth_sd) %>% 
+  dplyr::summarise(mean_wt = round(mean(total_wt_kg)), std_dev = round(sd(total_wt_kg)), minimum = min(total_wt_kg), max. = max(total_wt_kg), count = n(), no_trips = n_distinct(drag_all))
+
+(plot1 <- obs_wt_db %>% 
+ggplot() +
+  geom_boxplot(aes(y = total_wt_kg, x = depth_sd, fill = depth_sd)) +
+   geom_text(data = mean_wt_sd, aes(x = depth_sd, y = mean_wt, label = mean_wt), 
+              size = 3, vjust = -1.9, hjust = 1.2) +
+         theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+              labs(x="Fishing depths (fathoms)", y = "Weights (kgs)") + scale_fill_brewer(palette="Pastel1",direction = -1))
+
+# T-Test By fishing depth
+catch_sd <- obs_wt_db %>%
+  select(trip, depth_sd, sci_name, total_wt_kg) %>%
+  group_by(depth_sd, sci_name) %>% 
+  dplyr::summarise(mn_ln = mean(total_wt_kg)) 
+
+tstt1_catch_sd <- t.test(mn_ln ~ depth_sd,
+       data =  catch_sd) # p-value = 0.0006147314
+
+tab_catch_sd <- map_df(list(tstt1_catch_sd), tidy)
+
+# creating table 
+
+tab1 <- obs_wt_db %>% 
+  group_by(depth_sd) %>%
+  dplyr::summarise(m_len = round(mean(total_wt_kg)), s_e = round(std.error(total_wt_kg),2), Count = n(), .groups = 'drop')%>% mutate(Difference = round(((12 - 10)/10)*100,2))  
+
+####==============Corrected=====================#####
+
+tstt1_catch_sd_2 <- t.test(total_wt_kg ~ depth_sd,
+       data =  obs_wt_db) # p-value 0.0084
+
+```
+
+
+
+```{r mean weight landed by time-period}
+
+mean_wt_dp <- obs_wt_db %>% 
+  group_by(drag_period) %>% 
+  dplyr::summarise(mean_wt = round(mean(total_wt_kg)), std_dev = round(sd(total_wt_kg)), minimum = round(min(total_wt_kg)), max. = max(total_wt_kg), count = n(), no_trips = n_distinct(drag_all))
+
+(plot2 <- obs_wt_db %>% 
+    ggplot() +
+    geom_boxplot(aes(y = total_wt_kg, x = drag_period, fill = drag_period)) +
+    geom_text(data = mean_wt_dp, aes(x = drag_period, y = mean_wt, label = mean_wt), 
+              size = 3, vjust = -1.9, hjust = 1.2) +
+    theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+    labs(x="Time-periods", y = "Weights (kgs)") + scale_fill_brewer(palette="Set2"))
+
+# T-Test By fishing depth
+catch_dn <- obs_wt_db %>%
+  select(trip, drag_period, sci_name, total_wt_kg) %>%
+  group_by(drag_period, sci_name) %>% 
+  dplyr::summarise(mn_ln = mean(total_wt_kg)) 
+
+tstt1_catch_dn <- t.test(mn_ln ~ drag_period,
+       data =  catch_dn) # p-value 0.7732076
+
+
+
+tab_catch_dn <- map_df(list(tstt1_catch_dn), tidy)
+
+# creating table 
+
+tab2 <- obs_wt_db %>% 
+  group_by(drag_period) %>%
+  dplyr::summarise(m_len = round(mean(total_wt_kg)), s_e = round(std.error(total_wt_kg),2), Count = n(), .groups = 'drop') %>% 
+  mutate(Difference = round(((12 - 11)/11)*100,2))  
+
+
+####==============Corrected=====================#####
+
+tstt1_catch_dn_2 <- t.test(length ~ drag_period,
+       data =  lengths) # p-value 0.5997
+
+```
+
+#############################################################################################################################################################################################
+\newpage
+
+## Time-periods - Most common species by biomass
+
+<br><br>
+
+```{r Time-periods - Most common species by biomass, message = FALSE, results = 'asis'}
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Stellifer rastrifer"), Group = drag_period, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, species = "Stellifer rastrifer")
+
+cat("\n\n\\pagebreak\n")
+ 
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Stellifer microps"), Group = drag_period, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, species = "Stellifer microps")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Macrodon ancylodon"), Group = drag_period, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, species = "Macrodon ancylodon")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Cynoscion virescens"), Group = drag_period, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, species = "Cynoscion virescens")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Bagre bagre"), Group = drag_period, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, species = "Bagre bagre")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Symphurus plagusia"), Group = drag_period, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, species = "Symphurus plagusia")
+```
+
+\newpage
+
+## Fishing depths - Most common species by biomass 
+
+<br><br>
+
+
+
+```{r Fishing depth - Most common species by biomass, message = FALSE}
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Stellifer rastrifer"), Group = depth_sd, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, colr = "Reds", species = "Stellifer rastrifer")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Stellifer microps"), Group = depth_sd, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, colr = "Reds", species = "Stellifer microps")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Macrodon ancylodon"), Group = depth_sd, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, colr = "Reds", species = "Macrodon ancylodon")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Cynoscion virescens"), Group = depth_sd, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, colr = "Reds", species = "Cynoscion virescens")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Bagre bagre"), Group = depth_sd, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, colr = "Reds", species = "Bagre bagre")
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight(Data = obs_wt_db %>% filter(sci_name == "Symphurus plagusia"), Group = depth_sd, Quan_var = total_wt_kg, Wvar1 = Median_wt, Wvar2 = Sum_wt, Pos_x = 180, Pos_y1 = 0.08, Pos_y2 = 0.065, hj = 0.85, colr = "Reds", species = "Symphurus plagusia")
+```
+
+
+#############################################################################################################################################################################################
+
+\newpage
+
+## Time-periods - Most common species by cpue
+
+<br><br>
+
+```{r mean cpue landed by time-period}
+
+#===================== CPUE PLOT ==========================#
+mean_cpue_dp <- obs_wt_db %>% 
+  group_by(drag_period) %>% 
+  dplyr::summarise(mean_cpue = round(mean(cpue)), std_dev = round(sd(cpue)), minimum = round(min(cpue)), max. = max(cpue), count = n())
+
+(cpue_plot <- obs_wt_db %>% 
+    ggplot(mapping = aes(y = cpue, x = drag_period, fill = drag_period)) +
+    geom_boxplot() +
+    geom_smooth(method = "lm", se=FALSE, color="red", aes(group=1)) +
+    geom_text(data = mean_cpue_dp, aes(x = drag_period, y = mean_cpue, label = mean_cpue), 
+              size = 3, vjust = -1.9, hjust = 1.2) +
+    theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+    labs(x="Time-periods",
+         y = "Cpue (kgs/hr)",
+       title = "Discard Cpue distribution by Time-periods")) 
+#================ T-TEST - TIME-PERIOD ====================#
+
+cpue_dn <- obs_wt_db %>%
+  select(trip, drag_period, sci_name, cpue) %>%
+  group_by(sci_name, drag_period) %>% 
+  arrange(sci_name) %>% 
+  dplyr::summarise(mn_cpue = mean(cpue)) %>% 
+  ungroup() # This step is needed to remove problems with filtering https://community.rstudio.com/t/is-ungroup-recommended-after-every-group-by/5296
+
+cpue_dn <- cpue_dn %>% subset(duplicated(sci_name) | duplicated(sci_name, fromLast=TRUE))
+
+t_test_cpue_dn <- t.test(mn_cpue ~ drag_period, data = cpue_dn, paired = TRUE, conf.level = 0.95) # p-value = 0.1106394
+
+tab_cpue_dn <- map_df(list(t_test_cpue_dn), tidy)
+
+# creating table 
+
+(cpue_tab_dn <- obs_wt_db %>% 
+  group_by(drag_period) %>%
+  dplyr::summarise(mn_cpue = round(mean(cpue)), s_e = round(std.error(cpue),2), Count = n(), .groups = 'drop') %>% 
+  mutate(Difference = round(((3 - 3)/3)*100,2)))  
+
+```
+
+
+```{r Time-periods - Most common species by cpue, message = FALSE, results = 'asis'}
+
+TimePeriodWeight2(Data = Cpue_table_tp %>% filter(sci_name == "Stellifer rastrifer"), Group = drag_period, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Stellifer rastrifer", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+ 
+TimePeriodWeight2(Data = Cpue_table_tp %>% filter(sci_name == "Stellifer microps"), Group = drag_period, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Stellifer microps", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight2(Data = Cpue_table_tp %>% filter(sci_name == "Macrodon ancylodon"), Group = drag_period, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Macrodon ancylodon", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight2(Data = Cpue_table_tp %>% filter(sci_name == "Nebris microps"), Group = drag_period, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Nebris microps", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight2(Data = Cpue_table_tp %>% filter(sci_name == "Cynoscion virescens"), Group = drag_period, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Cynoscion virescens", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight2(Data = Cpue_table_tp %>% filter(sci_name == "Gymnura micrura"), Group = drag_period, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Gymnura micrura", plot_type = geom_line(), plot_type2 = geom_point())
+```
+
+\newpage
+
+## Fishing depths - Most common species by cpue 
+
+<br><br>
+
+
+```{r mean cpue landed by fishing depth}
+
+#===================== CPUE PLOT ==========================#
+mean_cpue_dp <- obs_wt_db %>% 
+  group_by(depth_sd) %>% 
+  dplyr::summarise(mean_cpue = round(mean(cpue)), std_dev = round(sd(cpue)), minimum = round(min(cpue)), max. = max(cpue), count = n())
+
+(cpue_plot <- obs_wt_db %>% 
+    ggplot(mapping = aes(y = cpue, x = depth_sd, fill = depth_sd)) +
+    geom_boxplot() +
+    geom_smooth(method = "lm", se=FALSE, color="red", aes(group=1)) +
+    geom_text(data = mean_cpue_dp, aes(x = depth_sd, y = mean_cpue, label = mean_cpue), 
+              size = 3, vjust = -1.9, hjust = 1.2) +
+    theme(panel.background = element_rect(fill = "white", colour = "grey50"), legend.position = "none") +
+    labs(x="Fishing Depths", y = "Cpue (kgs/hr)", title = "Discard Cpue distribution by Fishing Depths"))
+#================ T-TEST - FISHING DEPTH ====================#
+
+cpue_sd <- obs_wt_db %>%
+  select(trip, depth_sd, sci_name, cpue) %>%
+  group_by(sci_name, depth_sd) %>% 
+  arrange(sci_name) %>% 
+  dplyr::summarise(mn_cpue = mean(cpue)) %>% 
+  ungroup() # This step is needed to remove problems with filtering https://community.rstudio.com/t/is-ungroup-recommended-after-every-group-by/5296
+
+cpue_sd <- cpue_sd %>% subset(duplicated(sci_name) | duplicated(sci_name, fromLast=TRUE))
+
+t_test_cpue_sd <- t.test(mn_cpue ~ depth_sd, data = cpue_sd, paired = TRUE, conf.level = 0.95) # p-value = 0.000004091789
+
+tab_cpue_sd <- map_df(list(t_test_cpue_sd), tidy)
+
+# creating table 
+
+cpue_tab_sd <- obs_wt_db %>% 
+  group_by(depth_sd) %>%
+  dplyr::summarise(mn_cpue = round(mean(cpue)), s_e = round(std.error(cpue),2), Count = n(), .groups = 'drop') %>% 
+  mutate(Difference = round(((3 - 3)/3)*100,2))  
+
+```
+
+
+```{r Fishing depth - Most common species by cpue, message = FALSE}
+
+TimePeriodWeight2(Data = Cpue_table_fd %>% filter(sci_name == "Stellifer rastrifer"), Group = depth_sd, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Stellifer microps", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+ 
+TimePeriodWeight2(Data = Cpue_table_fd %>% filter(sci_name == "Stellifer microps"), Group = depth_sd, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Stellifer microps", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight2(Data = Cpue_table_fd %>% filter(sci_name == "Macrodon ancylodon"), Group = depth_sd, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Macrodon ancylodon", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight2(Data = Cpue_table_fd %>% filter(sci_name == "Nebris microps"), Group = depth_sd, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Nebris microps", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight2(Data = Cpue_table_fd %>% filter(sci_name == "Cynoscion virescens"), Group = depth_sd, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Cynoscion virescens", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+
+TimePeriodWeight2(Data = Cpue_table_fd %>% filter(sci_name == "Gymnura micrura"), Group = depth_sd, Quan_var = Cpue, Quan_var2 = drag_all, Wvar1 = Median_wt, Wvar2 = Trips, species = "Gymnura micrura", plot_type = geom_line(), plot_type2 = geom_point())
+
+cat("\n\n\\pagebreak\n")
+```
+
+
+## Species length comparison - Time-period 
+
+```{r return}
+names <- c("Stellifer rastrifer", "Stellifer microps", "Macrodon ancylodon", "Nebris microps", "Bagre bagre", "Cynoscion virescens")
+
+SpeciesComparison(Data = lengths, Group = sci_name, Group2 = drag_period, Quan_var = length, Condition1 = "Day", Condition2 = "Night", names = names, Join = "sci_name",variable = length , by= drag_period)
+
+cat("\n\n\\pagebreak\n")
+
+```
+
+
+## Species length comparison - Fishing depth
+
+```{r}
+namesl <- head(names)
+SpeciesComparison(Data = lengths, Group = sci_name, Group2 = depth_sd, Quan_var = length, Condition1 = "Deep", Condition2 = "Shallow", names = names, Join = "sci_name",variable = length, by= depth_sd)
+
+cat("\n\n\\pagebreak\n")
+```
+
+
+## Species weight comparison - Time-period
+
+```{r}
+namesw <- c("Stellifer rastrifer", "Stellifer microps", "Macrodon ancylodon", "Cynoscion virescens", "Bagre bagre", "Symphurus plagusia")
+# namesw <- head(table_6$`Sceintific names`) # Table referenced from on Research_thesis_draft_2.rmd file
+
+SpeciesComparison(Data = obs_wt_db, Group = sci_name, Group2 = drag_period, Quan_var = total_wt_kg, Condition1 = "Day", Condition2 = "Night", names = namesw, Join = "sci_name",variable = total_wt_kg, by= drag_period)
+
+cat("\n\n\\pagebreak\n")
+```
+
+
+## Species weight comparison - Fishing depths
+
+```{r}
+SpeciesComparison(Data = obs_wt_db, Group = sci_name, Group2 = depth_sd, Quan_var = total_wt_kg, Condition1 = "Deep", Condition2 = "Shallow", names = namesw, Join = "sci_name",variable = total_wt_kg, by= depth_sd)
+
+cat("\n\n\\pagebreak\n")
+```
+
+
+## Species cpue comparison - Time-periods
+
+```{r}
+source("Fun2.R")
+
+namescr <- c("Stellifer rastrifer", "Stellifer microps", "Macrodon ancylodon", "Nebris microps", "Cynoscion virescens", "Gymnura micrura")
+# namescr <- head(table_7$`Sceintific names`)
+# namescr <- namescr[c(-4,-6)]
+
+SpeciesComparison3(Data = obs_wt_db, Group = sci_name, Group2 = drag_period, Group3 = trip, Quan_var = cpue, Condition1 = "Day", Condition2 = "Night", names = namescr, Join = "sci_name", variable = mn_ln , by= drag_period, paired = TRUE) # 
+
+cat("\n\n\\pagebreak\n")
+```
+
+
+## Species cpue comparison - Fishing depths
+
+```{r}
+# namescr <- head(table_7$`Sceintific names`)
+namescr <- namescr[c(-4,-6)]
+
+SpeciesComparison4(Data = obs_wt_db, Group = sci_name, Group2 = depth_sd, Group3 = trip, Quan_var = cpue, Condition1 = "Deep", Condition2 = "Shallow", names = namescr, Join = "sci_name", variable = mn_ln , by= depth_sd, paired=TRUE)
+
+cat("\n\n\\pagebreak\n")
+```
+
+
+### COdes to manually check the number of observations used in T-tests
+
+List of species reference vectors 
+
+what, Vectors (Data | Group (s) | Variables)
+Time-period length, names (lengths | time-period | length)
+Fishing depth length, namesl (lengths | depth_sd | length)
+Time-period and fishing depth biomass, namesw (obs_wt_db | drag_period , depth_sd | total_wt_kg)
+Time-period cpue, namescr (obs_wt_db | drag_period | cpue)
+Fishing depth cpue, namescr <- namescr[c(-4,-6)] (obs_wt_db | depth_sd | cpue)
+
+```{r}
+namescr <- namescr[c(-4,-6)]
+```
+
+
+```{r}
+
+vec <- c(1,2,3,4)
+
+for(i in vec){
+  a <- obs_wt_db %>%
+  dplyr::filter(sci_name == namescr[i]) %>%
+  select(sci_name, depth_sd, trip, cpue) %>%
+  dplyr::group_by(trip, depth_sd) %>%
+  dplyr::summarise(mn_ln = mean(cpue), .groups = 'drop') 
+
+print(table(a$depth_sd))
+}
+
+```
+
+
+
+
+```{r}
+sampling_effort <- obs_wt_db %>% 
+  select(trip, dep_date, arr_date, das, hrs_dec, total_wt_kg) %>% 
+  group_by(trip, dep_date, arr_date, das) %>% 
+  dplyr::summarise(sum_wt = round(sum(total_wt_kg)), mean_wt = round(mean(total_wt_kg)), Samples = n())
+
+colnames(sampling_effort) <-c("Trips", "Departure", "Arrival", "Days", "Total weight (kgs)", "Mean weight (kgs)", "n")
+
+sampling_effort %>% 
+flextable() %>% 
+  autofit() %>% 
+  align_text_col(align = "left") %>% 
+  align_nottext_col(align = "left") %>% 
+  bold(part = "header")
+
+
+obs_wt_db %>%  
+  group_by(depth_sd) %>% 
+  dplyr::summarise(n = n())
+  
+```
+
+
+```{r}
+obs_wt %>% 
+  mutate(mt = round(total_wt_lbs/2204, 2)) %>% 
+  group_by(groups) %>% 
+summarise(wt = sum(mt)) %>% 
+  mutate(per = wt/sum(wt)*100)
+```
+
+
+<!-- ```{r} -->
+
+<!-- Loop1 <- c(1,2,3,4,5,6) -->
+
+<!-- for (i in Loop1){ -->
+
+<!--   species_name = paste0("Species",i) -->
+
+<!--   assign(species_name, eval(lengths %>% filter(sci_name == names[i]) %>% -->
+<!--   select(sci_name, drag_period, length))) %>% print() -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+```{r}
+
+c <- obs_wt_db %>%
+  filter(sci_name == names[1]) %>%
+  select(sci_name, drag_period, trip, total_wt_kg) %>%
+  dplyr::group_by(trip, drag_period) %>%
+  dplyr::summarise(mn_ln = mean(total_wt_kg)) %>%
+  # ungroup() %>%
+  subset(duplicated(trip) | duplicated(trip, fromLast=TRUE))
+```
