@@ -14,8 +14,8 @@ github-repo: rstudio/bookdown-demo
 
 ```{r 0.1, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-  cache = FALSE,
-  #cache = TRUE,
+  # cache = FALSE,
+  cache = TRUE,
   fig.align = "center",
   strip.white = TRUE,
   highlight = TRUE,
@@ -100,7 +100,7 @@ The data comprises 32 variables, 17 were of class characters, 3 difftime and 12 
 
 **Description of data variables**
 
-The variables within the data are coded. A total of 32 variables were recorded in the data. A description for each variable is below : 
+The variables within the data are coded. See description below: 
 
 1. **company**: Fishing company
 2. **dep_date**: Date the vessel departs port for fishing
