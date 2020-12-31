@@ -20,8 +20,7 @@ knitr::opts_chunk$set(echo = TRUE,
   strip.white = TRUE,
   highlight = TRUE,
   comment = " ",
-  message = FALSE
-)
+  message = FALSE)
 ```
 
 # Data
@@ -97,7 +96,7 @@ ObserverData %>%
 #[1]. glimpse() is used to view the classes of each variable from the data. 
 ```
 
-From the output created above we can see that of the 32 variables, 17 were of class characters, 3 difftime and 12 numeric. All the data seems to fit reasonably well into the required categories i.e. character, difftime and numeric. The main exceptions were the dates variables. Normally, these would have needed to be converted before use. However, this will not be done in this project as dates are not required to answer the research questions. 
+The data comprises 32 variables, 17 were of class characters, 3 difftime and 12 numeric. All the data seems to fit reasonably well into the required categories i.e. character, difftime and numeric. 
 
 **Description of data variables**
 
