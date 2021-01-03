@@ -88,6 +88,37 @@ ggplot(data = ObserverData2,
 
 ```
 
+```{r}
+ObserverData2 <- SummaryTable %>%
+  group_by(DragID2,
+    CatchCategory) %>%
+  dplyr::summarise(Mean.cpue = mean(CpueKGHr),
+    Mean.cpue.sd = sd(CpueKGHr),
+    Count = n(),
+    Mean.cpue.se = Mean.cpue.sd/sqrt(Count),
+    .groups = 'drop')
+
+ggplot(data = ObserverData2,
+  aes(x = as.factor(DragID2), 
+    y = Mean.cpue,
+    color = CatchCategory,  
+    shape = CatchCategory,
+    group = CatchCategory
+    )) +
+  geom_point() +
+  geom_line() +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.title = element_blank(),
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 90)) +
+  labs(x="Bottom Trawl Tows",
+    y = "Mean CPUE (kgs/hr)",
+    title = "Line plots of the mean CPUE(with SE bars) for all species \nobservations across bottom trawl tows",
+    subtitle = "Colour is used to represent the different catch groups") 
+```
+
 ### Fishing Depths
 
 ```{r 2.4, fig.width = 7, fig.height = 8}
