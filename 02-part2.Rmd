@@ -102,7 +102,6 @@ ggplot(data = ObserverData2,
   aes(x = as.factor(DragID2), 
     y = Mean.cpue,
     color = CatchCategory,  
-    shape = CatchCategory,
     group = CatchCategory
     )) +
   geom_point() +
@@ -158,6 +157,35 @@ ggplot(data = ObserverData3,
 
 ```
 
+
+```{r}
+ObserverData3 <- SummaryTable %>% 
+  group_by(FishingDepthMtr,
+    CatchCategory) %>% 
+  dplyr::summarise(Mean.cpue = mean(CpueKGHr),
+    Mean.cpue.sd = sd(CpueKGHr),
+    Count = n(),
+    Mean.cpue.se = Mean.cpue.sd/sqrt(Count),
+    .groups = 'drop')
+
+ggplot(data = ObserverData3,
+  aes(x = as.factor(FishingDepthMtr), 
+    y = Mean.cpue,
+    color = CatchCategory,  
+    group = CatchCategory)) +
+  geom_point() +
+  geom_line() +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.title = element_blank(),
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 90)) +
+  labs(x="Fishing Depths (m)",
+    y = "Mean CPUE (kgs/hr)",
+    title = "Line plots of mean CPUE(with SE bars) for all species observations \nacross fishing depths") 
+```
+
 ### Time of day
 
 ```{r 2.5, fig.width = 5, fig.height = 8}
@@ -193,6 +221,34 @@ ggplot(data = ObserverData5,
     scales = "free",
     ncol = 1) 
 
+```
+
+
+```{r}
+ObserverData5 <- SummaryTable %>% 
+  group_by(TimePeriods,
+    CatchCategory) %>% 
+  dplyr::summarise(Mean.cpue = mean(CpueKGHr),
+    Mean.cpue.sd = sd(CpueKGHr),
+    Count = n(),
+    Mean.cpue.se = Mean.cpue.sd/sqrt(Count),
+    .groups = 'drop')
+
+ggplot(data = ObserverData5,
+  aes(x = TimePeriods, 
+    y = Mean.cpue,
+    fill = CatchCategory)) + 
+  geom_col(width = 0.2) +
+  scale_fill_brewer(palette = "Set2") +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.title = element_blank(),
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 90)) +
+  labs(x = "Time of day",
+    y = "Mean CPUE (kgs/hr)",
+    title = "Barplots of mean CPUE(with SE bars) for all species \nobservations across time of day") 
 ```
 
 ### Company
@@ -231,6 +287,35 @@ ggplot(data = ObserverData5,
     ncol = 1) 
 
 ```
+
+```{r}
+ObserverData5 <- SummaryTable %>% 
+  group_by(Company,
+    CatchCategory) %>% 
+  dplyr::summarise(Mean.cpue = mean(CpueKGHr),
+    Mean.cpue.sd = sd(CpueKGHr),
+    Count = n(),
+    Mean.cpue.se = Mean.cpue.sd/sqrt(Count),
+    .groups = 'drop')
+
+ggplot(data = ObserverData5,
+  aes(x = Company, 
+    y = Mean.cpue,
+    fill = CatchCategory)) + 
+  geom_col(width = 0.2) +
+  scale_fill_brewer(palette = "Set3", direction = -1) +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.title = element_blank(),
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 90)) +
+  labs(x="Company",
+    y = "Mean CPUE (kgs/hr)",
+    title = "Barplots of mean CPUE(with SE bars) for all species \nobservations across fishing companies",
+    subtitle = "Colour is used to represent the different catch groups")
+```
+
 
 ### Months
 
@@ -271,6 +356,37 @@ ggplot(data = ObserverData6,
     scales = "free",
     ncol = 1) 
 
+```
+
+
+```{r}
+ObserverData6 <- SummaryTable %>% 
+  group_by(Month,
+    CatchCategory) %>% 
+  dplyr::summarise(Mean.cpue = mean(CpueKGHr),
+    Mean.cpue.sd = sd(CpueKGHr),
+    Count = n(),
+    Mean.cpue.se = Mean.cpue.sd/sqrt(Count),
+    .groups = 'drop')
+
+ggplot(data = ObserverData6,
+  aes(x = as.factor(Month), 
+    y = Mean.cpue,
+    color = CatchCategory,  
+    group = CatchCategory)) +
+  geom_point() +
+  geom_line() +
+  geom_point() +
+  geom_line() +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.title = element_blank(),
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 90)) +
+  labs(x="Months",
+    y = "Mean CPUE (kgs/hr)",
+    title = "Line plots of mean CPUE(with SE bars) for all species observations across \nmonths")  
 ```
 
 ### Checking if code worked using Months...
@@ -365,6 +481,35 @@ ggplot(data = ObserverData7,
   facet_wrap(~CatchCategory,
     scales = "free",
     ncol = 1) 
+```
+
+```{r}
+ObserverData7 <- SummaryTable %>% 
+  group_by(FishingZones,
+    CatchCategory) %>% 
+  dplyr::summarise(Mean.cpue = mean(CpueKGHr),
+    Mean.cpue.sd = sd(CpueKGHr),
+    Count = n(),
+    Mean.cpue.se = Mean.cpue.sd/sqrt(Count),
+    .groups = 'drop')
+
+ggplot(data = ObserverData7,
+  aes(x = as.factor(FishingZones), 
+    y = Mean.cpue,
+    fill = CatchCategory,
+    color = CatchCategory,  
+    group = CatchCategory)) +
+  geom_point() +
+  geom_line() +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white",
+    colour = "grey50"),
+    legend.title = element_blank(),
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 90)) +
+  labs(x = "Fishing Zones",
+    y = "Mean CPUE (kgs/hr)",
+    title = "Line plots of mean CPUE(with SE bars) for all species observations across \nfishing zones") 
 ```
 
 ## Species CPUE

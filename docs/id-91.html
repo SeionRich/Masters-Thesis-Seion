@@ -24,7 +24,7 @@
 <meta name="author" content="Seion Richardson" />
 
 
-<meta name="date" content="2020-12-31" />
+<meta name="date" content="2021-01-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -380,45 +380,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="weight-proportions" class="section level2">
 <h2><span class="header-section-number">10.1</span> Weight Proportions</h2>
 <p><strong>Data preparation</strong></p>
-<div class="sourceCode" id="cb881"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb881-1" title="1">Top10names.plusone &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Macrodon ancylodon&quot;</span>,        </a>
-<a class="sourceLine" id="cb881-2" title="2"><span class="st">&quot;Callinectes ornatus&quot;</span>,       </a>
-<a class="sourceLine" id="cb881-3" title="3"><span class="st">&quot;Stellifer rastrifer&quot;</span>,       </a>
-<a class="sourceLine" id="cb881-4" title="4"><span class="st">&quot;Stellifer microps&quot;</span>,         </a>
-<a class="sourceLine" id="cb881-5" title="5"><span class="st">&quot;Cynoscion virescens&quot;</span>,       </a>
-<a class="sourceLine" id="cb881-6" title="6"><span class="st">&quot;Symphurus plagusia&quot;</span>,        </a>
-<a class="sourceLine" id="cb881-7" title="7"><span class="st">&quot;Bagre bagre&quot;</span>,               </a>
-<a class="sourceLine" id="cb881-8" title="8"><span class="st">&quot;Trichiurus lepturus&quot;</span>,       </a>
-<a class="sourceLine" id="cb881-9" title="9"><span class="st">&quot;Achirus achirus&quot;</span>,           </a>
-<a class="sourceLine" id="cb881-10" title="10"><span class="st">&quot;Paralonchurus brasiliensis&quot;</span>, </a>
-<a class="sourceLine" id="cb881-11" title="11"><span class="st">&quot;Xiphopenaeus kroyeri&quot;</span>) </a>
-<a class="sourceLine" id="cb881-12" title="12">  </a>
-<a class="sourceLine" id="cb881-13" title="13"><span class="co"># Modifying data</span></a>
-<a class="sourceLine" id="cb881-14" title="14">species.cor &lt;-<span class="st"> </span>ObserverData <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb881-15" title="15"><span class="st">  </span><span class="kw">filter</span>(LatinNames <span class="op">%in%</span><span class="st"> </span>Top10names.plusone) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb881-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(DragID2) <span class="op">%&gt;%</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb881-17" title="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">PropWeight =</span> CpueKGHR<span class="op">/</span><span class="kw">sum</span>(CpueKGHR)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb881-18" title="18"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb881-19" title="19"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(LatinNames,</a>
-<a class="sourceLine" id="cb881-20" title="20">    DragID2,</a>
-<a class="sourceLine" id="cb881-21" title="21">    PropWeight,</a>
-<a class="sourceLine" id="cb881-22" title="22">    Company,</a>
-<a class="sourceLine" id="cb881-23" title="23">    Month,</a>
-<a class="sourceLine" id="cb881-24" title="24">    TimePeriods,</a>
-<a class="sourceLine" id="cb881-25" title="25">    FishingZones,</a>
-<a class="sourceLine" id="cb881-26" title="26">    FishingDepthMtr)</a>
-<a class="sourceLine" id="cb881-27" title="27"></a>
-<a class="sourceLine" id="cb881-28" title="28">species.cor.<span class="fl">2.</span>temp &lt;-<span class="st"> </span>species.cor <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb881-29" title="29"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> LatinNames,</a>
-<a class="sourceLine" id="cb881-30" title="30">    <span class="dt">values_from =</span> PropWeight,</a>
-<a class="sourceLine" id="cb881-31" title="31">    <span class="dt">values_fill =</span> <span class="dv">0</span>) </a>
-<a class="sourceLine" id="cb881-32" title="32"></a>
-<a class="sourceLine" id="cb881-33" title="33"><span class="kw">head</span>(species.cor.<span class="fl">2.</span>temp) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb881-34" title="34"><span class="st">  </span><span class="kw">kbl</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb881-35" title="35"><span class="st">  </span><span class="kw">kable_classic</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb881-36" title="36"><span class="st">  </span><span class="kw">row_spec</span>(<span class="dv">0</span>, <span class="dt">bold =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb881-37" title="37"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">fixed_thead =</span> T,</a>
-<a class="sourceLine" id="cb881-38" title="38">    <span class="dt">bootstrap_options =</span> <span class="st">&quot;condensed&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb881-39" title="39"><span class="st">  </span><span class="kw">scroll_box</span>(<span class="dt">width =</span> <span class="st">&quot;750px&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;300px&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb887-1" title="1">Top10names.plusone &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Macrodon ancylodon&quot;</span>,        </a>
+<a class="sourceLine" id="cb887-2" title="2"><span class="st">&quot;Callinectes ornatus&quot;</span>,       </a>
+<a class="sourceLine" id="cb887-3" title="3"><span class="st">&quot;Stellifer rastrifer&quot;</span>,       </a>
+<a class="sourceLine" id="cb887-4" title="4"><span class="st">&quot;Stellifer microps&quot;</span>,         </a>
+<a class="sourceLine" id="cb887-5" title="5"><span class="st">&quot;Cynoscion virescens&quot;</span>,       </a>
+<a class="sourceLine" id="cb887-6" title="6"><span class="st">&quot;Symphurus plagusia&quot;</span>,        </a>
+<a class="sourceLine" id="cb887-7" title="7"><span class="st">&quot;Bagre bagre&quot;</span>,               </a>
+<a class="sourceLine" id="cb887-8" title="8"><span class="st">&quot;Trichiurus lepturus&quot;</span>,       </a>
+<a class="sourceLine" id="cb887-9" title="9"><span class="st">&quot;Achirus achirus&quot;</span>,           </a>
+<a class="sourceLine" id="cb887-10" title="10"><span class="st">&quot;Paralonchurus brasiliensis&quot;</span>, </a>
+<a class="sourceLine" id="cb887-11" title="11"><span class="st">&quot;Xiphopenaeus kroyeri&quot;</span>) </a>
+<a class="sourceLine" id="cb887-12" title="12">  </a>
+<a class="sourceLine" id="cb887-13" title="13"><span class="co"># Modifying data</span></a>
+<a class="sourceLine" id="cb887-14" title="14">species.cor &lt;-<span class="st"> </span>ObserverData <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb887-15" title="15"><span class="st">  </span><span class="kw">filter</span>(LatinNames <span class="op">%in%</span><span class="st"> </span>Top10names.plusone) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb887-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(DragID2) <span class="op">%&gt;%</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb887-17" title="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">PropWeight =</span> CpueKGHR<span class="op">/</span><span class="kw">sum</span>(CpueKGHR)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb887-18" title="18"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb887-19" title="19"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(LatinNames,</a>
+<a class="sourceLine" id="cb887-20" title="20">    DragID2,</a>
+<a class="sourceLine" id="cb887-21" title="21">    PropWeight,</a>
+<a class="sourceLine" id="cb887-22" title="22">    Company,</a>
+<a class="sourceLine" id="cb887-23" title="23">    Month,</a>
+<a class="sourceLine" id="cb887-24" title="24">    TimePeriods,</a>
+<a class="sourceLine" id="cb887-25" title="25">    FishingZones,</a>
+<a class="sourceLine" id="cb887-26" title="26">    FishingDepthMtr)</a>
+<a class="sourceLine" id="cb887-27" title="27"></a>
+<a class="sourceLine" id="cb887-28" title="28">species.cor.<span class="fl">2.</span>temp &lt;-<span class="st"> </span>species.cor <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb887-29" title="29"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> LatinNames,</a>
+<a class="sourceLine" id="cb887-30" title="30">    <span class="dt">values_from =</span> PropWeight,</a>
+<a class="sourceLine" id="cb887-31" title="31">    <span class="dt">values_fill =</span> <span class="dv">0</span>) </a>
+<a class="sourceLine" id="cb887-32" title="32"></a>
+<a class="sourceLine" id="cb887-33" title="33"><span class="kw">head</span>(species.cor.<span class="fl">2.</span>temp) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb887-34" title="34"><span class="st">  </span><span class="kw">kbl</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb887-35" title="35"><span class="st">  </span><span class="kw">kable_classic</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb887-36" title="36"><span class="st">  </span><span class="kw">row_spec</span>(<span class="dv">0</span>, <span class="dt">bold =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb887-37" title="37"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb887-38" title="38">    <span class="dt">bootstrap_options =</span> <span class="st">&quot;condensed&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb887-39" title="39"><span class="st">  </span><span class="kw">scroll_box</span>(<span class="dt">width =</span> <span class="st">&quot;750px&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;300px&quot;</span>)</a></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:750px; ">
 <table class=" lightable-classic table table-condensed" style='font-family: "Arial Narrow", "Source Sans Pro", sans-serif; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;'>
 <thead>
@@ -798,58 +798,58 @@ Night
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb882"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb882-1" title="1">species.cor<span class="fl">.2</span> &lt;-<span class="st"> </span>species.cor.<span class="fl">2.</span>temp[,<span class="dv">7</span><span class="op">:</span><span class="dv">17</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb888-1" title="1">species.cor<span class="fl">.2</span> &lt;-<span class="st"> </span>species.cor.<span class="fl">2.</span>temp[,<span class="dv">7</span><span class="op">:</span><span class="dv">17</span>]</a></code></pre></div>
 <div id="correlation-plots" class="section level3">
 <h3><span class="header-section-number">10.1.1</span> Correlation plots</h3>
-<div class="sourceCode" id="cb883"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb883-1" title="1"><span class="co"># Species correlation plot </span></a>
-<a class="sourceLine" id="cb883-2" title="2"><span class="kw">chart.Correlation</span>(species.cor<span class="fl">.2</span>, </a>
-<a class="sourceLine" id="cb883-3" title="3">  <span class="dt">histogram =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb883-4" title="4">  <span class="dt">pch =</span> <span class="dv">19</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb889"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb889-1" title="1"><span class="co"># Species correlation plot </span></a>
+<a class="sourceLine" id="cb889-2" title="2"><span class="kw">chart.Correlation</span>(species.cor<span class="fl">.2</span>, </a>
+<a class="sourceLine" id="cb889-3" title="3">  <span class="dt">histogram =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb889-4" title="4">  <span class="dt">pch =</span> <span class="dv">19</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.2-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="correlation-matrix" class="section level3">
 <h3><span class="header-section-number">10.1.2</span> Correlation matrix</h3>
-<div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb884-1" title="1">flattenCorrMatrix &lt;-<span class="st"> </span><span class="cf">function</span>(cormat, pmat) {</a>
-<a class="sourceLine" id="cb884-2" title="2">  ut &lt;-<span class="st"> </span><span class="kw">upper.tri</span>(cormat)</a>
-<a class="sourceLine" id="cb884-3" title="3">  <span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb884-4" title="4">    <span class="dt">row =</span> <span class="kw">rownames</span>(cormat)[<span class="kw">row</span>(cormat)[ut]],</a>
-<a class="sourceLine" id="cb884-5" title="5">    <span class="dt">column =</span> <span class="kw">rownames</span>(cormat)[<span class="kw">col</span>(cormat)[ut]],</a>
-<a class="sourceLine" id="cb884-6" title="6">    <span class="dt">cor  =</span> (cormat)[ut],</a>
-<a class="sourceLine" id="cb884-7" title="7">    <span class="dt">p =</span> pmat[ut])</a>
-<a class="sourceLine" id="cb884-8" title="8">}</a>
-<a class="sourceLine" id="cb884-9" title="9"></a>
-<a class="sourceLine" id="cb884-10" title="10"><span class="co"># Drawing a correlogram</span></a>
-<a class="sourceLine" id="cb884-11" title="11">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(species.cor<span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb884-12" title="12">  <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a>
-<a class="sourceLine" id="cb884-13" title="13">cor.mat[<span class="kw">lower.tri</span>(cor.mat)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb884-14" title="14">cor.mat &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(cor.mat)</a>
-<a class="sourceLine" id="cb884-15" title="15">cor.mat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(cor.mat)</a>
-<a class="sourceLine" id="cb884-16" title="16">cor.mat<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var1,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var1))</a>
-<a class="sourceLine" id="cb884-17" title="17">cor.mat<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var2,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var2))</a>
-<a class="sourceLine" id="cb884-18" title="18"></a>
-<a class="sourceLine" id="cb884-19" title="19"><span class="kw">ggplot</span>(<span class="dt">data =</span> cor.mat, <span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb884-20" title="20"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb884-21" title="21"><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&quot;RdYlBu&quot;</span>),</a>
-<a class="sourceLine" id="cb884-22" title="22">                       <span class="dt">name =</span> <span class="st">&quot;Spearman</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb884-23" title="23"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb884-24" title="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(</a>
-<a class="sourceLine" id="cb884-25" title="25">      <span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb884-26" title="26">    ),</a>
-<a class="sourceLine" id="cb884-27" title="27">    <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb884-28" title="28">    <span class="co"># ,</span></a>
-<a class="sourceLine" id="cb884-29" title="29">    <span class="co"># legend.position = &quot;top&quot;</span></a>
-<a class="sourceLine" id="cb884-30" title="30">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb884-31" title="31"><span class="st">  </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb884-32" title="32"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb884-33" title="33"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(value, <span class="dv">2</span>)), <span class="dt">size =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb890-1" title="1">flattenCorrMatrix &lt;-<span class="st"> </span><span class="cf">function</span>(cormat, pmat) {</a>
+<a class="sourceLine" id="cb890-2" title="2">  ut &lt;-<span class="st"> </span><span class="kw">upper.tri</span>(cormat)</a>
+<a class="sourceLine" id="cb890-3" title="3">  <span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb890-4" title="4">    <span class="dt">row =</span> <span class="kw">rownames</span>(cormat)[<span class="kw">row</span>(cormat)[ut]],</a>
+<a class="sourceLine" id="cb890-5" title="5">    <span class="dt">column =</span> <span class="kw">rownames</span>(cormat)[<span class="kw">col</span>(cormat)[ut]],</a>
+<a class="sourceLine" id="cb890-6" title="6">    <span class="dt">cor  =</span> (cormat)[ut],</a>
+<a class="sourceLine" id="cb890-7" title="7">    <span class="dt">p =</span> pmat[ut])</a>
+<a class="sourceLine" id="cb890-8" title="8">}</a>
+<a class="sourceLine" id="cb890-9" title="9"></a>
+<a class="sourceLine" id="cb890-10" title="10"><span class="co"># Drawing a correlogram</span></a>
+<a class="sourceLine" id="cb890-11" title="11">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(species.cor<span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb890-12" title="12">  <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a>
+<a class="sourceLine" id="cb890-13" title="13">cor.mat[<span class="kw">lower.tri</span>(cor.mat)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb890-14" title="14">cor.mat &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(cor.mat)</a>
+<a class="sourceLine" id="cb890-15" title="15">cor.mat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(cor.mat)</a>
+<a class="sourceLine" id="cb890-16" title="16">cor.mat<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var1,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var1))</a>
+<a class="sourceLine" id="cb890-17" title="17">cor.mat<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var2,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var2))</a>
+<a class="sourceLine" id="cb890-18" title="18"></a>
+<a class="sourceLine" id="cb890-19" title="19"><span class="kw">ggplot</span>(<span class="dt">data =</span> cor.mat, <span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb890-20" title="20"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb890-21" title="21"><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&quot;RdYlBu&quot;</span>),</a>
+<a class="sourceLine" id="cb890-22" title="22">                       <span class="dt">name =</span> <span class="st">&quot;Spearman</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb890-23" title="23"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb890-24" title="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(</a>
+<a class="sourceLine" id="cb890-25" title="25">      <span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb890-26" title="26">    ),</a>
+<a class="sourceLine" id="cb890-27" title="27">    <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb890-28" title="28">    <span class="co"># ,</span></a>
+<a class="sourceLine" id="cb890-29" title="29">    <span class="co"># legend.position = &quot;top&quot;</span></a>
+<a class="sourceLine" id="cb890-30" title="30">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb890-31" title="31"><span class="st">  </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb890-32" title="32"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb890-33" title="33"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(value, <span class="dv">2</span>)), <span class="dt">size =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.3-1.png" width="960" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb885"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb885-1" title="1"><span class="co"># Flattening matrix</span></a>
-<a class="sourceLine" id="cb885-2" title="2">cor.mtx<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(species.cor<span class="fl">.2</span>))</a>
-<a class="sourceLine" id="cb885-3" title="3"></a>
-<a class="sourceLine" id="cb885-4" title="4"><span class="kw">flattenCorrMatrix</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>r,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb885-5" title="5">  <span class="kw">format</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>P,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb885-6" title="6">    <span class="dt">scientific =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb885-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(p)</a></code></pre></div>
+<div class="sourceCode" id="cb891"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb891-1" title="1"><span class="co"># Flattening matrix</span></a>
+<a class="sourceLine" id="cb891-2" title="2">cor.mtx<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(species.cor<span class="fl">.2</span>))</a>
+<a class="sourceLine" id="cb891-3" title="3"></a>
+<a class="sourceLine" id="cb891-4" title="4"><span class="kw">flattenCorrMatrix</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>r,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb891-5" title="5">  <span class="kw">format</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>P,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb891-6" title="6">    <span class="dt">scientific =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb891-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(p)</a></code></pre></div>
 <pre><code>                            row               column    cor     p
   1           Stellifer microps Xiphopenaeus kroyeri -0.530 0.000
   2         Stellifer rastrifer Xiphopenaeus kroyeri -0.450 0.001
@@ -906,59 +906,59 @@ Night
   53 Paralonchurus brasiliensis          Bagre bagre -0.008 0.958
   54 Paralonchurus brasiliensis  Stellifer rastrifer  0.005 0.971
   55          Stellifer microps  Trichiurus lepturus -0.003 0.984</code></pre>
-<div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb887-1" title="1"><span class="co"># Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. </span></a></code></pre></div>
+<div class="sourceCode" id="cb893"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb893-1" title="1"><span class="co"># Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. </span></a></code></pre></div>
 </div>
 <div id="significant-correlations" class="section level3">
 <h3><span class="header-section-number">10.1.3</span> Significant correlations</h3>
-<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb888-1" title="1">m &lt;-<span class="st"> </span><span class="kw">cor</span>(species.cor<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb888-2" title="2"></a>
-<a class="sourceLine" id="cb888-3" title="3">res1 &lt;-<span class="st"> </span><span class="kw">cor.mtest</span>(species.cor<span class="fl">.2</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</a>
-<a class="sourceLine" id="cb888-4" title="4"></a>
-<a class="sourceLine" id="cb888-5" title="5"><span class="kw">corrplot</span>(m,</a>
-<a class="sourceLine" id="cb888-6" title="6">  <span class="dt">method =</span> <span class="st">&quot;number&quot;</span>,</a>
-<a class="sourceLine" id="cb888-7" title="7">  <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>,</a>
-<a class="sourceLine" id="cb888-8" title="8">  <span class="dt">number.cex =</span> <span class="fl">0.7</span>, </a>
-<a class="sourceLine" id="cb888-9" title="9">  <span class="dt">p.mat =</span> res1<span class="op">$</span>p,</a>
-<a class="sourceLine" id="cb888-10" title="10">  <span class="dt">tl.cex =</span> <span class="fl">0.8</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb894"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb894-1" title="1">m &lt;-<span class="st"> </span><span class="kw">cor</span>(species.cor<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb894-2" title="2"></a>
+<a class="sourceLine" id="cb894-3" title="3">res1 &lt;-<span class="st"> </span><span class="kw">cor.mtest</span>(species.cor<span class="fl">.2</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</a>
+<a class="sourceLine" id="cb894-4" title="4"></a>
+<a class="sourceLine" id="cb894-5" title="5"><span class="kw">corrplot</span>(m,</a>
+<a class="sourceLine" id="cb894-6" title="6">  <span class="dt">method =</span> <span class="st">&quot;number&quot;</span>,</a>
+<a class="sourceLine" id="cb894-7" title="7">  <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>,</a>
+<a class="sourceLine" id="cb894-8" title="8">  <span class="dt">number.cex =</span> <span class="fl">0.7</span>, </a>
+<a class="sourceLine" id="cb894-9" title="9">  <span class="dt">p.mat =</span> res1<span class="op">$</span>p,</a>
+<a class="sourceLine" id="cb894-10" title="10">  <span class="dt">tl.cex =</span> <span class="fl">0.8</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.4-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="cpue-1" class="section level2">
 <h2><span class="header-section-number">10.2</span> CPUE</h2>
 <p><strong>Data preparation</strong></p>
-<div class="sourceCode" id="cb889"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb889-1" title="1">Top10names.plusone &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Macrodon ancylodon&quot;</span>,        </a>
-<a class="sourceLine" id="cb889-2" title="2"><span class="st">&quot;Callinectes ornatus&quot;</span>,       </a>
-<a class="sourceLine" id="cb889-3" title="3"><span class="st">&quot;Stellifer rastrifer&quot;</span>,       </a>
-<a class="sourceLine" id="cb889-4" title="4"><span class="st">&quot;Stellifer microps&quot;</span>,         </a>
-<a class="sourceLine" id="cb889-5" title="5"><span class="st">&quot;Cynoscion virescens&quot;</span>,       </a>
-<a class="sourceLine" id="cb889-6" title="6"><span class="st">&quot;Symphurus plagusia&quot;</span>,        </a>
-<a class="sourceLine" id="cb889-7" title="7"><span class="st">&quot;Bagre bagre&quot;</span>,               </a>
-<a class="sourceLine" id="cb889-8" title="8"><span class="st">&quot;Trichiurus lepturus&quot;</span>,       </a>
-<a class="sourceLine" id="cb889-9" title="9"><span class="st">&quot;Achirus achirus&quot;</span>,           </a>
-<a class="sourceLine" id="cb889-10" title="10"><span class="st">&quot;Paralonchurus brasiliensis&quot;</span>, </a>
-<a class="sourceLine" id="cb889-11" title="11"><span class="st">&quot;Xiphopenaeus kroyeri&quot;</span>) </a>
-<a class="sourceLine" id="cb889-12" title="12">  </a>
-<a class="sourceLine" id="cb889-13" title="13"><span class="co"># Modifying data</span></a>
-<a class="sourceLine" id="cb889-14" title="14">species.cor &lt;-<span class="st"> </span>ObserverData <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb889-15" title="15"><span class="st">  </span><span class="kw">filter</span>(LatinNames <span class="op">%in%</span><span class="st"> </span>Top10names.plusone) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb889-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(DragID2) <span class="op">%&gt;%</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb889-17" title="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">PropWeight =</span> CpueKGHR<span class="op">/</span><span class="kw">sum</span>(CpueKGHR)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb889-18" title="18"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb889-19" title="19"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(LatinNames,</a>
-<a class="sourceLine" id="cb889-20" title="20">    DragID2,</a>
-<a class="sourceLine" id="cb889-21" title="21">    CpueKGHR,</a>
-<a class="sourceLine" id="cb889-22" title="22">    Company,</a>
-<a class="sourceLine" id="cb889-23" title="23">    Month,</a>
-<a class="sourceLine" id="cb889-24" title="24">    TimePeriods,</a>
-<a class="sourceLine" id="cb889-25" title="25">    FishingZones,</a>
-<a class="sourceLine" id="cb889-26" title="26">    FishingDepthMtr)</a>
-<a class="sourceLine" id="cb889-27" title="27"></a>
-<a class="sourceLine" id="cb889-28" title="28">species.cor.<span class="fl">3.</span>temp &lt;-<span class="st"> </span>species.cor <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb889-29" title="29"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> LatinNames,</a>
-<a class="sourceLine" id="cb889-30" title="30">    <span class="dt">values_from =</span> CpueKGHR,</a>
-<a class="sourceLine" id="cb889-31" title="31">    <span class="dt">values_fill =</span> <span class="dv">0</span>) </a>
-<a class="sourceLine" id="cb889-32" title="32"></a>
-<a class="sourceLine" id="cb889-33" title="33"><span class="kw">head</span>(species.cor.<span class="fl">3.</span>temp)</a></code></pre></div>
+<div class="sourceCode" id="cb895"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb895-1" title="1">Top10names.plusone &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Macrodon ancylodon&quot;</span>,        </a>
+<a class="sourceLine" id="cb895-2" title="2"><span class="st">&quot;Callinectes ornatus&quot;</span>,       </a>
+<a class="sourceLine" id="cb895-3" title="3"><span class="st">&quot;Stellifer rastrifer&quot;</span>,       </a>
+<a class="sourceLine" id="cb895-4" title="4"><span class="st">&quot;Stellifer microps&quot;</span>,         </a>
+<a class="sourceLine" id="cb895-5" title="5"><span class="st">&quot;Cynoscion virescens&quot;</span>,       </a>
+<a class="sourceLine" id="cb895-6" title="6"><span class="st">&quot;Symphurus plagusia&quot;</span>,        </a>
+<a class="sourceLine" id="cb895-7" title="7"><span class="st">&quot;Bagre bagre&quot;</span>,               </a>
+<a class="sourceLine" id="cb895-8" title="8"><span class="st">&quot;Trichiurus lepturus&quot;</span>,       </a>
+<a class="sourceLine" id="cb895-9" title="9"><span class="st">&quot;Achirus achirus&quot;</span>,           </a>
+<a class="sourceLine" id="cb895-10" title="10"><span class="st">&quot;Paralonchurus brasiliensis&quot;</span>, </a>
+<a class="sourceLine" id="cb895-11" title="11"><span class="st">&quot;Xiphopenaeus kroyeri&quot;</span>) </a>
+<a class="sourceLine" id="cb895-12" title="12">  </a>
+<a class="sourceLine" id="cb895-13" title="13"><span class="co"># Modifying data</span></a>
+<a class="sourceLine" id="cb895-14" title="14">species.cor &lt;-<span class="st"> </span>ObserverData <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb895-15" title="15"><span class="st">  </span><span class="kw">filter</span>(LatinNames <span class="op">%in%</span><span class="st"> </span>Top10names.plusone) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb895-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(DragID2) <span class="op">%&gt;%</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb895-17" title="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">PropWeight =</span> CpueKGHR<span class="op">/</span><span class="kw">sum</span>(CpueKGHR)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb895-18" title="18"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb895-19" title="19"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(LatinNames,</a>
+<a class="sourceLine" id="cb895-20" title="20">    DragID2,</a>
+<a class="sourceLine" id="cb895-21" title="21">    CpueKGHR,</a>
+<a class="sourceLine" id="cb895-22" title="22">    Company,</a>
+<a class="sourceLine" id="cb895-23" title="23">    Month,</a>
+<a class="sourceLine" id="cb895-24" title="24">    TimePeriods,</a>
+<a class="sourceLine" id="cb895-25" title="25">    FishingZones,</a>
+<a class="sourceLine" id="cb895-26" title="26">    FishingDepthMtr)</a>
+<a class="sourceLine" id="cb895-27" title="27"></a>
+<a class="sourceLine" id="cb895-28" title="28">species.cor.<span class="fl">3.</span>temp &lt;-<span class="st"> </span>species.cor <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb895-29" title="29"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> LatinNames,</a>
+<a class="sourceLine" id="cb895-30" title="30">    <span class="dt">values_from =</span> CpueKGHR,</a>
+<a class="sourceLine" id="cb895-31" title="31">    <span class="dt">values_fill =</span> <span class="dv">0</span>) </a>
+<a class="sourceLine" id="cb895-32" title="32"></a>
+<a class="sourceLine" id="cb895-33" title="33"><span class="kw">head</span>(species.cor.<span class="fl">3.</span>temp)</a></code></pre></div>
 <pre><code>  # A tibble: 6 x 17
     DragID2 Company Month TimePeriods FishingZones FishingDepthMtr
       &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;           &lt;dbl&gt;
@@ -973,49 +973,49 @@ Night
   #   `Stellifer rastrifer` &lt;dbl&gt;, `Achirus achirus` &lt;dbl&gt;, `Xiphopenaeus
   #   kroyeri` &lt;dbl&gt;, `Cynoscion virescens` &lt;dbl&gt;, `Callinectes ornatus` &lt;dbl&gt;,
   #   `Trichiurus lepturus` &lt;dbl&gt;, `Symphurus plagusia` &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb891"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb891-1" title="1">species.cor<span class="fl">.3</span> &lt;-<span class="st"> </span>species.cor.<span class="fl">3.</span>temp[,<span class="dv">7</span><span class="op">:</span><span class="dv">17</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb897"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb897-1" title="1">species.cor<span class="fl">.3</span> &lt;-<span class="st"> </span>species.cor.<span class="fl">3.</span>temp[,<span class="dv">7</span><span class="op">:</span><span class="dv">17</span>]</a></code></pre></div>
 <div id="correlation-plots-1" class="section level3">
 <h3><span class="header-section-number">10.2.1</span> Correlation plots</h3>
-<div class="sourceCode" id="cb892"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb892-1" title="1"><span class="co"># Species correlation plot </span></a>
-<a class="sourceLine" id="cb892-2" title="2"><span class="kw">chart.Correlation</span>(species.cor<span class="fl">.3</span>, </a>
-<a class="sourceLine" id="cb892-3" title="3">  <span class="dt">histogram =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb892-4" title="4">  <span class="dt">pch =</span> <span class="dv">19</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb898"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb898-1" title="1"><span class="co"># Species correlation plot </span></a>
+<a class="sourceLine" id="cb898-2" title="2"><span class="kw">chart.Correlation</span>(species.cor<span class="fl">.3</span>, </a>
+<a class="sourceLine" id="cb898-3" title="3">  <span class="dt">histogram =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb898-4" title="4">  <span class="dt">pch =</span> <span class="dv">19</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.6-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="correlation-matrix-1" class="section level3">
 <h3><span class="header-section-number">10.2.2</span> Correlation matrix</h3>
-<div class="sourceCode" id="cb893"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb893-1" title="1"><span class="co"># Drawing a correlogram</span></a>
-<a class="sourceLine" id="cb893-2" title="2">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(species.cor<span class="fl">.3</span>,</a>
-<a class="sourceLine" id="cb893-3" title="3">  <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a>
-<a class="sourceLine" id="cb893-4" title="4">cor.mat[<span class="kw">lower.tri</span>(cor.mat)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb893-5" title="5">cor.mat &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(cor.mat)</a>
-<a class="sourceLine" id="cb893-6" title="6">cor.mat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(cor.mat)</a>
-<a class="sourceLine" id="cb893-7" title="7">cor.mat<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var1,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var1))</a>
-<a class="sourceLine" id="cb893-8" title="8">cor.mat<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var2,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var2))</a>
-<a class="sourceLine" id="cb893-9" title="9"></a>
-<a class="sourceLine" id="cb893-10" title="10"><span class="kw">ggplot</span>(<span class="dt">data =</span> cor.mat, <span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb893-11" title="11"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb893-12" title="12"><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&quot;RdYlBu&quot;</span>),</a>
-<a class="sourceLine" id="cb893-13" title="13">                       <span class="dt">name =</span> <span class="st">&quot;Spearman</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb893-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb893-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(</a>
-<a class="sourceLine" id="cb893-16" title="16">      <span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb893-17" title="17">    ),</a>
-<a class="sourceLine" id="cb893-18" title="18">    <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb893-19" title="19">    <span class="co"># ,</span></a>
-<a class="sourceLine" id="cb893-20" title="20">    <span class="co"># legend.position = &quot;top&quot;</span></a>
-<a class="sourceLine" id="cb893-21" title="21">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb893-22" title="22"><span class="st">  </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb893-23" title="23"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb893-24" title="24"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(value, <span class="dv">2</span>)), <span class="dt">size =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb899"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb899-1" title="1"><span class="co"># Drawing a correlogram</span></a>
+<a class="sourceLine" id="cb899-2" title="2">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(species.cor<span class="fl">.3</span>,</a>
+<a class="sourceLine" id="cb899-3" title="3">  <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a>
+<a class="sourceLine" id="cb899-4" title="4">cor.mat[<span class="kw">lower.tri</span>(cor.mat)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb899-5" title="5">cor.mat &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(cor.mat)</a>
+<a class="sourceLine" id="cb899-6" title="6">cor.mat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(cor.mat)</a>
+<a class="sourceLine" id="cb899-7" title="7">cor.mat<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var1,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var1))</a>
+<a class="sourceLine" id="cb899-8" title="8">cor.mat<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var2,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var2))</a>
+<a class="sourceLine" id="cb899-9" title="9"></a>
+<a class="sourceLine" id="cb899-10" title="10"><span class="kw">ggplot</span>(<span class="dt">data =</span> cor.mat, <span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb899-11" title="11"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb899-12" title="12"><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&quot;RdYlBu&quot;</span>),</a>
+<a class="sourceLine" id="cb899-13" title="13">                       <span class="dt">name =</span> <span class="st">&quot;Spearman</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb899-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb899-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(</a>
+<a class="sourceLine" id="cb899-16" title="16">      <span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb899-17" title="17">    ),</a>
+<a class="sourceLine" id="cb899-18" title="18">    <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb899-19" title="19">    <span class="co"># ,</span></a>
+<a class="sourceLine" id="cb899-20" title="20">    <span class="co"># legend.position = &quot;top&quot;</span></a>
+<a class="sourceLine" id="cb899-21" title="21">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb899-22" title="22"><span class="st">  </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb899-23" title="23"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb899-24" title="24"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(value, <span class="dv">2</span>)), <span class="dt">size =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.7-1.png" width="960" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb894"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb894-1" title="1"><span class="co"># Flattening matrix</span></a>
-<a class="sourceLine" id="cb894-2" title="2">cor.mtx<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(species.cor<span class="fl">.3</span>))</a>
-<a class="sourceLine" id="cb894-3" title="3"></a>
-<a class="sourceLine" id="cb894-4" title="4"><span class="kw">flattenCorrMatrix</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>r,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb894-5" title="5">  <span class="kw">format</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>P,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb894-6" title="6">    <span class="dt">scientific =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb894-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(p)</a></code></pre></div>
+<div class="sourceCode" id="cb900"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb900-1" title="1"><span class="co"># Flattening matrix</span></a>
+<a class="sourceLine" id="cb900-2" title="2">cor.mtx<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(species.cor<span class="fl">.3</span>))</a>
+<a class="sourceLine" id="cb900-3" title="3"></a>
+<a class="sourceLine" id="cb900-4" title="4"><span class="kw">flattenCorrMatrix</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>r,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb900-5" title="5">  <span class="kw">format</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>P,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb900-6" title="6">    <span class="dt">scientific =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb900-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(p)</a></code></pre></div>
 <pre><code>                            row               column    cor     p
   1          Macrodon ancylodon  Cynoscion virescens  0.434 0.002
   2           Stellifer microps  Stellifer rastrifer  0.363 0.012
@@ -1072,20 +1072,20 @@ Night
   53        Stellifer rastrifer Xiphopenaeus kroyeri -0.004 0.980
   54        Trichiurus lepturus   Symphurus plagusia -0.004 0.980
   55        Callinectes ornatus   Symphurus plagusia  0.004 0.981</code></pre>
-<div class="sourceCode" id="cb896"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb896-1" title="1"><span class="co"># Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. </span></a></code></pre></div>
+<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb902-1" title="1"><span class="co"># Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. </span></a></code></pre></div>
 </div>
 <div id="significant-correlations-1" class="section level3">
 <h3><span class="header-section-number">10.2.3</span> Significant correlations</h3>
-<div class="sourceCode" id="cb897"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb897-1" title="1">m &lt;-<span class="st"> </span><span class="kw">cor</span>(species.cor<span class="fl">.3</span>)</a>
-<a class="sourceLine" id="cb897-2" title="2"></a>
-<a class="sourceLine" id="cb897-3" title="3">res1 &lt;-<span class="st"> </span><span class="kw">cor.mtest</span>(species.cor<span class="fl">.3</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</a>
-<a class="sourceLine" id="cb897-4" title="4"></a>
-<a class="sourceLine" id="cb897-5" title="5"><span class="kw">corrplot</span>(m,</a>
-<a class="sourceLine" id="cb897-6" title="6">  <span class="dt">method =</span> <span class="st">&quot;number&quot;</span>,</a>
-<a class="sourceLine" id="cb897-7" title="7">  <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>,</a>
-<a class="sourceLine" id="cb897-8" title="8">  <span class="dt">number.cex =</span> <span class="fl">0.7</span>, </a>
-<a class="sourceLine" id="cb897-9" title="9">  <span class="dt">p.mat =</span> res1<span class="op">$</span>p,</a>
-<a class="sourceLine" id="cb897-10" title="10">  <span class="dt">tl.cex =</span> <span class="fl">0.8</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb903"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb903-1" title="1">m &lt;-<span class="st"> </span><span class="kw">cor</span>(species.cor<span class="fl">.3</span>)</a>
+<a class="sourceLine" id="cb903-2" title="2"></a>
+<a class="sourceLine" id="cb903-3" title="3">res1 &lt;-<span class="st"> </span><span class="kw">cor.mtest</span>(species.cor<span class="fl">.3</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</a>
+<a class="sourceLine" id="cb903-4" title="4"></a>
+<a class="sourceLine" id="cb903-5" title="5"><span class="kw">corrplot</span>(m,</a>
+<a class="sourceLine" id="cb903-6" title="6">  <span class="dt">method =</span> <span class="st">&quot;number&quot;</span>,</a>
+<a class="sourceLine" id="cb903-7" title="7">  <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>,</a>
+<a class="sourceLine" id="cb903-8" title="8">  <span class="dt">number.cex =</span> <span class="fl">0.7</span>, </a>
+<a class="sourceLine" id="cb903-9" title="9">  <span class="dt">p.mat =</span> res1<span class="op">$</span>p,</a>
+<a class="sourceLine" id="cb903-10" title="10">  <span class="dt">tl.cex =</span> <span class="fl">0.8</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.8-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -1094,53 +1094,53 @@ Night
 </div>
 <div id="weight-proportions-1" class="section level2">
 <h2><span class="header-section-number">10.4</span> Weight Proportions</h2>
-<div class="sourceCode" id="cb898"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb898-1" title="1">species.fv.cor &lt;-<span class="st"> </span>species.cor.<span class="fl">2.</span>temp[,<span class="dv">2</span><span class="op">:</span><span class="dv">17</span>] <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb898-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Company =</span> <span class="kw">case_when</span>(Company <span class="op">==</span><span class="st"> &quot;PSI&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb898-3" title="3">    Company <span class="op">==</span><span class="st"> &quot;NHS&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb898-4" title="4">    <span class="dt">TimePeriods =</span> <span class="kw">case_when</span>(TimePeriods <span class="op">==</span><span class="st"> &quot;Day&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb898-5" title="5">      TimePeriods <span class="op">==</span><span class="st"> &quot;Night&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb904-1" title="1">species.fv.cor &lt;-<span class="st"> </span>species.cor.<span class="fl">2.</span>temp[,<span class="dv">2</span><span class="op">:</span><span class="dv">17</span>] <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb904-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Company =</span> <span class="kw">case_when</span>(Company <span class="op">==</span><span class="st"> &quot;PSI&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb904-3" title="3">    Company <span class="op">==</span><span class="st"> &quot;NHS&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb904-4" title="4">    <span class="dt">TimePeriods =</span> <span class="kw">case_when</span>(TimePeriods <span class="op">==</span><span class="st"> &quot;Day&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb904-5" title="5">      TimePeriods <span class="op">==</span><span class="st"> &quot;Night&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>))</a></code></pre></div>
 <div id="correlation-plots-2" class="section level3">
 <h3><span class="header-section-number">10.4.1</span> Correlation plots</h3>
-<div class="sourceCode" id="cb899"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb899-1" title="1"><span class="co"># Species correlation plot </span></a>
-<a class="sourceLine" id="cb899-2" title="2"><span class="kw">chart.Correlation</span>(species.fv.cor, </a>
-<a class="sourceLine" id="cb899-3" title="3">  <span class="dt">histogram =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb899-4" title="4">  <span class="dt">pch =</span> <span class="dv">19</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb905"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb905-1" title="1"><span class="co"># Species correlation plot </span></a>
+<a class="sourceLine" id="cb905-2" title="2"><span class="kw">chart.Correlation</span>(species.fv.cor, </a>
+<a class="sourceLine" id="cb905-3" title="3">  <span class="dt">histogram =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb905-4" title="4">  <span class="dt">pch =</span> <span class="dv">19</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.10-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="correlation-matrix-2" class="section level3">
 <h3><span class="header-section-number">10.4.2</span> Correlation matrix</h3>
-<div class="sourceCode" id="cb900"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb900-1" title="1"><span class="co"># Drawing a correlogram</span></a>
-<a class="sourceLine" id="cb900-2" title="2">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(species.fv.cor,</a>
-<a class="sourceLine" id="cb900-3" title="3">  <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a>
-<a class="sourceLine" id="cb900-4" title="4">cor.mat[<span class="kw">lower.tri</span>(cor.mat)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb900-5" title="5">cor.mat &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(cor.mat)</a>
-<a class="sourceLine" id="cb900-6" title="6">cor.mat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(cor.mat)</a>
-<a class="sourceLine" id="cb900-7" title="7">cor.mat<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var1,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var1))</a>
-<a class="sourceLine" id="cb900-8" title="8">cor.mat<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var2,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var2))</a>
-<a class="sourceLine" id="cb900-9" title="9"></a>
-<a class="sourceLine" id="cb900-10" title="10"><span class="kw">ggplot</span>(<span class="dt">data =</span> cor.mat, <span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb900-11" title="11"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb900-12" title="12"><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&quot;RdYlBu&quot;</span>),</a>
-<a class="sourceLine" id="cb900-13" title="13">                       <span class="dt">name =</span> <span class="st">&quot;Spearman</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb900-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb900-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(</a>
-<a class="sourceLine" id="cb900-16" title="16">      <span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb900-17" title="17">    ),</a>
-<a class="sourceLine" id="cb900-18" title="18">    <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb900-19" title="19">    <span class="co"># ,</span></a>
-<a class="sourceLine" id="cb900-20" title="20">    <span class="co"># legend.position = &quot;top&quot;</span></a>
-<a class="sourceLine" id="cb900-21" title="21">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb900-22" title="22"><span class="st">  </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb900-23" title="23"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb900-24" title="24"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(value, <span class="dv">2</span>)), <span class="dt">size =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb906-1" title="1"><span class="co"># Drawing a correlogram</span></a>
+<a class="sourceLine" id="cb906-2" title="2">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(species.fv.cor,</a>
+<a class="sourceLine" id="cb906-3" title="3">  <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a>
+<a class="sourceLine" id="cb906-4" title="4">cor.mat[<span class="kw">lower.tri</span>(cor.mat)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb906-5" title="5">cor.mat &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(cor.mat)</a>
+<a class="sourceLine" id="cb906-6" title="6">cor.mat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(cor.mat)</a>
+<a class="sourceLine" id="cb906-7" title="7">cor.mat<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var1,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var1))</a>
+<a class="sourceLine" id="cb906-8" title="8">cor.mat<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var2,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var2))</a>
+<a class="sourceLine" id="cb906-9" title="9"></a>
+<a class="sourceLine" id="cb906-10" title="10"><span class="kw">ggplot</span>(<span class="dt">data =</span> cor.mat, <span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb906-11" title="11"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb906-12" title="12"><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&quot;RdYlBu&quot;</span>),</a>
+<a class="sourceLine" id="cb906-13" title="13">                       <span class="dt">name =</span> <span class="st">&quot;Spearman</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb906-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb906-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(</a>
+<a class="sourceLine" id="cb906-16" title="16">      <span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb906-17" title="17">    ),</a>
+<a class="sourceLine" id="cb906-18" title="18">    <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb906-19" title="19">    <span class="co"># ,</span></a>
+<a class="sourceLine" id="cb906-20" title="20">    <span class="co"># legend.position = &quot;top&quot;</span></a>
+<a class="sourceLine" id="cb906-21" title="21">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb906-22" title="22"><span class="st">  </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb906-23" title="23"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb906-24" title="24"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(value, <span class="dv">2</span>)), <span class="dt">size =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.11-1.png" width="960" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb901"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb901-1" title="1"><span class="co"># Flattening matrix</span></a>
-<a class="sourceLine" id="cb901-2" title="2">cor.mtx<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(species.fv.cor))</a>
-<a class="sourceLine" id="cb901-3" title="3"></a>
-<a class="sourceLine" id="cb901-4" title="4"><span class="kw">flattenCorrMatrix</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>r,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb901-5" title="5">  <span class="kw">format</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>P,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb901-6" title="6">    <span class="dt">scientific =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb901-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(p)</a></code></pre></div>
+<div class="sourceCode" id="cb907"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb907-1" title="1"><span class="co"># Flattening matrix</span></a>
+<a class="sourceLine" id="cb907-2" title="2">cor.mtx<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(species.fv.cor))</a>
+<a class="sourceLine" id="cb907-3" title="3"></a>
+<a class="sourceLine" id="cb907-4" title="4"><span class="kw">flattenCorrMatrix</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>r,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb907-5" title="5">  <span class="kw">format</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>P,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb907-6" title="6">    <span class="dt">scientific =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb907-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(p)</a></code></pre></div>
 <pre><code>                             row                     column    cor     p
   1                        Month            FishingDepthMtr -0.784 0.000
   2            Stellifer microps       Xiphopenaeus kroyeri -0.530 0.000
@@ -1265,69 +1265,69 @@ Night
 </div>
 <div id="significant-correlations-2" class="section level3">
 <h3><span class="header-section-number">10.4.3</span> Significant correlations</h3>
-<div class="sourceCode" id="cb903"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb903-1" title="1">m &lt;-<span class="st"> </span><span class="kw">cor</span>(species.fv.cor)</a>
-<a class="sourceLine" id="cb903-2" title="2"></a>
-<a class="sourceLine" id="cb903-3" title="3">res1 &lt;-<span class="st"> </span><span class="kw">cor.mtest</span>(species.fv.cor, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</a>
-<a class="sourceLine" id="cb903-4" title="4"></a>
-<a class="sourceLine" id="cb903-5" title="5"><span class="kw">corrplot</span>(m,</a>
-<a class="sourceLine" id="cb903-6" title="6">  <span class="dt">method =</span> <span class="st">&quot;number&quot;</span>,</a>
-<a class="sourceLine" id="cb903-7" title="7">  <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>,</a>
-<a class="sourceLine" id="cb903-8" title="8">  <span class="dt">number.cex =</span> <span class="fl">0.7</span>, </a>
-<a class="sourceLine" id="cb903-9" title="9">  <span class="dt">p.mat =</span> res1<span class="op">$</span>p,</a>
-<a class="sourceLine" id="cb903-10" title="10">  <span class="dt">tl.cex =</span> <span class="fl">0.8</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb909"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb909-1" title="1">m &lt;-<span class="st"> </span><span class="kw">cor</span>(species.fv.cor)</a>
+<a class="sourceLine" id="cb909-2" title="2"></a>
+<a class="sourceLine" id="cb909-3" title="3">res1 &lt;-<span class="st"> </span><span class="kw">cor.mtest</span>(species.fv.cor, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</a>
+<a class="sourceLine" id="cb909-4" title="4"></a>
+<a class="sourceLine" id="cb909-5" title="5"><span class="kw">corrplot</span>(m,</a>
+<a class="sourceLine" id="cb909-6" title="6">  <span class="dt">method =</span> <span class="st">&quot;number&quot;</span>,</a>
+<a class="sourceLine" id="cb909-7" title="7">  <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>,</a>
+<a class="sourceLine" id="cb909-8" title="8">  <span class="dt">number.cex =</span> <span class="fl">0.7</span>, </a>
+<a class="sourceLine" id="cb909-9" title="9">  <span class="dt">p.mat =</span> res1<span class="op">$</span>p,</a>
+<a class="sourceLine" id="cb909-10" title="10">  <span class="dt">tl.cex =</span> <span class="fl">0.8</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.12-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="cpue-2" class="section level2">
 <h2><span class="header-section-number">10.5</span> CPUE</h2>
 <p><strong>Data preparation</strong></p>
-<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb904-1" title="1">species.fv.cor<span class="fl">.2</span> &lt;-<span class="st"> </span>species.cor.<span class="fl">3.</span>temp[,<span class="dv">2</span><span class="op">:</span><span class="dv">17</span>] <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb904-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Company =</span> <span class="kw">case_when</span>(Company <span class="op">==</span><span class="st"> &quot;PSI&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb904-3" title="3">    Company <span class="op">==</span><span class="st"> &quot;NHS&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb904-4" title="4">    <span class="dt">TimePeriods =</span> <span class="kw">case_when</span>(TimePeriods <span class="op">==</span><span class="st"> &quot;Day&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb904-5" title="5">      TimePeriods <span class="op">==</span><span class="st"> &quot;Night&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb910"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb910-1" title="1">species.fv.cor<span class="fl">.2</span> &lt;-<span class="st"> </span>species.cor.<span class="fl">3.</span>temp[,<span class="dv">2</span><span class="op">:</span><span class="dv">17</span>] <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb910-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Company =</span> <span class="kw">case_when</span>(Company <span class="op">==</span><span class="st"> &quot;PSI&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb910-3" title="3">    Company <span class="op">==</span><span class="st"> &quot;NHS&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb910-4" title="4">    <span class="dt">TimePeriods =</span> <span class="kw">case_when</span>(TimePeriods <span class="op">==</span><span class="st"> &quot;Day&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb910-5" title="5">      TimePeriods <span class="op">==</span><span class="st"> &quot;Night&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>))</a></code></pre></div>
 <div id="correlation-plots-3" class="section level3">
 <h3><span class="header-section-number">10.5.1</span> Correlation plots</h3>
-<div class="sourceCode" id="cb905"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb905-1" title="1"><span class="co"># Species correlation plot </span></a>
-<a class="sourceLine" id="cb905-2" title="2"><span class="kw">chart.Correlation</span>(species.fv.cor<span class="fl">.2</span>, </a>
-<a class="sourceLine" id="cb905-3" title="3">  <span class="dt">histogram =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb905-4" title="4">  <span class="dt">pch =</span> <span class="dv">19</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb911"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb911-1" title="1"><span class="co"># Species correlation plot </span></a>
+<a class="sourceLine" id="cb911-2" title="2"><span class="kw">chart.Correlation</span>(species.fv.cor<span class="fl">.2</span>, </a>
+<a class="sourceLine" id="cb911-3" title="3">  <span class="dt">histogram =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb911-4" title="4">  <span class="dt">pch =</span> <span class="dv">19</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.14-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="correlation-matrix-3" class="section level3">
 <h3><span class="header-section-number">10.5.2</span> Correlation matrix</h3>
-<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb906-1" title="1"><span class="co"># Drawing a correlogram</span></a>
-<a class="sourceLine" id="cb906-2" title="2">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(species.fv.cor<span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb906-3" title="3">  <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a>
-<a class="sourceLine" id="cb906-4" title="4">cor.mat[<span class="kw">lower.tri</span>(cor.mat)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb906-5" title="5">cor.mat &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(cor.mat)</a>
-<a class="sourceLine" id="cb906-6" title="6">cor.mat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(cor.mat)</a>
-<a class="sourceLine" id="cb906-7" title="7">cor.mat<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var1,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var1))</a>
-<a class="sourceLine" id="cb906-8" title="8">cor.mat<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var2,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var2))</a>
-<a class="sourceLine" id="cb906-9" title="9"></a>
-<a class="sourceLine" id="cb906-10" title="10"><span class="kw">ggplot</span>(<span class="dt">data =</span> cor.mat, <span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb906-11" title="11"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb906-12" title="12"><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&quot;RdYlBu&quot;</span>),</a>
-<a class="sourceLine" id="cb906-13" title="13">                       <span class="dt">name =</span> <span class="st">&quot;Spearman</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb906-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb906-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(</a>
-<a class="sourceLine" id="cb906-16" title="16">      <span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb906-17" title="17">    ),</a>
-<a class="sourceLine" id="cb906-18" title="18">    <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb906-19" title="19">    <span class="co"># ,</span></a>
-<a class="sourceLine" id="cb906-20" title="20">    <span class="co"># legend.position = &quot;top&quot;</span></a>
-<a class="sourceLine" id="cb906-21" title="21">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb906-22" title="22"><span class="st">  </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb906-23" title="23"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb906-24" title="24"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(value, <span class="dv">2</span>)), <span class="dt">size =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb912"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb912-1" title="1"><span class="co"># Drawing a correlogram</span></a>
+<a class="sourceLine" id="cb912-2" title="2">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(species.fv.cor<span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb912-3" title="3">  <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a>
+<a class="sourceLine" id="cb912-4" title="4">cor.mat[<span class="kw">lower.tri</span>(cor.mat)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb912-5" title="5">cor.mat &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(cor.mat)</a>
+<a class="sourceLine" id="cb912-6" title="6">cor.mat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(cor.mat)</a>
+<a class="sourceLine" id="cb912-7" title="7">cor.mat<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var1,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var1))</a>
+<a class="sourceLine" id="cb912-8" title="8">cor.mat<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(cor.mat<span class="op">$</span>Var2,<span class="dt">levels =</span> <span class="kw">unique</span>(cor.mat<span class="op">$</span>Var2))</a>
+<a class="sourceLine" id="cb912-9" title="9"></a>
+<a class="sourceLine" id="cb912-10" title="10"><span class="kw">ggplot</span>(<span class="dt">data =</span> cor.mat, <span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-11" title="11"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-12" title="12"><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&quot;RdYlBu&quot;</span>),</a>
+<a class="sourceLine" id="cb912-13" title="13">                       <span class="dt">name =</span> <span class="st">&quot;Spearman</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-14" title="14"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(</a>
+<a class="sourceLine" id="cb912-16" title="16">      <span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb912-17" title="17">    ),</a>
+<a class="sourceLine" id="cb912-18" title="18">    <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb912-19" title="19">    <span class="co"># ,</span></a>
+<a class="sourceLine" id="cb912-20" title="20">    <span class="co"># legend.position = &quot;top&quot;</span></a>
+<a class="sourceLine" id="cb912-21" title="21">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-22" title="22"><span class="st">  </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb912-23" title="23"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb912-24" title="24"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(value, <span class="dv">2</span>)), <span class="dt">size =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.15-1.png" width="960" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb907"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb907-1" title="1"><span class="co"># Flattening matrix</span></a>
-<a class="sourceLine" id="cb907-2" title="2">cor.mtx<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(species.fv.cor<span class="fl">.2</span>))</a>
-<a class="sourceLine" id="cb907-3" title="3"></a>
-<a class="sourceLine" id="cb907-4" title="4"><span class="kw">flattenCorrMatrix</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>r,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb907-5" title="5">  <span class="kw">format</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>P,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb907-6" title="6">    <span class="dt">scientific =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb907-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(p)</a></code></pre></div>
+<div class="sourceCode" id="cb913"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb913-1" title="1"><span class="co"># Flattening matrix</span></a>
+<a class="sourceLine" id="cb913-2" title="2">cor.mtx<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(species.fv.cor<span class="fl">.2</span>))</a>
+<a class="sourceLine" id="cb913-3" title="3"></a>
+<a class="sourceLine" id="cb913-4" title="4"><span class="kw">flattenCorrMatrix</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>r,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb913-5" title="5">  <span class="kw">format</span>(<span class="kw">round</span>(cor.mtx<span class="fl">.2</span><span class="op">$</span>P,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb913-6" title="6">    <span class="dt">scientific =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb913-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(p)</a></code></pre></div>
 <pre><code>                             row                     column    cor     p
   1                        Month            FishingDepthMtr -0.784 0.000
   2                 FishingZones       Xiphopenaeus kroyeri  0.483 0.001
@@ -1449,20 +1449,20 @@ Night
   118        Stellifer rastrifer       Xiphopenaeus kroyeri -0.004 0.980
   119        Trichiurus lepturus         Symphurus plagusia -0.004 0.980
   120        Callinectes ornatus         Symphurus plagusia  0.004 0.981</code></pre>
-<div class="sourceCode" id="cb909"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb909-1" title="1"><span class="co"># Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. </span></a></code></pre></div>
+<div class="sourceCode" id="cb915"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb915-1" title="1"><span class="co"># Strong negative correlation between Month and fishing depth - likely the reason for NAs in earlier model. </span></a></code></pre></div>
 </div>
 <div id="significant-correlations-3" class="section level3">
 <h3><span class="header-section-number">10.5.3</span> Significant correlations</h3>
-<div class="sourceCode" id="cb910"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb910-1" title="1">m &lt;-<span class="st"> </span><span class="kw">cor</span>(species.fv.cor<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb910-2" title="2"></a>
-<a class="sourceLine" id="cb910-3" title="3">res1 &lt;-<span class="st"> </span><span class="kw">cor.mtest</span>(species.fv.cor<span class="fl">.2</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</a>
-<a class="sourceLine" id="cb910-4" title="4"></a>
-<a class="sourceLine" id="cb910-5" title="5"><span class="kw">corrplot</span>(m,</a>
-<a class="sourceLine" id="cb910-6" title="6">  <span class="dt">method =</span> <span class="st">&quot;number&quot;</span>,</a>
-<a class="sourceLine" id="cb910-7" title="7">  <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>,</a>
-<a class="sourceLine" id="cb910-8" title="8">  <span class="dt">number.cex =</span> <span class="fl">0.7</span>, </a>
-<a class="sourceLine" id="cb910-9" title="9">  <span class="dt">p.mat =</span> res1<span class="op">$</span>p,</a>
-<a class="sourceLine" id="cb910-10" title="10">  <span class="dt">tl.cex =</span> <span class="fl">0.8</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb916-1" title="1">m &lt;-<span class="st"> </span><span class="kw">cor</span>(species.fv.cor<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb916-2" title="2"></a>
+<a class="sourceLine" id="cb916-3" title="3">res1 &lt;-<span class="st"> </span><span class="kw">cor.mtest</span>(species.fv.cor<span class="fl">.2</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</a>
+<a class="sourceLine" id="cb916-4" title="4"></a>
+<a class="sourceLine" id="cb916-5" title="5"><span class="kw">corrplot</span>(m,</a>
+<a class="sourceLine" id="cb916-6" title="6">  <span class="dt">method =</span> <span class="st">&quot;number&quot;</span>,</a>
+<a class="sourceLine" id="cb916-7" title="7">  <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>,</a>
+<a class="sourceLine" id="cb916-8" title="8">  <span class="dt">number.cex =</span> <span class="fl">0.7</span>, </a>
+<a class="sourceLine" id="cb916-9" title="9">  <span class="dt">p.mat =</span> res1<span class="op">$</span>p,</a>
+<a class="sourceLine" id="cb916-10" title="10">  <span class="dt">tl.cex =</span> <span class="fl">0.8</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/9.16-1.png" width="960" style="display: block; margin: auto;" /></p>
 
 </div>

@@ -24,7 +24,7 @@
 <meta name="author" content="Seion Richardson" />
 
 
-<meta name="date" content="2020-12-31" />
+<meta name="date" content="2021-01-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -381,38 +381,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.1</span> CPUE</h2>
 <div id="data-modifications" class="section level3">
 <h3><span class="header-section-number">6.1.1</span> Data modifications</h3>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" title="1">target.catch.cpue &lt;-<span class="st"> </span>SummaryTable <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb114-2" title="2"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb114-3" title="3"><span class="st">  </span><span class="co"># mutate(Company.bv = case_when(Company == &quot;PSI&quot; ~ 1,</span></a>
-<a class="sourceLine" id="cb114-4" title="4"><span class="st">  </span><span class="co">#   Company == &quot;NHS&quot; ~ 0),</span></a>
-<a class="sourceLine" id="cb114-5" title="5"><span class="st">  </span><span class="co">#   TimePeriods.bv = case_when(TimePeriods == &quot;Day&quot; ~ 1,</span></a>
-<a class="sourceLine" id="cb114-6" title="6"><span class="st">  </span><span class="co">#   TimePeriods == &quot;Night&quot; ~ 0)) %&gt;% </span></a>
-<a class="sourceLine" id="cb114-7" title="7"><span class="st">  </span><span class="kw">filter</span>(CatchCategory <span class="op">==</span><span class="st"> &quot;Target catch&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb114-8" title="8"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(Company,</a>
-<a class="sourceLine" id="cb114-9" title="9">  Month,</a>
-<a class="sourceLine" id="cb114-10" title="10">  TimePeriods,</a>
-<a class="sourceLine" id="cb114-11" title="11">  FishingZones,</a>
-<a class="sourceLine" id="cb114-12" title="12">  FishingDepthMtr,</a>
-<a class="sourceLine" id="cb114-13" title="13">  CpueKGHr)</a>
-<a class="sourceLine" id="cb114-14" title="14"></a>
-<a class="sourceLine" id="cb114-15" title="15"><span class="co"># Converting variables to factors</span></a>
-<a class="sourceLine" id="cb114-16" title="16">factor.var &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Company&quot;</span>,</a>
-<a class="sourceLine" id="cb114-17" title="17">  <span class="st">&quot;Month&quot;</span>,</a>
-<a class="sourceLine" id="cb114-18" title="18">  <span class="st">&quot;TimePeriods&quot;</span>,</a>
-<a class="sourceLine" id="cb114-19" title="19">  <span class="st">&quot;FishingZones&quot;</span>)</a>
-<a class="sourceLine" id="cb114-20" title="20"></a>
-<a class="sourceLine" id="cb114-21" title="21">target.catch.cpue[,factor.var] &lt;-<span class="st"> </span><span class="kw">lapply</span>(target.catch.cpue[,factor.var], factor)</a>
-<a class="sourceLine" id="cb114-22" title="22"></a>
-<a class="sourceLine" id="cb114-23" title="23"><span class="co"># Removing fishing zones 2 and 5</span></a>
-<a class="sourceLine" id="cb114-24" title="24"></a>
-<a class="sourceLine" id="cb114-25" title="25">drop.zones &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb114-26" title="26">target.catch.cpue<span class="fl">.2</span> &lt;-<span class="st"> </span>target.catch.cpue <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb114-27" title="27"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>FishingZones <span class="op">%in%</span><span class="st"> </span>drop.zones)</a></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" title="1">target.catch.cpue &lt;-<span class="st"> </span>SummaryTable <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb120-2" title="2"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb120-3" title="3"><span class="st">  </span><span class="co"># mutate(Company.bv = case_when(Company == &quot;PSI&quot; ~ 1,</span></a>
+<a class="sourceLine" id="cb120-4" title="4"><span class="st">  </span><span class="co">#   Company == &quot;NHS&quot; ~ 0),</span></a>
+<a class="sourceLine" id="cb120-5" title="5"><span class="st">  </span><span class="co">#   TimePeriods.bv = case_when(TimePeriods == &quot;Day&quot; ~ 1,</span></a>
+<a class="sourceLine" id="cb120-6" title="6"><span class="st">  </span><span class="co">#   TimePeriods == &quot;Night&quot; ~ 0)) %&gt;% </span></a>
+<a class="sourceLine" id="cb120-7" title="7"><span class="st">  </span><span class="kw">filter</span>(CatchCategory <span class="op">==</span><span class="st"> &quot;Target catch&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb120-8" title="8"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(Company,</a>
+<a class="sourceLine" id="cb120-9" title="9">  Month,</a>
+<a class="sourceLine" id="cb120-10" title="10">  TimePeriods,</a>
+<a class="sourceLine" id="cb120-11" title="11">  FishingZones,</a>
+<a class="sourceLine" id="cb120-12" title="12">  FishingDepthMtr,</a>
+<a class="sourceLine" id="cb120-13" title="13">  CpueKGHr)</a>
+<a class="sourceLine" id="cb120-14" title="14"></a>
+<a class="sourceLine" id="cb120-15" title="15"><span class="co"># Converting variables to factors</span></a>
+<a class="sourceLine" id="cb120-16" title="16">factor.var &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Company&quot;</span>,</a>
+<a class="sourceLine" id="cb120-17" title="17">  <span class="st">&quot;Month&quot;</span>,</a>
+<a class="sourceLine" id="cb120-18" title="18">  <span class="st">&quot;TimePeriods&quot;</span>,</a>
+<a class="sourceLine" id="cb120-19" title="19">  <span class="st">&quot;FishingZones&quot;</span>)</a>
+<a class="sourceLine" id="cb120-20" title="20"></a>
+<a class="sourceLine" id="cb120-21" title="21">target.catch.cpue[,factor.var] &lt;-<span class="st"> </span><span class="kw">lapply</span>(target.catch.cpue[,factor.var], factor)</a>
+<a class="sourceLine" id="cb120-22" title="22"></a>
+<a class="sourceLine" id="cb120-23" title="23"><span class="co"># Removing fishing zones 2 and 5</span></a>
+<a class="sourceLine" id="cb120-24" title="24"></a>
+<a class="sourceLine" id="cb120-25" title="25">drop.zones &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb120-26" title="26">target.catch.cpue<span class="fl">.2</span> &lt;-<span class="st"> </span>target.catch.cpue <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb120-27" title="27"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>FishingZones <span class="op">%in%</span><span class="st"> </span>drop.zones)</a></code></pre></div>
 </div>
 <div id="qucik-glance-at-response-variable" class="section level3">
 <h3><span class="header-section-number">6.1.2</span> Qucik glance at response variable</h3>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1"><span class="co"># Table</span></a>
-<a class="sourceLine" id="cb115-2" title="2"><span class="kw">table</span>(target.catch.cpue<span class="op">$</span>CpueKGHr) </a></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" title="1"><span class="co"># Table</span></a>
+<a class="sourceLine" id="cb121-2" title="2"><span class="kw">table</span>(target.catch.cpue<span class="op">$</span>CpueKGHr) </a></code></pre></div>
 <pre><code>  
    10.71  17.11  18.99  23.14  27.27  27.92  27.94  27.95  29.39  30.91  31.82 
        1      1      1      1      2      1      1      1      1      1      1 
@@ -422,17 +422,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
        1      1      1      1      1      1      1      2      1      1      1 
    52.61   52.7  55.68  55.94  62.34  63.64   87.5    100 145.46 
        1      1      1      1      1      3      1      1      1</code></pre>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1"><span class="co"># Histogram</span></a>
-<a class="sourceLine" id="cb117-2" title="2"><span class="kw">hist</span>(target.catch.cpue<span class="op">$</span>CpueKGHr)</a></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" title="1"><span class="co"># Histogram</span></a>
+<a class="sourceLine" id="cb123-2" title="2"><span class="kw">hist</span>(target.catch.cpue<span class="op">$</span>CpueKGHr)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/5.2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="predictors" class="section level4">
 <h4><span class="header-section-number">6.1.2.1</span> 2 Predictors</h4>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" title="1">cpue.model<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb118-2" title="2"><span class="st">    </span>TimePeriods,</a>
-<a class="sourceLine" id="cb118-3" title="3">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
-<a class="sourceLine" id="cb118-4" title="4">  <span class="dt">data =</span> target.catch.cpue)</a>
-<a class="sourceLine" id="cb118-5" title="5"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb118-6" title="6"><span class="kw">summary</span>(cpue.model<span class="fl">.1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" title="1">cpue.model<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb124-2" title="2"><span class="st">    </span>TimePeriods,</a>
+<a class="sourceLine" id="cb124-3" title="3">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
+<a class="sourceLine" id="cb124-4" title="4">  <span class="dt">data =</span> target.catch.cpue)</a>
+<a class="sourceLine" id="cb124-5" title="5"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb124-6" title="6"><span class="kw">summary</span>(cpue.model<span class="fl">.1</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = CpueKGHr ~ Month + TimePeriods, family = gaussian(link = &quot;log&quot;), 
@@ -465,14 +465,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-with-1-interaction-term" class="section level4">
 <h4><span class="header-section-number">6.1.2.2</span> 2 Predictors with 1 interaction term</h4>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" title="1">cpue.model<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb120-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb120-3" title="3"><span class="st">    </span>Month<span class="op">*</span>TimePeriods,</a>
-<a class="sourceLine" id="cb120-4" title="4">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
-<a class="sourceLine" id="cb120-5" title="5">  <span class="dt">data =</span> target.catch.cpue)</a>
-<a class="sourceLine" id="cb120-6" title="6"></a>
-<a class="sourceLine" id="cb120-7" title="7"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb120-8" title="8"><span class="kw">summary</span>(cpue.model<span class="fl">.2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" title="1">cpue.model<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb126-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb126-3" title="3"><span class="st">    </span>Month<span class="op">*</span>TimePeriods,</a>
+<a class="sourceLine" id="cb126-4" title="4">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
+<a class="sourceLine" id="cb126-5" title="5">  <span class="dt">data =</span> target.catch.cpue)</a>
+<a class="sourceLine" id="cb126-6" title="6"></a>
+<a class="sourceLine" id="cb126-7" title="7"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb126-8" title="8"><span class="kw">summary</span>(cpue.model<span class="fl">.2</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = CpueKGHr ~ Month + TimePeriods + Month * TimePeriods, 
@@ -511,14 +511,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-1" class="section level4">
 <h4><span class="header-section-number">6.1.2.3</span> 3 Predictors</h4>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" title="1">cpue.model<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb122-2" title="2"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
-<a class="sourceLine" id="cb122-3" title="3"><span class="st">    </span>FishingZones,</a>
-<a class="sourceLine" id="cb122-4" title="4">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
-<a class="sourceLine" id="cb122-5" title="5">  <span class="dt">data =</span> target.catch.cpue<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb122-6" title="6"></a>
-<a class="sourceLine" id="cb122-7" title="7"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb122-8" title="8"><span class="kw">summary</span>(cpue.model<span class="fl">.3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1">cpue.model<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb128-2" title="2"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
+<a class="sourceLine" id="cb128-3" title="3"><span class="st">    </span>FishingZones,</a>
+<a class="sourceLine" id="cb128-4" title="4">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
+<a class="sourceLine" id="cb128-5" title="5">  <span class="dt">data =</span> target.catch.cpue<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb128-6" title="6"></a>
+<a class="sourceLine" id="cb128-7" title="7"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb128-8" title="8"><span class="kw">summary</span>(cpue.model<span class="fl">.3</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = CpueKGHr ~ TimePeriods + FishingDepthMtr + FishingZones, 
@@ -549,15 +549,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-and-1-interaction-term" class="section level4">
 <h4><span class="header-section-number">6.1.2.4</span> 3 Predictors and 1 interaction term</h4>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" title="1">cpue.model<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>FishingDepthMtr <span class="op">+</span></a>
-<a class="sourceLine" id="cb124-2" title="2"><span class="st">  </span>FishingZones <span class="op">+</span></a>
-<a class="sourceLine" id="cb124-3" title="3"><span class="st">  </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb124-4" title="4"><span class="st">  </span>TimePeriods<span class="op">*</span>FishingZones, <span class="co"># Yields a low AIC</span></a>
-<a class="sourceLine" id="cb124-5" title="5">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
-<a class="sourceLine" id="cb124-6" title="6">  <span class="dt">data =</span> target.catch.cpue<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb124-7" title="7"></a>
-<a class="sourceLine" id="cb124-8" title="8"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb124-9" title="9"><span class="kw">summary</span>(cpue.model<span class="fl">.4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" title="1">cpue.model<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>FishingDepthMtr <span class="op">+</span></a>
+<a class="sourceLine" id="cb130-2" title="2"><span class="st">  </span>FishingZones <span class="op">+</span></a>
+<a class="sourceLine" id="cb130-3" title="3"><span class="st">  </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb130-4" title="4"><span class="st">  </span>TimePeriods<span class="op">*</span>FishingZones, <span class="co"># Yields a low AIC</span></a>
+<a class="sourceLine" id="cb130-5" title="5">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
+<a class="sourceLine" id="cb130-6" title="6">  <span class="dt">data =</span> target.catch.cpue<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb130-7" title="7"></a>
+<a class="sourceLine" id="cb130-8" title="8"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb130-9" title="9"><span class="kw">summary</span>(cpue.model<span class="fl">.4</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = CpueKGHr ~ FishingDepthMtr + FishingZones + TimePeriods + 
@@ -592,17 +592,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-with-2-interaction-term" class="section level4">
 <h4><span class="header-section-number">6.1.2.5</span> 3 Predictors with 2 interaction term</h4>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" title="1">cpue.model<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb126-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb126-3" title="3"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
-<a class="sourceLine" id="cb126-4" title="4"><span class="st">    </span>Month<span class="op">*</span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb126-5" title="5"><span class="st">    </span>FishingDepthMtr<span class="op">*</span>TimePeriods, </a>
-<a class="sourceLine" id="cb126-6" title="6">    <span class="co"># FishingDepthMtr*Month, Gives some NA values</span></a>
-<a class="sourceLine" id="cb126-7" title="7">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
-<a class="sourceLine" id="cb126-8" title="8">  <span class="dt">data =</span> target.catch.cpue)</a>
-<a class="sourceLine" id="cb126-9" title="9"></a>
-<a class="sourceLine" id="cb126-10" title="10"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb126-11" title="11"><span class="kw">summary</span>(cpue.model<span class="fl">.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1">cpue.model<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb132-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb132-3" title="3"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
+<a class="sourceLine" id="cb132-4" title="4"><span class="st">    </span>Month<span class="op">*</span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb132-5" title="5"><span class="st">    </span>FishingDepthMtr<span class="op">*</span>TimePeriods, </a>
+<a class="sourceLine" id="cb132-6" title="6">    <span class="co"># FishingDepthMtr*Month, Gives some NA values</span></a>
+<a class="sourceLine" id="cb132-7" title="7">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
+<a class="sourceLine" id="cb132-8" title="8">  <span class="dt">data =</span> target.catch.cpue)</a>
+<a class="sourceLine" id="cb132-9" title="9"></a>
+<a class="sourceLine" id="cb132-10" title="10"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb132-11" title="11"><span class="kw">summary</span>(cpue.model<span class="fl">.5</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = CpueKGHr ~ Month + TimePeriods + FishingDepthMtr + 
@@ -644,17 +644,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-with-1-interaction-term---dropping-monthtimeperiods" class="section level4">
 <h4><span class="header-section-number">6.1.2.6</span> 3 Predictors with 1 interaction term - Dropping Month*TimePeriods</h4>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1">cpue.model<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb128-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb128-3" title="3"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
-<a class="sourceLine" id="cb128-4" title="4"><span class="st">    </span><span class="co"># Month*TimePeriods +</span></a>
-<a class="sourceLine" id="cb128-5" title="5"><span class="st">    </span>FishingDepthMtr<span class="op">*</span>TimePeriods, </a>
-<a class="sourceLine" id="cb128-6" title="6">    <span class="co"># FishingDepthMtr*Month, Gives some NA values</span></a>
-<a class="sourceLine" id="cb128-7" title="7">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
-<a class="sourceLine" id="cb128-8" title="8">  <span class="dt">data =</span> target.catch.cpue)</a>
-<a class="sourceLine" id="cb128-9" title="9"></a>
-<a class="sourceLine" id="cb128-10" title="10"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb128-11" title="11"><span class="kw">summary</span>(cpue.model<span class="fl">.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" title="1">cpue.model<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(CpueKGHr <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb134-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb134-3" title="3"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
+<a class="sourceLine" id="cb134-4" title="4"><span class="st">    </span><span class="co"># Month*TimePeriods +</span></a>
+<a class="sourceLine" id="cb134-5" title="5"><span class="st">    </span>FishingDepthMtr<span class="op">*</span>TimePeriods, </a>
+<a class="sourceLine" id="cb134-6" title="6">    <span class="co"># FishingDepthMtr*Month, Gives some NA values</span></a>
+<a class="sourceLine" id="cb134-7" title="7">  <span class="dt">family =</span> <span class="kw">gaussian</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>),</a>
+<a class="sourceLine" id="cb134-8" title="8">  <span class="dt">data =</span> target.catch.cpue)</a>
+<a class="sourceLine" id="cb134-9" title="9"></a>
+<a class="sourceLine" id="cb134-10" title="10"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb134-11" title="11"><span class="kw">summary</span>(cpue.model<span class="fl">.5</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = CpueKGHr ~ Month + TimePeriods + FishingDepthMtr + 
@@ -691,11 +691,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="model-comparison-2" class="section level3">
 <h3><span class="header-section-number">6.1.3</span> Model Comparison</h3>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" title="1">rcompanion<span class="op">::</span><span class="kw">compareGLM</span>(cpue.model<span class="fl">.1</span>,</a>
-<a class="sourceLine" id="cb130-2" title="2">  cpue.model<span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb130-3" title="3">  cpue.model<span class="fl">.3</span>,</a>
-<a class="sourceLine" id="cb130-4" title="4">  cpue.model<span class="fl">.4</span>,</a>
-<a class="sourceLine" id="cb130-5" title="5">  cpue.model<span class="fl">.5</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1">rcompanion<span class="op">::</span><span class="kw">compareGLM</span>(cpue.model<span class="fl">.1</span>,</a>
+<a class="sourceLine" id="cb136-2" title="2">  cpue.model<span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb136-3" title="3">  cpue.model<span class="fl">.3</span>,</a>
+<a class="sourceLine" id="cb136-4" title="4">  cpue.model<span class="fl">.4</span>,</a>
+<a class="sourceLine" id="cb136-5" title="5">  cpue.model<span class="fl">.5</span>) </a></code></pre></div>
 <pre><code>  $Models
     Formula                                                                               
   1 &quot;CpueKGHr ~ Month + TimePeriods&quot;                                                      
@@ -717,33 +717,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.2</span> Weight prop.</h2>
 <div id="data-modifications-1" class="section level3">
 <h3><span class="header-section-number">6.2.1</span> Data modifications</h3>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1">target.catch.prop &lt;-<span class="st"> </span>SummaryTable <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-2" title="2"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb132-3" title="3"><span class="st">  </span><span class="kw">filter</span>(CatchCategory <span class="op">==</span><span class="st"> &quot;Target catch&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(Company,</a>
-<a class="sourceLine" id="cb132-5" title="5">  FishingDepthMtr,</a>
-<a class="sourceLine" id="cb132-6" title="6">  FishingZones,</a>
-<a class="sourceLine" id="cb132-7" title="7">  Month,</a>
-<a class="sourceLine" id="cb132-8" title="8">  TimePeriods,</a>
-<a class="sourceLine" id="cb132-9" title="9">  PropWeight)</a>
-<a class="sourceLine" id="cb132-10" title="10"></a>
-<a class="sourceLine" id="cb132-11" title="11"><span class="co"># Converting variables to factors</span></a>
-<a class="sourceLine" id="cb132-12" title="12">factor.var &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Company&quot;</span>,</a>
-<a class="sourceLine" id="cb132-13" title="13">  <span class="st">&quot;Month&quot;</span>,</a>
-<a class="sourceLine" id="cb132-14" title="14">  <span class="st">&quot;TimePeriods&quot;</span>,</a>
-<a class="sourceLine" id="cb132-15" title="15">  <span class="st">&quot;FishingZones&quot;</span>)</a>
-<a class="sourceLine" id="cb132-16" title="16"></a>
-<a class="sourceLine" id="cb132-17" title="17">target.catch.prop[,factor.var] &lt;-<span class="st"> </span><span class="kw">lapply</span>(target.catch.prop[,factor.var], factor)</a>
-<a class="sourceLine" id="cb132-18" title="18"></a>
-<a class="sourceLine" id="cb132-19" title="19"><span class="co"># Removing fishing zones 2 and 5</span></a>
-<a class="sourceLine" id="cb132-20" title="20">drop.zones &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb132-21" title="21">target.catch.prop<span class="fl">.2</span> &lt;-<span class="st"> </span>target.catch.prop <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-22" title="22"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>FishingZones <span class="op">%in%</span><span class="st"> </span>drop.zones)</a></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1">target.catch.prop &lt;-<span class="st"> </span>SummaryTable <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb138-2" title="2"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb138-3" title="3"><span class="st">  </span><span class="kw">filter</span>(CatchCategory <span class="op">==</span><span class="st"> &quot;Target catch&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb138-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(Company,</a>
+<a class="sourceLine" id="cb138-5" title="5">  FishingDepthMtr,</a>
+<a class="sourceLine" id="cb138-6" title="6">  FishingZones,</a>
+<a class="sourceLine" id="cb138-7" title="7">  Month,</a>
+<a class="sourceLine" id="cb138-8" title="8">  TimePeriods,</a>
+<a class="sourceLine" id="cb138-9" title="9">  PropWeight)</a>
+<a class="sourceLine" id="cb138-10" title="10"></a>
+<a class="sourceLine" id="cb138-11" title="11"><span class="co"># Converting variables to factors</span></a>
+<a class="sourceLine" id="cb138-12" title="12">factor.var &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Company&quot;</span>,</a>
+<a class="sourceLine" id="cb138-13" title="13">  <span class="st">&quot;Month&quot;</span>,</a>
+<a class="sourceLine" id="cb138-14" title="14">  <span class="st">&quot;TimePeriods&quot;</span>,</a>
+<a class="sourceLine" id="cb138-15" title="15">  <span class="st">&quot;FishingZones&quot;</span>)</a>
+<a class="sourceLine" id="cb138-16" title="16"></a>
+<a class="sourceLine" id="cb138-17" title="17">target.catch.prop[,factor.var] &lt;-<span class="st"> </span><span class="kw">lapply</span>(target.catch.prop[,factor.var], factor)</a>
+<a class="sourceLine" id="cb138-18" title="18"></a>
+<a class="sourceLine" id="cb138-19" title="19"><span class="co"># Removing fishing zones 2 and 5</span></a>
+<a class="sourceLine" id="cb138-20" title="20">drop.zones &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb138-21" title="21">target.catch.prop<span class="fl">.2</span> &lt;-<span class="st"> </span>target.catch.prop <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb138-22" title="22"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>FishingZones <span class="op">%in%</span><span class="st"> </span>drop.zones)</a></code></pre></div>
 </div>
 <div id="qucik-glance-at-response-variable-1" class="section level3">
 <h3><span class="header-section-number">6.2.2</span> Qucik glance at response variable</h3>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" title="1"><span class="co"># Table</span></a>
-<a class="sourceLine" id="cb133-2" title="2"><span class="kw">table</span>(target.catch.prop<span class="op">$</span>PropWeight) </a></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1"><span class="co"># Table</span></a>
+<a class="sourceLine" id="cb139-2" title="2"><span class="kw">table</span>(target.catch.prop<span class="op">$</span>PropWeight) </a></code></pre></div>
 <pre><code>  
   0.19 0.22 0.23 0.27  0.3 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39  0.4 0.41 
      1    2    1    1    1    1    3    1    1    1    3    1    1    1    2    4 
@@ -751,18 +751,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
      1    2    1    1    1    2    2    1    1    3    1    1    1    1    1    1 
   0.72 
      1</code></pre>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" title="1"><span class="co"># Histogram</span></a>
-<a class="sourceLine" id="cb135-2" title="2"><span class="kw">hist</span>(target.catch.prop<span class="op">$</span>PropWeight)</a></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1"><span class="co"># Histogram</span></a>
+<a class="sourceLine" id="cb141-2" title="2"><span class="kw">hist</span>(target.catch.prop<span class="op">$</span>PropWeight)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/5.10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="predictors-6" class="section level4">
 <h4><span class="header-section-number">6.2.2.1</span> 2 Predictors</h4>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1">prop.model<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb136-2" title="2"><span class="st">    </span>TimePeriods,</a>
-<a class="sourceLine" id="cb136-3" title="3">  <span class="dt">family =</span> gaussian,</a>
-<a class="sourceLine" id="cb136-4" title="4">  <span class="dt">data =</span> target.catch.prop)</a>
-<a class="sourceLine" id="cb136-5" title="5"></a>
-<a class="sourceLine" id="cb136-6" title="6"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb136-7" title="7"><span class="kw">summary</span>(prop.model<span class="fl">.1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1">prop.model<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb142-2" title="2"><span class="st">    </span>TimePeriods,</a>
+<a class="sourceLine" id="cb142-3" title="3">  <span class="dt">family =</span> gaussian,</a>
+<a class="sourceLine" id="cb142-4" title="4">  <span class="dt">data =</span> target.catch.prop)</a>
+<a class="sourceLine" id="cb142-5" title="5"></a>
+<a class="sourceLine" id="cb142-6" title="6"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb142-7" title="7"><span class="kw">summary</span>(prop.model<span class="fl">.1</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = PropWeight ~ Month + TimePeriods, family = gaussian, 
@@ -795,14 +795,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-with-1-interaction-term-1" class="section level4">
 <h4><span class="header-section-number">6.2.2.2</span> 2 Predictors with 1 interaction term</h4>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1">prop.model<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb138-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb138-3" title="3"><span class="st">    </span>Month<span class="op">*</span>TimePeriods,</a>
-<a class="sourceLine" id="cb138-4" title="4">  <span class="dt">family =</span> gaussian,</a>
-<a class="sourceLine" id="cb138-5" title="5">  <span class="dt">data =</span> target.catch.prop)</a>
-<a class="sourceLine" id="cb138-6" title="6"></a>
-<a class="sourceLine" id="cb138-7" title="7"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb138-8" title="8"><span class="kw">summary</span>(prop.model<span class="fl">.2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">prop.model<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb144-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb144-3" title="3"><span class="st">    </span>Month<span class="op">*</span>TimePeriods,</a>
+<a class="sourceLine" id="cb144-4" title="4">  <span class="dt">family =</span> gaussian,</a>
+<a class="sourceLine" id="cb144-5" title="5">  <span class="dt">data =</span> target.catch.prop)</a>
+<a class="sourceLine" id="cb144-6" title="6"></a>
+<a class="sourceLine" id="cb144-7" title="7"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb144-8" title="8"><span class="kw">summary</span>(prop.model<span class="fl">.2</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = PropWeight ~ Month + TimePeriods + Month * TimePeriods, 
@@ -841,14 +841,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-7" class="section level4">
 <h4><span class="header-section-number">6.2.2.3</span> 3 Predictors</h4>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" title="1">prop.model<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb140-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb140-3" title="3"><span class="st">    </span>FishingDepthMtr,</a>
-<a class="sourceLine" id="cb140-4" title="4">  <span class="dt">family =</span> gaussian,</a>
-<a class="sourceLine" id="cb140-5" title="5">  <span class="dt">data =</span> target.catch.prop)</a>
-<a class="sourceLine" id="cb140-6" title="6"></a>
-<a class="sourceLine" id="cb140-7" title="7"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb140-8" title="8"><span class="kw">summary</span>(prop.model<span class="fl">.3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1">prop.model<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-3" title="3"><span class="st">    </span>FishingDepthMtr,</a>
+<a class="sourceLine" id="cb146-4" title="4">  <span class="dt">family =</span> gaussian,</a>
+<a class="sourceLine" id="cb146-5" title="5">  <span class="dt">data =</span> target.catch.prop)</a>
+<a class="sourceLine" id="cb146-6" title="6"></a>
+<a class="sourceLine" id="cb146-7" title="7"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb146-8" title="8"><span class="kw">summary</span>(prop.model<span class="fl">.3</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = PropWeight ~ Month + TimePeriods + FishingDepthMtr, 
@@ -882,16 +882,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-8" class="section level4">
 <h4><span class="header-section-number">6.2.2.4</span> 3 Predictors</h4>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1">prop.model<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb142-2" title="2"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
-<a class="sourceLine" id="cb142-3" title="3"><span class="st">    </span>FishingZones,</a>
-<a class="sourceLine" id="cb142-4" title="4">    <span class="co"># TimePeriods, Adding time of day does not influence significance. </span></a>
-<a class="sourceLine" id="cb142-5" title="5">    <span class="co"># Adding Months results in NA values</span></a>
-<a class="sourceLine" id="cb142-6" title="6">  <span class="dt">family =</span> gaussian,</a>
-<a class="sourceLine" id="cb142-7" title="7">  <span class="dt">data =</span> target.catch.prop<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb142-8" title="8"></a>
-<a class="sourceLine" id="cb142-9" title="9"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb142-10" title="10"><span class="kw">summary</span>(prop.model<span class="fl">.4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" title="1">prop.model<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb148-2" title="2"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
+<a class="sourceLine" id="cb148-3" title="3"><span class="st">    </span>FishingZones,</a>
+<a class="sourceLine" id="cb148-4" title="4">    <span class="co"># TimePeriods, Adding time of day does not influence significance. </span></a>
+<a class="sourceLine" id="cb148-5" title="5">    <span class="co"># Adding Months results in NA values</span></a>
+<a class="sourceLine" id="cb148-6" title="6">  <span class="dt">family =</span> gaussian,</a>
+<a class="sourceLine" id="cb148-7" title="7">  <span class="dt">data =</span> target.catch.prop<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb148-8" title="8"></a>
+<a class="sourceLine" id="cb148-9" title="9"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb148-10" title="10"><span class="kw">summary</span>(prop.model<span class="fl">.4</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = PropWeight ~ Month + FishingDepthMtr + FishingZones, 
@@ -927,15 +927,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-and-1-interaction-term-1" class="section level4">
 <h4><span class="header-section-number">6.2.2.5</span> 3 Predictors and 1 interaction term</h4>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">prop.model<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb144-2" title="2"><span class="st">  </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb144-3" title="3"><span class="st">  </span>FishingDepthMtr <span class="op">+</span><span class="st"> </span><span class="co"># Increase significance values</span></a>
-<a class="sourceLine" id="cb144-4" title="4"><span class="st">  </span>TimePeriods<span class="op">*</span>Month, </a>
-<a class="sourceLine" id="cb144-5" title="5">  <span class="dt">family =</span> gaussian,</a>
-<a class="sourceLine" id="cb144-6" title="6">  <span class="dt">data =</span> target.catch.prop)</a>
-<a class="sourceLine" id="cb144-7" title="7"></a>
-<a class="sourceLine" id="cb144-8" title="8"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb144-9" title="9"><span class="kw">summary</span>(prop.model<span class="fl">.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" title="1">prop.model<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-2" title="2"><span class="st">  </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-3" title="3"><span class="st">  </span>FishingDepthMtr <span class="op">+</span><span class="st"> </span><span class="co"># Increase significance values</span></a>
+<a class="sourceLine" id="cb150-4" title="4"><span class="st">  </span>TimePeriods<span class="op">*</span>Month, </a>
+<a class="sourceLine" id="cb150-5" title="5">  <span class="dt">family =</span> gaussian,</a>
+<a class="sourceLine" id="cb150-6" title="6">  <span class="dt">data =</span> target.catch.prop)</a>
+<a class="sourceLine" id="cb150-7" title="7"></a>
+<a class="sourceLine" id="cb150-8" title="8"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb150-9" title="9"><span class="kw">summary</span>(prop.model<span class="fl">.5</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = PropWeight ~ TimePeriods + Month + FishingDepthMtr + 
@@ -975,16 +975,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="predictors-with-2-interaction-term-1" class="section level4">
 <h4><span class="header-section-number">6.2.2.6</span> 3 Predictors with 2 interaction term</h4>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1">prop.model<span class="fl">.6</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-3" title="3"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-4" title="4"><span class="st">    </span>Month<span class="op">*</span>TimePeriods <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-5" title="5"><span class="st">    </span>FishingDepthMtr<span class="op">*</span>TimePeriods, <span class="co"># Adding fishing zones yields NA values</span></a>
-<a class="sourceLine" id="cb146-6" title="6">  <span class="dt">family =</span> gaussian,</a>
-<a class="sourceLine" id="cb146-7" title="7">  <span class="dt">data =</span> target.catch.prop)</a>
-<a class="sourceLine" id="cb146-8" title="8"></a>
-<a class="sourceLine" id="cb146-9" title="9"><span class="co"># Print summary</span></a>
-<a class="sourceLine" id="cb146-10" title="10"><span class="kw">summary</span>(prop.model<span class="fl">.6</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" title="1">prop.model<span class="fl">.6</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(PropWeight <span class="op">~</span><span class="st"> </span>Month <span class="op">+</span></a>
+<a class="sourceLine" id="cb152-2" title="2"><span class="st">    </span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb152-3" title="3"><span class="st">    </span>FishingDepthMtr <span class="op">+</span></a>
+<a class="sourceLine" id="cb152-4" title="4"><span class="st">    </span>Month<span class="op">*</span>TimePeriods <span class="op">+</span></a>
+<a class="sourceLine" id="cb152-5" title="5"><span class="st">    </span>FishingDepthMtr<span class="op">*</span>TimePeriods, <span class="co"># Adding fishing zones yields NA values</span></a>
+<a class="sourceLine" id="cb152-6" title="6">  <span class="dt">family =</span> gaussian,</a>
+<a class="sourceLine" id="cb152-7" title="7">  <span class="dt">data =</span> target.catch.prop)</a>
+<a class="sourceLine" id="cb152-8" title="8"></a>
+<a class="sourceLine" id="cb152-9" title="9"><span class="co"># Print summary</span></a>
+<a class="sourceLine" id="cb152-10" title="10"><span class="kw">summary</span>(prop.model<span class="fl">.6</span>)</a></code></pre></div>
 <pre><code>  
   Call:
   glm(formula = PropWeight ~ Month + TimePeriods + FishingDepthMtr + 
@@ -1027,12 +1027,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="model-comparison-3" class="section level3">
 <h3><span class="header-section-number">6.2.3</span> Model Comparison</h3>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" title="1">rcompanion<span class="op">::</span><span class="kw">compareGLM</span>(prop.model<span class="fl">.1</span>,</a>
-<a class="sourceLine" id="cb148-2" title="2">  prop.model<span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb148-3" title="3">  prop.model<span class="fl">.3</span>,</a>
-<a class="sourceLine" id="cb148-4" title="4">  prop.model<span class="fl">.4</span>,</a>
-<a class="sourceLine" id="cb148-5" title="5">  prop.model<span class="fl">.5</span>,</a>
-<a class="sourceLine" id="cb148-6" title="6">  prop.model<span class="fl">.6</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" title="1">rcompanion<span class="op">::</span><span class="kw">compareGLM</span>(prop.model<span class="fl">.1</span>,</a>
+<a class="sourceLine" id="cb154-2" title="2">  prop.model<span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb154-3" title="3">  prop.model<span class="fl">.3</span>,</a>
+<a class="sourceLine" id="cb154-4" title="4">  prop.model<span class="fl">.4</span>,</a>
+<a class="sourceLine" id="cb154-5" title="5">  prop.model<span class="fl">.5</span>,</a>
+<a class="sourceLine" id="cb154-6" title="6">  prop.model<span class="fl">.6</span>) </a></code></pre></div>
 <pre><code>  $Models
     Formula                                                                                                   
   1 &quot;PropWeight ~ Month + TimePeriods&quot;                                                                        
